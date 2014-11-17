@@ -8,4 +8,12 @@ class Welcome extends CI_Controller {
 		);
 		$this->layout->view('welcome/index', $data);
 	}
+	
+	public function test($num){
+		$angka = $num*10;
+		$data = array(
+			'text'=>'hasilnya adalah ' . $angka
+		);
+		$this->layout->view('welcome/index', $data);
+	}
 }
