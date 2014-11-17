@@ -62,5 +62,11 @@ class layout_model extends CI_Model {
 			))->result();
 		return $query;
 	}
+	
+	/* ambil semua module */
+	function get_all_modules(){
+		$query = $this->db->get('modules');
+		return $query->result();
+	}
 }
 ?>

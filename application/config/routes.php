@@ -41,6 +41,9 @@
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
+/* routing aplikasi */
+$route['update-route'] = "welcome/save_routing";
+include APPPATH . "cache/new_routes.php";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
