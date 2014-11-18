@@ -68,5 +68,11 @@ class layout_model extends CI_Model {
 		$query = $this->db->get('modules');
 		return $query->result();
 	}
+	
+	/* ambil setting constants */
+	function get_all_settings(){
+		$query = $this->db->get('settings');
+		return $query->result();
+	}
 }
 ?>
