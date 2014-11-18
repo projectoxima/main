@@ -57,10 +57,7 @@
 					</div>
 				</div>
 			</nav>
-
-		
 			<?php echo $content_for_layout ?>
-
 		</div> 
 		
 		<script src="assets/js/jquery/jquery-1.11.1.min.js"></script>
