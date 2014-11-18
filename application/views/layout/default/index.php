@@ -23,6 +23,15 @@
 		ul.nav li.dropdown:hover > ul.dropdown-menu {
 			display: block;		
 		}
+		.box {
+		    margin-right: 0px;
+		    margin-left: 0px;
+		    background-color: #FFF;
+		    border-color: #DDD;
+		    border-width: 1px;
+		    border-radius: 4px 4px 0px 0px;
+		    box-shadow: none;
+		}
 		</style>
 	</head>
 
