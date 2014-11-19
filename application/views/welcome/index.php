@@ -9,7 +9,7 @@
 	<div id="content" class="col-md-8 box">
 		<div class="container-fluid">
 			<div class="col-md-3">
-				<img src="<?php echo $product_image_1; ?>" class="img-circle img-responsive">
+				<img src="<?php echo $product_image_1; ?>" class="img-responsive">
 			</div>
 			<div class="col-md-6">				
 				<center>
@@ -19,7 +19,7 @@
 				</center>
 			</div>
 			<div class="col-md-3">
-				<img src="<?php echo $product_image_1; ?>" class="img-circle img-responsive">
+				<img src="<?php echo $product_image_2; ?>" class="img-responsive">
 			</div>
 		</div>
 		<br>
