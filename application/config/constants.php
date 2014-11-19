@@ -37,5 +37,10 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+/* oxima constants */
+
+define('USER_STATUS',		'logged_in');	// penanda apakah user sudah login atau belum, true/false/empty
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

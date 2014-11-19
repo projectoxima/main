@@ -4,14 +4,13 @@ class Home extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		if (!$this->session->userdata('logged_in')) {
+		if (!get_user()) {
 			redirect(base_url());
 		}
 	}
 
-	public function index()
-	{
-		$this->load->view('dashboard/content');
+	public function index(){
+		$this->layout->view('dashboard/content', null);
 	}
 }
 
