@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2014 at 03:36 AM
+-- Generation Time: Nov 19, 2014 at 07:19 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -137,20 +137,20 @@ CREATE TABLE IF NOT EXISTS `tbl_reset` (
 
 CREATE TABLE IF NOT EXISTS `tbl_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) DEFAULT NULL,
+  `username` varchar(256) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
   `user_type` tinyint(4) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `phone` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `name` (`username`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `tbl_users`
 --
 
-INSERT INTO `tbl_users` (`id`, `name`, `password`, `user_type`, `email`, `phone`) VALUES
+INSERT INTO `tbl_users` (`id`, `username`, `password`, `user_type`, `email`, `phone`) VALUES
 (1, 'admin', 'd41d8cd98f00b204e9800998ecf8427e', 1, 'Melangbong@yahoo.com', '85759979248');
 
 -- --------------------------------------------------------
