@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 3.4.11.1deb2+deb7u1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 19, 2014 at 07:19 AM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Host: localhost
+-- Generation Time: Nov 20, 2014 at 07:50 AM
+-- Server version: 5.5.35
+-- PHP Version: 5.4.4-14+deb7u10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,27 +23,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `groups`
---
-
-CREATE TABLE IF NOT EXISTS `groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `groups`
---
-
-INSERT INTO `groups` (`id`, `group`) VALUES
-(1, 'Admin'),
-(2, 'Operator'),
-(3, 'Member');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `menus`
 --
 
@@ -55,21 +34,29 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `label` varchar(70) NOT NULL,
   `module_id` int(11) NOT NULL,
   `param` varchar(30) NOT NULL,
+  `custom_url` varchar(200) NOT NULL,
   `show` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`, `param`, `show`) VALUES
-(1, 0, 'topleft', '*', 'Beranda', 1, '', 1),
-(2, 0, 'topleft', '*', 'Profil', 0, '', 1),
-(3, 2, 'topleft', '*', 'Profil Perusahaan', 0, '', 1),
-(4, 2, 'topleft', '*', 'Profil Produk', 0, '', 1),
-(5, 0, 'topright', '*', 'Settings', 0, '', 1),
-(6, 0, 'topright', '*', 'Logout', 0, '', 1);
+INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`, `param`, `custom_url`, `show`) VALUES
+(1, 0, 'top', '*', 'Home', 1, '', '', 1),
+(2, 0, 'top', '*', 'Tentang Kami', 0, '', '', 1),
+(3, 0, 'top', '*', 'Members', 0, '', '', 1),
+(4, 0, 'top', '*', 'Register', 0, '', '', 1),
+(5, 0, 'top', '*', 'News', 0, '', '', 1),
+(6, 0, 'top', '*', 'Promo', 0, '', '', 1),
+(7, 0, 'top', '*', 'Login', 3, '', '', 1),
+(8, 2, 'top', '*', 'Profil Perusahaan', 0, '', '', 1),
+(9, 2, 'top', '*', 'Profil Produk', 0, '', '', 1),
+(10, 3, 'top', '*', 'Profil Member', 0, '', '', 1),
+(11, 0, 'top', '1', 'Logout', 4, '', '', 1),
+(12, 0, 'top', '2', 'Logout', 4, '', '', 1),
+(13, 0, 'top', '3', 'Logout', 4, '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -84,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `modules`
@@ -92,7 +79,9 @@ CREATE TABLE IF NOT EXISTS `modules` (
 
 INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (1, 'welcome', 'index', 'beranda', ''),
-(2, 'welcome', 'test', 'ambil-angka/(:any)', '$1');
+(2, 'welcome', 'test', 'ambil-angka/(:any)', '$1'),
+(3, 'auth', 'login', 'user-login', ''),
+(4, 'auth', 'logout', 'user-logout', '');
 
 -- --------------------------------------------------------
 
@@ -106,14 +95,15 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `setupvalue` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `setupkey` (`setupkey`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `setupkey`, `setupvalue`) VALUES
-(1, 'LAYOUT', 'default');
+(1, 'LAYOUT', 'oxima'),
+(2, 'APPTITLE', 'Oxima');
 
 -- --------------------------------------------------------
 
@@ -151,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `username`, `password`, `user_type`, `email`, `phone`) VALUES
-(1, 'admin', 'd41d8cd98f00b204e9800998ecf8427e', 1, 'Melangbong@yahoo.com', '85759979248');
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 'Melangbong@yahoo.com', '85759979248');
 
 -- --------------------------------------------------------
 
@@ -164,14 +154,16 @@ CREATE TABLE IF NOT EXISTS `tbl_user_type` (
   `name` varchar(64) DEFAULT NULL,
   `description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `tbl_user_type`
 --
 
 INSERT INTO `tbl_user_type` (`id`, `name`, `description`) VALUES
-(1, 'Administrator', 'Administrator');
+(1, 'Administrator', 'Administrator'),
+(2, 'Operator', 'User operator'),
+(3, 'Member', 'User member');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
