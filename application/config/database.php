@@ -49,8 +49,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
+$db['default']['username'] = 'oxima';
+$db['default']['password'] = 'oxima';
 $db['default']['database'] = 'oxima';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
