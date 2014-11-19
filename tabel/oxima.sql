@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.11.1deb2+deb7u1
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Nov 18, 2014 at 07:26 AM
--- Server version: 5.5.35
--- PHP Version: 5.4.4-14+deb7u10
+-- Host: 127.0.0.1
+-- Generation Time: Nov 19, 2014 at 03:36 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -114,6 +114,64 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 INSERT INTO `settings` (`id`, `setupkey`, `setupvalue`) VALUES
 (1, 'LAYOUT', 'default');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_reset`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_reset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token` varchar(128) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `waktu` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_users`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `password` varchar(32) DEFAULT NULL,
+  `user_type` tinyint(4) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `phone` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`id`, `name`, `password`, `user_type`, `email`, `phone`) VALUES
+(1, 'admin', 'd41d8cd98f00b204e9800998ecf8427e', 1, 'Melangbong@yahoo.com', '85759979248');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_user_type`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_user_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `tbl_user_type`
+--
+
+INSERT INTO `tbl_user_type` (`id`, `name`, `description`) VALUES
+(1, 'Administrator', 'Administrator');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
