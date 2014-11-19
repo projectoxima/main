@@ -9,7 +9,8 @@ class Layout{
     function __construct(){
         $this->obj =& get_instance();
         /* folder default */
-        $this->layout = 'default';
+        load_settings();
+        $this->layout = LAYOUT;
     }
 
     function setLayout($layout){

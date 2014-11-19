@@ -1,0 +1,50 @@
+body{
+	padding:0;
+	margin:0;
+}
+.header{
+	top:0;
+	margin:0;
+	width:100%;
+	height:300px;
+	background:url(../img/top.jpg) top center no-repeat #2d213c;
+} 
+
+.navbar-default{
+	background:none;
+	border:none;
+	text-align:right;
+}
+.navbar-nav{
+	float:right;
+}
+.navbar-nav li a{
+	color: #fff !important;
+	font-size: 11pt;
+}
+.navbar-nav li:hover, .navbar-nav li.active{
+	background: #2d213c;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.garis{
+	border:solid 1px #000;
+}
+.radius{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+.putih{
+	color:#fff !important;
+}
+.header-desc{
+	line-height: 2.5em;
+}
+.header-title{
+	color:#fff;
+	font-size:25pt;
+	padding-bottom:20px;
+}
