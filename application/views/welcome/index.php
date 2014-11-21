@@ -36,10 +36,6 @@
 			</div>
 			<div class="panel-body">
 				ini isi sidebar
-				<br />
-				<a href="<?php echo base_url() ;?>auth/login">Login</a>
-				<br />
-				<a href="<?php echo base_url() ;?>auth/logout">Logout</a>
 			</div>
 		</div>
 	</div>
