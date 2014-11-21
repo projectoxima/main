@@ -16,7 +16,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Tanggal Pengajuan</label>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" id="tanggal-pengajuan" name="tanggal-pengajuan" placeholder="Tanggal Pengajuan">
+			<input type="date" class="form-control" id="tanggal-pengajuan" name="tanggal-pengajuan" placeholder="Tanggal Pengajuan">
 		</div>
 	</div>
 	<h3>Data Pribadi</h3>
@@ -57,7 +57,7 @@
 			<input type="text" class="form-control" id="tempat-lahir" name="tempat-lahir" placeholder="Tempat Lahir">
 		</div>
 		<div class="col-sm-2">
-			<input type="datetime" class="form-control" id="tgl-lahir" name="tgl-lahir" placeholder="Tanggal Lahir">
+			<input type="date" class="form-control" id="tgl-lahir" name="tgl-lahir" placeholder="Tanggal Lahir">
 		</div>
 	</div>
 	<div class="form-group">
@@ -104,7 +104,18 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Jenis Kelamin</label>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" id="jenis-kelamin" name="jenis-kelamin" placeholder="Jenis Kelamin">
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="jenis-kelamin" id="jenis-kelamin-1" value="Laki-Laki">
+			    Laki-Laki
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="jenis-kelamin" id="jenis-kelamin-2" value="Perempuan">
+			    Perempuan
+			  </label>
+			</div>
 		</div>
 	</div>
 	<div class="form-group">

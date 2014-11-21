@@ -19,21 +19,54 @@ class Auth extends OxyController {
 	public function do_login() {
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
+		$pin = $this->input->post('pin');
+		$id = $this->input->post('id');
+
 
 		$find_user = $this->users->find_username($username);
 
+		// Jika username terdaftar
 		if($find_user) {
 			$user = $this->users->find_by_username_password($username, $password);
 
+			// Jika username dan password benar
 			if($user){
 				$user['logged_in'] = TRUE;
 				$this->session->set_userdata($user);
 				redirect(base_url() . 'home');
+
+			// Jika username dan password salah
 			} else {
+				// Jika pin dan id cocok
+				$pin = $this->users->find_by_id_pin($pin, $id);
+				if($pin){
+					$pin['logged_in'] = TRUE;
+					$this->session->set_userdata($pin);
+					redirect(base_url() . 'home');
+
+				// Jika pin dan id tidak cocok
+				} else {
+					$this->session->set_flashdata('message', 'Pin dan id tidak cocok');
+					redirect(base_url() . 'auth/login');
+				}
 				$this->session->set_flashdata('message', 'Username dan password tidak cocok');
 				redirect(base_url() . 'auth/login');
 			}
+
+		// Jika username tidak terdaftar
 		} else {
+				// Jika pin dan id cocok
+				$pin = $this->users->find_by_id_pin($pin, $id);
+				if($pin){
+					$pin['logged_in'] = TRUE;
+					$this->session->set_userdata($pin);
+					redirect(base_url() . 'home');
+
+				// Jika pin dan id tidak cocok
+				} else {
+					$this->session->set_flashdata('message', 'Pin dan id tidak cocok');
+					redirect(base_url() . 'auth/login');
+				}
 				$this->session->set_flashdata('message', 'Username tidak terdaftar');
 				redirect(base_url() . 'auth/login');
 		}
