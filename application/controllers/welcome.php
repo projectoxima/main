@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends OxyController {
 
 	public function index(){
 		$link = anchor('profile', 'selengkapnya', array());
@@ -11,8 +11,8 @@ class Welcome extends CI_Controller {
 			'product_description_1' => 'Antioksidan Maksimal',
 			'product_description_2' => '“Antioksidan Penawar Segala Penyakit”',
 			'product_context' => '<p>Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain. '.$link.'</p>',
-			'product_image_1' => 'assets/img/Maqui Berry.jpg',
-			'product_image_2' => 'assets/img/Logo Oxima.jpg',
+			'product_image_1' => 'assets/img/maqui-berry2.png',
+			'product_image_2' => 'assets/img/oxima2.jpg',
 		);
 		$this->layout->view('welcome/index', $data);
 	}

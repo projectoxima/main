@@ -1,17 +1,21 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Home extends OxyController {
+	public $group = USER_ALL;
 
 	public function __construct() {
 		parent::__construct();
-		if (!$this->session->userdata('logged_in')) {
-			redirect(base_url());
-		}
 	}
 
-	public function index()
-	{
-		$this->load->view('dashboard/content');
+	public function index(){
+		$this->layout->view('dashboard/content', null);
+	}
+	
+	public function umum(){
+		$data = array(
+			'text'=>'ini adalah text'
+		);
+		$this->layout->view('welcome/index', $data);
 	}
 }
 

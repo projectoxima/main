@@ -71,15 +71,25 @@
 
                   <form role="form" action="<?php echo base_url(); ?>auth/do_login" method="POST">
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Username</label>
+                      <label>Username</label>
                       <i class="fa fa-user"></i>
-                      <input type="text" class="form-control" id="exampleInputEmail1" name="username">
+                      <input type="text" class="form-control" name="username">
                       <span for="username" class="error-span"><?php echo $this->session->flashdata('message'); ?></span>
                     </div>
                     <div class="form-group"> 
-                      <label for="exampleInputPassword1">Password</label>
+                      <label>Password</label>
                       <i class="fa fa-lock"></i>
-                      <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                      <input type="password" class="form-control" name="password">
+                    </div>
+                    <div class="form-group"> 
+                      <label>PIN</label>
+                      <i class="fa fa-keyboard-o"></i>
+                      <input type="text" class="form-control" name="pin">
+                    </div>
+                    <div class="form-group"> 
+                      <label>ID</label>
+                      <i class="fa fa-keyboard-o"></i>
+                      <input type="text" class="form-control" name="id">
                     </div>
                     <div>
                       <button type="submit" name="submit" class="btn btn-danger">Submit</button>
