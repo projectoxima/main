@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.11.1deb2+deb7u1
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Nov 20, 2014 at 07:50 AM
--- Server version: 5.5.35
--- PHP Version: 5.4.4-14+deb7u10
+-- Host: 127.0.0.1
+-- Generation Time: Nov 21, 2014 at 04:22 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `modules`
@@ -81,7 +81,8 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (1, 'welcome', 'index', 'beranda', ''),
 (2, 'welcome', 'test', 'ambil-angka/(:any)', '$1'),
 (3, 'auth', 'login', 'user-login', ''),
-(4, 'auth', 'logout', 'user-logout', '');
+(4, 'auth', 'logout', 'user-logout', ''),
+(5, 'member', 'index', 'register', '');
 
 -- --------------------------------------------------------
 
@@ -108,6 +109,37 @@ INSERT INTO `settings` (`id`, `setupkey`, `setupvalue`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_members`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_members` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `no_id` bigint(20) NOT NULL,
+  `no_sponsor` bigint(20) NOT NULL,
+  `tgl_pengajuan` date NOT NULL,
+  `nama_lengkap` varchar(128) NOT NULL,
+  `alamat` varchar(512) NOT NULL,
+  `kota` varchar(64) NOT NULL,
+  `propinsi` varchar(64) NOT NULL,
+  `kodepos` varchar(16) NOT NULL,
+  `tempat_lahir` varchar(64) NOT NULL,
+  `tgl_lahir` date NOT NULL,
+  `agama` varchar(32) NOT NULL,
+  `jenis_kelamin` varchar(16) NOT NULL,
+  `phone` int(11) NOT NULL,
+  `ktp` int(11) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `no_rekening` int(11) NOT NULL,
+  `bank` varchar(128) NOT NULL,
+  `nama_rekening` varchar(128) NOT NULL,
+  `nama_ahli_waris` varchar(128) NOT NULL,
+  `hubungan_keluarga` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_reset`
 --
 
@@ -127,6 +159,7 @@ CREATE TABLE IF NOT EXISTS `tbl_reset` (
 
 CREATE TABLE IF NOT EXISTS `tbl_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id_member` bigint(20) NOT NULL,
   `username` varchar(256) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
   `user_type` tinyint(4) DEFAULT NULL,
@@ -140,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `tbl_users` (
 -- Dumping data for table `tbl_users`
 --
 
-INSERT INTO `tbl_users` (`id`, `username`, `password`, `user_type`, `email`, `phone`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 'Melangbong@yahoo.com', '85759979248');
+INSERT INTO `tbl_users` (`id`, `id_member`, `username`, `password`, `user_type`, `email`, `phone`) VALUES
+(1, 99, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 'Melangbong@yahoo.com', '85759979248');
 
 -- --------------------------------------------------------
 

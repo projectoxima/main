@@ -28,6 +28,18 @@ class Users extends CI_Model {
   	}
   }
 
+  public function find_by_id_pin($pin, $id) {
+    $this->db->where(array('id' => $pin, 'id_member' => $id));
+    $query = $this->db->get('tbl_users');
+
+    if($query->num_rows() > 0){
+      $user = $query->result_array();
+      return $user[0];
+    } else {
+      return 0;
+    }
+  }
+
   function find_username($name) {
       $this->db->where(array('username' => $name));
       $query = $this->db->get('tbl_users');
