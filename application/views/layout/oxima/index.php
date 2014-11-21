@@ -10,8 +10,8 @@
 
 		<title>Oxima</title>
 
-		<link href="assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-		<link href="assets/css/custom.css" rel="stylesheet">
+		<link href="<?php echo base_url(); ?>assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo base_url(); ?>assets/css/custom.css" rel="stylesheet">
 
 		<style type="text/css">
 		.navbar {
@@ -74,7 +74,7 @@
 					<p class="header-desc">Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain</p>
 				</div>
 				<div class="col-md-5">
-					<center><img src="assets/img/Maqui Berry.jpg" class="radius" /></center>
+					<center><img src="<?php echo base_url(); ?>assets/img/Maqui Berry.jpg" class="radius" /></center>
 				</div>
 			</div>
 		</div> 
@@ -84,7 +84,8 @@
 			<?php echo $content_for_layout ?>
 		</div>
 		
-		<script src="assets/js/jquery/jquery-1.11.1.min.js"></script>
-		<script src="assets/js/bootstrap/bootstrap.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/js/jquery/jquery-1.11.1.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/js/bootstrap/bootstrap.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/js/plugins/ckeditor/ckeditor.js"></script>
 	</body>
 </html>
