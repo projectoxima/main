@@ -45,7 +45,8 @@ if (!function_exists('get_mainmenu')){
 	function get_mainmenu($position){
 		$ci =& get_instance();
 		$ci->load->model('layouting/layout_model');
-		return $ci->layout_model->get_mainmenu($position);
+		$group = get_user() ? get_user()->user_type:false;
+		return $ci->layout_model->get_mainmenu($position, $group);
 	}
 }
 
@@ -54,7 +55,8 @@ if (!function_exists('get_submenu')){
 	function get_submenu($menu_id){
 		$ci =& get_instance();
 		$ci->load->model('layouting/layout_model');
-		return $ci->layout_model->get_submenu($menu_id);
+		$group = get_user() ? get_user()->user_type:false;
+		return $ci->layout_model->get_submenu($menu_id, $group);
 	}
 }
 

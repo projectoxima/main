@@ -45,21 +45,29 @@ class layout_model extends CI_Model {
 	}
 	
 	/* ambil main menu */
-	public function get_mainmenu($position){
-		$query = $this->db->get_where(
-			"menus", array(
-				'menu_id'=>'0',
-				'position'=>$position
-			))->result();
+	public function get_mainmenu($position, $group){
+		$this->db->from('menus');
+		$this->db->where('menu_id', '0');
+		$this->db->where('position', $position);
+		if(!$group){
+			$this->db->like('groups', '*', 'both');
+		}else{
+			$this->db->like('groups', $group, 'both');
+		}
+		$query = $this->db->get()->result();
 		return $query;
 	}
 	
 	/* ambil sub menu */
-	public function get_submenu($menu_id){
-		$query = $this->db->get_where(
-			"menus", array(
-				'menu_id'=>$menu_id
-			))->result();
+	public function get_submenu($menu_id, $group){
+		$this->db->from('menus');
+		$this->db->where('menu_id', $menu_id);
+		if(!$group){
+			$this->db->like('groups', '*', 'both');
+		}else{
+			$this->db->like('groups', $group, 'both');
+		}
+		$query = $this->db->get()->result();
 		return $query;
 	}
 	
