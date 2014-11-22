@@ -3,7 +3,16 @@ OXIMA Main Web Project
 
 Trial Credits
 ----------------
-    - taufik (taufik.oxima@gmail.com)
-    - yovie (yovi.oxima@gmail.com)
-    - azkal (azkal.oxima@gmail.com)
-    - oximaproject@gmail.com
+- taufik (taufik.oxima@gmail.com)
+- yovie (yovi.oxima@gmail.com)
+- azkal (azkal.oxima@gmail.com)
+- oximaproject@gmail.com
+
+List libraries
+----------------
+
+
+List helpers
+----------------
+- layout_helper
+		- route_url($controller, $action, $params=array())
