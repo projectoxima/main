@@ -94,3 +94,13 @@ if (!function_exists('generate_menu')){
 		return $html;
 	}
 }
+
+/* ambil konten dari tabel contents */
+if (!function_exists('web_content')){
+	function web_content($key){
+		$ci =& get_instance();
+		$ci->load->model('layouting/contents_model');
+		$content = $ci->contents_model->get_content($key);
+		return $content;
+	}
+}

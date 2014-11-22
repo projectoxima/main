@@ -71,7 +71,7 @@
 				</nav>
 				<div class="col-md-7 putih">
 					<div class="header-title"><?php echo APPTITLE; ?></div>
-					<p class="header-desc">Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain</p>
+					<p class="header-desc"><?php echo web_content('HOME_TEXT_HEADER') ?></p>
 				</div>
 				<div class="col-md-5">
 					<center><img src="assets/img/Maqui Berry.jpg" class="radius" /></center>
