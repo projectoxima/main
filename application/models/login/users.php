@@ -7,7 +7,7 @@ class Users extends CI_Model {
   }
 
   public function find_all() {
-      $query = $this->db->get('tbl_users');
+      $query = $this->db->get('users');
 
       if($query->num_rows() > 0){
           return $query->result_array();
@@ -18,7 +18,7 @@ class Users extends CI_Model {
 
   public function find_by_username_password($username, $password) {
   	$this->db->where(array('username' => $username, 'password' => md5($password)));
-  	$query = $this->db->get('tbl_users');
+  	$query = $this->db->get('users');
 
   	if($query->num_rows() > 0){
       $user = $query->result_array();
@@ -30,7 +30,7 @@ class Users extends CI_Model {
 
   public function find_by_id_pin($pin, $id) {
     $this->db->where(array('id' => $pin, 'id_member' => $id));
-    $query = $this->db->get('tbl_users');
+    $query = $this->db->get('users');
 
     if($query->num_rows() > 0){
       $user = $query->result_array();
@@ -42,7 +42,7 @@ class Users extends CI_Model {
 
   function find_username($name) {
       $this->db->where(array('username' => $name));
-      $query = $this->db->get('tbl_users');
+      $query = $this->db->get('users');
 
       if($query->num_rows() > 0) {
           return $query->result_array();
@@ -53,7 +53,7 @@ class Users extends CI_Model {
 
   function find($id){
     $this->db->where(array('id' => $id));
-    $query = $this->db->get('tbl_users');
+    $query = $this->db->get('users');
 
     if($query->num_rows() > 0){
       return $query->result_array();
@@ -64,7 +64,7 @@ class Users extends CI_Model {
 
   function find_user($id){
     $this->db->where(array('user_type' => $id));
-    $query = $this->db->get('tbl_users');
+    $query = $this->db->get('users');
 
     if($query->num_rows() > 0){
       return $query->result_array();
@@ -74,27 +74,27 @@ class Users extends CI_Model {
   }
 
   function create($user){
-    $query = $this->db->insert('tbl_users', $user);
+    $query = $this->db->insert('users', $user);
 
     return $query;
   }
 
   function update($id, $data){
     $this->db->where('id', $id);
-    $query = $this->db->update('tbl_users', $data);
+    $query = $this->db->update('users', $data);
 
     return $query;
   }
 
   function remove($id){
-    $query = $this->db->delete('tbl_users', array('id' => $id));
+    $query = $this->db->delete('users', array('id' => $id));
 
     return $query; 
   }
 
   function find_email($email) {
     $this->db->where(array('email' => $email));
-    $query = $this->db->get('tbl_users');
+    $query = $this->db->get('users');
 
     if($query->num_rows() > 0){
       $user = $query->result_array();
@@ -112,7 +112,7 @@ class Users extends CI_Model {
 
   function find_where($column, $data) {
     $this->db->where(array($column => $data));
-    $query = $this->db->get('tbl_users');
+    $query = $this->db->get('users');
 
     if($query->num_rows() > 0) {
       $result = $query->result_array();

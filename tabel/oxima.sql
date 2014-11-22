@@ -1,3 +1,12 @@
+-- phpMyAdmin SQL Dump
+-- version 3.4.11.1deb2+deb7u1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Nov 23, 2014 at 07:40 AM
+-- Server version: 5.5.35
+-- PHP Version: 5.4.4-14+deb7u10
+
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -10,6 +19,65 @@ SET time_zone = "+00:00";
 --
 -- Database: `oxima`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contents`
+--
+
+CREATE TABLE IF NOT EXISTS `contents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(30) NOT NULL,
+  `text` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `contents`
+--
+
+INSERT INTO `contents` (`id`, `key`, `text`) VALUES
+(1, 'HOME_TEXT_HEADER', 'Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES
+(1, 'Administrator', 'Administrator'),
+(2, 'Operator', 'User operator'),
+(3, 'Member', 'User member');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `idbarangs`
+--
+
+CREATE TABLE IF NOT EXISTS `idbarangs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `idbarang` varchar(12) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idbarang` (`idbarang`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -62,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `modules`
@@ -72,39 +140,46 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (1, 'welcome', 'index', 'beranda', ''),
 (2, 'welcome', 'test', 'ambil-angka/(:any)', '$1'),
 (3, 'auth', 'login', 'user-login', ''),
-(4, 'auth', 'logout', 'user-logout', ''),
-(5, 'member', 'index', 'register', '');
+(4, 'auth', 'logout', 'user-logout', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `settings`
+-- Table structure for table `parent_childs`
 --
 
-CREATE TABLE IF NOT EXISTS `settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `setupkey` varchar(30) NOT NULL,
-  `setupvalue` text NOT NULL,
+CREATE TABLE IF NOT EXISTS `parent_childs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `titik_id` bigint(20) NOT NULL,
+  `parent_child_id` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pins`
+--
+
+CREATE TABLE IF NOT EXISTS `pins` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `pin` varchar(12) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `setupkey` (`setupkey`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `settings`
---
-
-INSERT INTO `settings` (`id`, `setupkey`, `setupvalue`) VALUES
-(1, 'LAYOUT', 'oxima'),
-(2, 'APPTITLE', 'Oxima');
+  UNIQUE KEY `pin` (`pin`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_members`
+-- Table structure for table `profiles`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_members` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `profiles` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `no_id` bigint(20) NOT NULL,
   `no_sponsor` bigint(20) NOT NULL,
   `tgl_pengajuan` date NOT NULL,
@@ -131,13 +206,28 @@ CREATE TABLE IF NOT EXISTS `tbl_members` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_reset`
+-- Table structure for table `reserved_pins`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_reset` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `reserved_pins` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `pin_id` bigint(20) NOT NULL,
+  `idbarang_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resets`
+--
+
+CREATE TABLE IF NOT EXISTS `resets` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `token` varchar(128) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   `waktu` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -145,12 +235,47 @@ CREATE TABLE IF NOT EXISTS `tbl_reset` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_users`
+-- Table structure for table `settings`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_member` bigint(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `setupkey` varchar(30) NOT NULL,
+  `setupvalue` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `setupkey` (`setupkey`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `setupkey`, `setupvalue`) VALUES
+(1, 'LAYOUT', 'oxima'),
+(2, 'APPTITLE', 'Oxima');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `titiks`
+--
+
+CREATE TABLE IF NOT EXISTS `titiks` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `idbarang_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(256) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
   `user_type` tinyint(4) DEFAULT NULL,
@@ -161,33 +286,11 @@ CREATE TABLE IF NOT EXISTS `tbl_users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `tbl_users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `tbl_users` (`id`, `id_member`, `username`, `password`, `user_type`, `email`, `phone`) VALUES
-(1, 99, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 'Melangbong@yahoo.com', '85759979248');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_user_type`
---
-
-CREATE TABLE IF NOT EXISTS `tbl_user_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) DEFAULT NULL,
-  `description` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `tbl_user_type`
---
-
-INSERT INTO `tbl_user_type` (`id`, `name`, `description`) VALUES
-(1, 'Administrator', 'Administrator'),
-(2, 'Operator', 'User operator'),
-(3, 'Member', 'User member');
+INSERT INTO `users` (`id`, `username`, `password`, `user_type`, `email`, `phone`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 'Melangbong@yahoo.com', '85759979248');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

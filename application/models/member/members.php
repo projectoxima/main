@@ -7,7 +7,7 @@ class Members extends CI_Model {
   }
 
   function create($data){
-    $query = $this->db->insert('tbl_members', $data);
+    $query = $this->db->insert('profiles', $data);
 
     return $query;
   }

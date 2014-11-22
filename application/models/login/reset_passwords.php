@@ -7,7 +7,7 @@ class Reset_passwords extends CI_Model {
   }
 
   public function find_all() {
-    $query = $this->db->get('tbl_reset');
+    $query = $this->db->get('resets');
 
     if($query->num_rows() > 0){
         return $query->result_array();
@@ -18,7 +18,7 @@ class Reset_passwords extends CI_Model {
 
   function find($token){
     $this->db->where(array('token' => $token));
-    $query = $this->db->get('tbl_reset');
+    $query = $this->db->get('resets');
 
     if($query->num_rows() > 0){
       $user = $query->result_array();
@@ -29,26 +29,26 @@ class Reset_passwords extends CI_Model {
   }
 
   function create($data) {
-    $query = $this->db->insert('tbl_reset', $data);
+    $query = $this->db->insert('resets', $data);
 
     return $query;
   }
 
   function update($id, $data) {
     $this->db->where('id', $id);
-    $query = $this->db->update('tbl_reset', $data);
+    $query = $this->db->update('resets', $data);
 
     return $query;
   }
 
   function remove($id) {
-    $query = $this->db->delete('tbl_reset', array('user_id' => $id));
+    $query = $this->db->delete('resets', array('user_id' => $id));
 
     return $query; 
   }
 
   function delete_all() {
-    $query = $this->db->empty_table('tbl_reset');
+    $query = $this->db->empty_table('resets');
 
     return $query;
   }
