@@ -5,6 +5,7 @@ class Auth extends OxyController {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('login/users');
+		$this->load->model('login/reset_passwords');
 	}
 
 	public function index()
@@ -105,7 +106,7 @@ class Auth extends OxyController {
 	    //Data for email content
 	    $string = substr(md5(mt_rand()),0,31);
 	    $url = base_url();
-	    $username = $find_email['name'];
+	    $username = $find_email['username'];
 	    $email = $find_email['email'];
 	    $mailContent = "
 	    Hi $username, <br><br>

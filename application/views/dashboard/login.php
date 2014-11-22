@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <meta name="description" content="Cipaganti - Aplikasi Pengajuan Anggaran">
+    <meta name="description" content="Oxima Project">
     <meta name="author" content="Oxima">
 
     <title>Oxima Project</title>
@@ -143,7 +143,7 @@
             <h4 class="modal-title">Password Reset</h4>
           </div>
           <div class="modal-body">
-            User dengan alamat email "<span id="alamat_email"></span>" tidak dikenal, mohon periksa kembali alamat email anda.
+            CUser dengan alamat email "<span id="alamat_email"></span>" tidak dikenal, silakan coba lagi masukkan alamat email anda.
           </div>
           <div class="modal-footer">
             <button data-dismiss="modal" class="btn btn-default" type="button">OK</button>
@@ -206,7 +206,10 @@
           }
         })
         .fail(function(){
-
+            var email = $('#email').val();
+            $('#alamat_email').html(email);
+            $('#email').val('');
+            $('#modal-error-email').modal('show');
         });
       });
 
