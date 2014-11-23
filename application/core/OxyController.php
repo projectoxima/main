@@ -15,7 +15,7 @@ class OxyController extends CI_Controller {
 		
 		if($this->group!=USER_PUBLIC){
 			if(is_array($this->group)){
-				if(!in_array(USER_PUBLIC, $this->group)){
+				if(!in_array(USER_ALL, $this->group) && !in_array(USER_PUBLIC, $this->group)){
 					if(!in_array($user_group, $this->group))
 						redirect(base_url());
 				}

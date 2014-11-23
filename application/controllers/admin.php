@@ -7,7 +7,11 @@ class Admin extends OxyController {
 		parent::__construct();
 	}
 
-	public function index(){
-		$this->layout->view('member/register', null);
+	public function list_pin(){
+		echo 'list pin';
+	}
+	
+	public function list_idb(){
+		echo 'list id barang';
 	}
 }
