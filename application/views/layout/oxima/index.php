@@ -69,6 +69,7 @@
 						</div>
 					</div>
 				</nav>
+				<?php if(get_user()==false): ?>
 				<div class="col-md-7 putih">
 					<div class="header-title"><?php echo APPTITLE; ?></div>
 					<p class="header-desc"><?php echo web_content('HOME_TEXT_HEADER') ?></p>
@@ -76,6 +77,7 @@
 				<div class="col-md-5 hidden-sm hidden-xs pad-bottom">
 					<center><img src="assets/img/Maqui Berry.jpg" class="radius" /></center>
 				</div>
+				<?php endif; ?>
 			</div>
 		</div> 
 		
