@@ -11,16 +11,16 @@ class OxyController extends CI_Controller {
 			$user_group = get_user()->groups;
 		
 		if(!isset($this->group))
-			$this->group = USER_PUBLIC;
-			
-		if($this->group==USER_ALL && $user_group==USER_PUBLIC)
-			redirect(base_url());
-		if($this->group==USER_ADMIN && $user_group!=USER_ADMIN)
-			redirect(base_url());
-		if($this->group==USER_OPERATOR && $user_group!=USER_OPERATOR)
-			redirect(base_url());
-		if($this->group==USER_MEMBER && $user_group!=USER_MEMBER)
-			redirect(base_url());
+			$this->group = [USER_PUBLIC];
+		
+		if($this->group!=USER_PUBLIC){
+			if(is_array($this->group)){
+				if(!in_array(USER_ALL, $this->group) && !in_array(USER_PUBLIC, $this->group)){
+					if(!in_array($user_group, $this->group))
+						redirect(base_url());
+				}
+			}
+		}
 	}
 	
 }

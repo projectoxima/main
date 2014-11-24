@@ -42,7 +42,7 @@
 
 		<div class="container header">
 			<div class="col-md-12">
-				<nav class="navbar navbar-default" role="navigation">
+				<nav class="navbar navbar-default" role="navigation" style="margin:0; padding:0;">
 					<div class="container-fluid">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -69,6 +69,8 @@
 						</div>
 					</div>
 				</nav>
+				<?php if(get_user()==false): ?>
+				<div class="row">&nbsp;</div>
 				<div class="col-md-7 putih">
 					<div class="header-title"><?php echo APPTITLE; ?></div>
 					<p class="header-desc"><?php echo web_content('HOME_TEXT_HEADER') ?></p>
@@ -76,6 +78,7 @@
 				<div class="col-md-5 hidden-sm hidden-xs pad-bottom">
 					<center><img src="assets/img/Maqui Berry.jpg" class="radius" /></center>
 				</div>
+				<?php endif; ?>
 			</div>
 		</div> 
 		

@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 3.5.2.2
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: Nov 24, 2014 at 01:06 AM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -74,10 +65,11 @@ CREATE TABLE IF NOT EXISTS `idbarangs` (
   `idbarang` varchar(12) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` int(11) NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idbarang` (`idbarang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  UNIQUE KEY `idbarang` (`idbarang`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `idbarangs`
@@ -95,35 +87,40 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`) V
 
 CREATE TABLE IF NOT EXISTS `menus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menu_id` int(11) NOT NULL,
+  `menu_id` int(11) DEFAULT NULL,
   `position` varchar(10) NOT NULL,
   `groups` varchar(10) NOT NULL DEFAULT '*',
   `label` varchar(70) NOT NULL,
-  `module_id` int(11) NOT NULL,
+  `module_id` int(11) DEFAULT NULL,
   `param` varchar(30) NOT NULL,
   `custom_url` varchar(200) NOT NULL,
   `show` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+  PRIMARY KEY (`id`),
+  KEY `menu_id` (`menu_id`),
+  KEY `module_id` (`module_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=301 ;
 
 --
 -- Dumping data for table `menus`
 --
 
 INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`, `param`, `custom_url`, `show`) VALUES
-(1, 0, 'top', '*', 'Home', 1, '', '', 1),
-(2, 0, 'top', '*', 'Tentang Kami', 0, '', '', 1),
-(3, 0, 'top', '*', 'Members', 0, '', '', 1),
-(4, 0, 'top', '*', 'Register', 0, '', '', 1),
-(5, 0, 'top', '*', 'News', 0, '', '', 1),
-(6, 0, 'top', '*', 'Promo', 0, '', '', 1),
-(7, 0, 'top', '*', 'Login', 3, '', '', 1),
-(8, 2, 'top', '*', 'Profil Perusahaan', 0, '', '', 1),
-(9, 2, 'top', '*', 'Profil Produk', 0, '', '', 1),
-(10, 3, 'top', '*', 'Profil Member', 0, '', '', 1),
-(11, 0, 'top', '1', 'Logout', 4, '', '', 1),
-(12, 0, 'top', '2', 'Logout', 4, '', '', 1),
-(13, 0, 'top', '3', 'Logout', 4, '', '', 1);
+(1, NULL, 'top', '*', 'Home', 1, '', '', 1),
+(2, NULL, 'top', '*', 'Tentang Kami', NULL, '', '', 1),
+(3, NULL, 'top', '*', 'Members', NULL, '', '', 1),
+(4, NULL, 'top', '*', 'Register', NULL, '', '', 1),
+(5, NULL, 'top', '*', 'News', NULL, '', '', 1),
+(6, NULL, 'top', '*', 'Promo', NULL, '', '', 1),
+(7, NULL, 'top', '*', 'Login', 3, '', '', 1),
+(8, 2, 'top', '*', 'Profil Perusahaan', NULL, '', '', 1),
+(9, 2, 'top', '*', 'Profil Produk', NULL, '', '', 1),
+(10, 3, 'top', '*', 'Profil Member', NULL, '', '', 1),
+(50, NULL, 'top', '1', 'Generate', NULL, '', '', 1),
+(51, 50, 'top', '1', 'PIN', NULL, '', '', 1),
+(52, 50, 'top', '1', 'ID Barang', NULL, '', '', 1),
+(100, NULL, 'top', '1', 'Logout', 4, '', '', 1),
+(200, NULL, 'top', '2', 'Logout', 4, '', '', 1),
+(300, NULL, 'top', '3', 'Logout', 4, '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -151,6 +148,41 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (4, 'auth', 'logout', 'user-logout', ''),
 (5, 'member', 'index', 'register', '');
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `parent_childs`
+--
+
+CREATE TABLE IF NOT EXISTS `parent_childs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `titik_id` bigint(20) DEFAULT NULL,
+  `parent_child_id` bigint(20) DEFAULT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `parent_child_id` (`parent_child_id`),
+  KEY `titik_id` (`titik_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pins`
+--
+
+CREATE TABLE IF NOT EXISTS `pins` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `pin` varchar(12) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `pin` (`pin`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+>>>>>>> b664d3932234c70d7aa2399c2bd211ea2a4fddc7
+
 -- --------------------------------------------------------
 
 --
@@ -158,8 +190,8 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `profiles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `no_id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `no_id` bigint(20) DEFAULT NULL,
   `no_sponsor` bigint(20) NOT NULL,
   `tgl_pengajuan` date NOT NULL,
   `nama_lengkap` varchar(128) NOT NULL,
@@ -179,7 +211,8 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `nama_rekening` varchar(128) NOT NULL,
   `nama_ahli_waris` varchar(128) NOT NULL,
   `hubungan_keluarga` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `no_id` (`no_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -189,11 +222,15 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 --
 
 CREATE TABLE IF NOT EXISTS `reserved_pins` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pin_id` int(11) NOT NULL,
-  `produk_id` varchar(12) NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `pin_id` bigint(20) DEFAULT NULL,
+  `idbarang_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `pin_id` (`pin_id`),
+  KEY `idbarang_id` (`idbarang_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
@@ -217,7 +254,8 @@ CREATE TABLE IF NOT EXISTS `resets` (
   `token` varchar(128) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `waktu` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -244,28 +282,110 @@ INSERT INTO `settings` (`id`, `setupkey`, `setupvalue`) VALUES
 
 -- --------------------------------------------------------
 
+-- Table structure for table `titiks`
 --
+
+CREATE TABLE IF NOT EXISTS `titiks` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `idbarang_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idbarang_id` (`idbarang_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
 -- Table structure for table `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_member` bigint(20) NOT NULL,
+  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(256) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
   `groups` tinyint(4) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `phone` varchar(32) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  UNIQUE KEY `name` (`username`),
+  KEY `user_type` (`user_type`),
+  KEY `pin_id` (`pin_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `id_member`, `username`, `password`, `groups`, `email`, `phone`) VALUES
-(1, 99, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 'Melangbong@yahoo.com', '85759979248');
+INSERT INTO `users` (`id`, `username`, `password`, `groups`, `email`, `phone`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 'Melangbong@yahoo.com', '85759979248'),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1),
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `idbarangs`
+--
+ALTER TABLE `idbarangs`
+  ADD CONSTRAINT `idbarangs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `menus`
+--
+ALTER TABLE `menus`
+  ADD CONSTRAINT `menus_ibfk_2` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `menus_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `parent_childs`
+--
+ALTER TABLE `parent_childs`
+  ADD CONSTRAINT `parent_childs_ibfk_2` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `parent_childs_ibfk_1` FOREIGN KEY (`parent_child_id`) REFERENCES `parent_childs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `pins`
+--
+ALTER TABLE `pins`
+  ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `profiles`
+--
+ALTER TABLE `profiles`
+  ADD CONSTRAINT `profiles_ibfk_1` FOREIGN KEY (`no_id`) REFERENCES `pins` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `reserved_pins`
+--
+ALTER TABLE `reserved_pins`
+  ADD CONSTRAINT `reserved_pins_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_pins_ibfk_1` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_pins_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `resets`
+--
+ALTER TABLE `resets`
+  ADD CONSTRAINT `resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `titiks`
+--
+ALTER TABLE `titiks`
+  ADD CONSTRAINT `titiks_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `titiks_ibfk_1` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`user_type`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
