@@ -63,7 +63,7 @@
             <div class="row">
               <div class="col-md-4 col-md-offset-4">
                 <div class="login-box">
-                  <h4 style="font-size: 24px;"><center><strong>Oxima Project</strong></center></h4>
+                  <h4 style="font-size: 24px;"><center><strong>Oxima</strong></center></h4>
                   <div class="divide-40"></div>
 
                   <h4 style="font-size: 24px;"><center><strong>Login Form</strong></center></h4>

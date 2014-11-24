@@ -29,12 +29,12 @@ class Users extends CI_Model {
   }
 
   public function find_by_id_pin($pin, $id) {
-    $this->db->where(array('id' => $pin, 'id_member' => $id));
-    $query = $this->db->get('users');
+    $this->db->where(array('pin_id' => $pin, 'produk_id' => $id));
+    $query = $this->db->get('reserved_pins');
 
     if($query->num_rows() > 0){
-      $user = $query->result_array();
-      return $user[0];
+      $pin = $query->result_array();
+      return $pin[0];
     } else {
       return 0;
     }
@@ -51,23 +51,13 @@ class Users extends CI_Model {
       }
   }
 
-  function find($id){
+  function find_user($id){
     $this->db->where(array('id' => $id));
     $query = $this->db->get('users');
 
     if($query->num_rows() > 0){
-      return $query->result_array();
-    } else {
-      return 0;
-    }
-  }
-
-  function find_user($id){
-    $this->db->where(array('user_type' => $id));
-    $query = $this->db->get('users');
-
-    if($query->num_rows() > 0){
-      return $query->result_array();
+      $users = $query->result_array();
+      return $users[0];
     } else {
       return 0;
     }
@@ -105,7 +95,7 @@ class Users extends CI_Model {
   }
 
   function insert_token($data) {
-    $query = $this->db->insert('tbl_reset', $data);
+    $query = $this->db->insert('resets', $data);
 
     return $query;      
   }

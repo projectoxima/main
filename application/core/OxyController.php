@@ -8,7 +8,7 @@ class OxyController extends CI_Controller {
 		$user_group = USER_PUBLIC;
 		
 		if(is_object(get_user()))
-			$user_group = get_user()->user_type;
+			$user_group = get_user()->groups;
 		
 		if(!isset($this->group))
 			$this->group = USER_PUBLIC;

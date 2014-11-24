@@ -1,6 +1,22 @@
-<h3>Register Page</h3>
+<!--<h3>Register Page</h3>
 <hr>
+-->
 <form class="form-horizontal" role="form" action="<?php echo base_url(); ?>member/register" method="POST">
+	<h3>Informasi Akun</h3>
+	<hr>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Username</label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" id="username" name="username" placeholder="Username">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Password</label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" id="password" name="password" placeholder="Password">
+		</div>
+	</div>
+	<!--
 	<div class="form-group">
 		<label class="col-sm-2 control-label">No. ID</label>
 		<div class="col-sm-4">
@@ -19,6 +35,7 @@
 			<input type="date" class="form-control" id="tanggal-pengajuan" name="tanggal-pengajuan" placeholder="Tanggal Pengajuan">
 		</div>
 	</div>
+	-->
 	<h3>Data Pribadi</h3>
 	<hr>
 	<div class="form-group">
