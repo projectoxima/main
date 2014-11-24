@@ -36,6 +36,7 @@ if (!function_exists('route_url_id')){
 			$parameter = implode("/", $params);
 		else
 			$parameter = "";
+		var_dump($parameter);
 		return base_url($route . "/" . $parameter);
     }
 }
@@ -85,7 +86,7 @@ if (!function_exists('generate_menu')){
 				)) ;
 				$html .= '<ul class="dropdown-menu" role="menu">';
 				foreach($menuitem->submenu as $submenuitem){
-					$html .= '<li>' . anchor($menuurl, $submenuitem->label, array()) . '</li>';
+					$html .= '<li class="submenu">' . anchor(route_url_id($submenuitem->module_id), $submenuitem->label, array()) . '</li>';
 				}
 				$html .= '</ul>';
 				$html .= '</li>';

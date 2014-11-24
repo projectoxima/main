@@ -10,8 +10,8 @@
 
 		<title>Oxima</title>
 
-		<link href="assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-		<link href="assets/css/custom.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/custom.css" rel="stylesheet">
 
 		<style type="text/css">
 		.navbar {
@@ -87,7 +87,7 @@
 			<?php echo $content_for_layout ?>
 		</div>
 		
-		<script src="assets/js/jquery/jquery-1.11.1.min.js"></script>
-		<script src="assets/js/bootstrap/bootstrap.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/bootstrap/bootstrap.min.js"></script>
 	</body>
 </html>

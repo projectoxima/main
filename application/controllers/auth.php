@@ -65,8 +65,8 @@ class Auth extends OxyController {
 	}
 
 	public function forgot_password() {
-		$pesan 				= $this->input->post('email');
-		$find_email 	= $this->users->find_email($pesan);
+		$pesan = $this->input->post('email');
+		$find_email = $this->users->find_email($pesan);
 
 		if($find_email == 0) {
 			echo json_encode(array('status' => 'error'));

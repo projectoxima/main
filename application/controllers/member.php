@@ -14,27 +14,27 @@ class Member extends OxyController {
 
 	public function register(){
 		$data = array(
-				'no_id' => $this->input->post('no-id'),
-				'no_sponsor' => $this->input->post('no-sponsor'),
-				'tgl_pengajuan' => $this->input->post('tanggal-pengajuan'),
-        'nama_lengkap' => $this->input->post('nama-lengkap'),
-        'alamat' => $this->input->post('alamat'),
-        'kota' => $this->input->post('kota'),
-        'propinsi' => $this->input->post('propinsi'),
-        'kodepos' => $this->input->post('kode-post'),
-        'tempat_lahir' => $this->input->post('tempat-lahir'),
-        'tgl_lahir' => $this->input->post('tgl-lahir'),
-        'agama' => $this->input->post('agama'),
-        'jenis_kelamin' => $this->input->post('jenis-kelamin'),
-        'phone' => $this->input->post('phone'),
-        'ktp' => $this->input->post('no-ktp'),
-        'email' => $this->input->post('email'),
-        'no_rekening' => $this->input->post('no-rekening'),
-        'bank' => $this->input->post('bank'),
-        'nama_rekening' => $this->input->post('nama-rekening'),
-        'nama_ahli_waris' => $this->input->post('nama-ahli-waris'),
-        'hubungan_keluarga' => $this->input->post('hubungan-keluarga'),
-			);
+			'no_id' => $this->input->post('no-id'),
+			'no_sponsor' => $this->input->post('no-sponsor'),
+			'tgl_pengajuan' => $this->input->post('tanggal-pengajuan'),
+	        'nama_lengkap' => $this->input->post('nama-lengkap'),
+	        'alamat' => $this->input->post('alamat'),
+	        'kota' => $this->input->post('kota'),
+	        'propinsi' => $this->input->post('propinsi'),
+	        'kodepos' => $this->input->post('kode-post'),
+	        'tempat_lahir' => $this->input->post('tempat-lahir'),
+	        'tgl_lahir' => $this->input->post('tgl-lahir'),
+	        'agama' => $this->input->post('agama'),
+	        'jenis_kelamin' => $this->input->post('jenis-kelamin'),
+	        'phone' => $this->input->post('phone'),
+	        'ktp' => $this->input->post('no-ktp'),
+	        'email' => $this->input->post('email'),
+	        'no_rekening' => $this->input->post('no-rekening'),
+	        'bank' => $this->input->post('bank'),
+	        'nama_rekening' => $this->input->post('nama-rekening'),
+	        'nama_ahli_waris' => $this->input->post('nama-ahli-waris'),
+	        'hubungan_keluarga' => $this->input->post('hubungan-keluarga'),
+		);
 
 		$new = $this->members->create($data);
 
