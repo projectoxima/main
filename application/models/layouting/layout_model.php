@@ -47,7 +47,7 @@ class layout_model extends CI_Model {
 	/* ambil main menu */
 	public function get_mainmenu($position, $group){
 		$this->db->from('menus');
-		$this->db->where('menu_id', '0');
+		$this->db->where('menu_id', null);
 		$this->db->where('position', $position);
 		if(!$group){
 			$this->db->like('groups', '*', 'both');
