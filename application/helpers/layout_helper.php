@@ -36,7 +36,6 @@ if (!function_exists('route_url_id')){
 			$parameter = implode("/", $params);
 		else
 			$parameter = "";
-		var_dump($parameter);
 		return base_url($route . "/" . $parameter);
     }
 }
@@ -46,7 +45,7 @@ if (!function_exists('get_mainmenu')){
 	function get_mainmenu($position){
 		$ci =& get_instance();
 		$ci->load->model('layouting/layout_model');
-		$group = get_user() ? get_user()->groups:false;
+		$group = get_user() ? get_user()->group_id:false;
 		return $ci->layout_model->get_mainmenu($position, $group);
 	}
 }
@@ -56,7 +55,7 @@ if (!function_exists('get_submenu')){
 	function get_submenu($menu_id){
 		$ci =& get_instance();
 		$ci->load->model('layouting/layout_model');
-		$group = get_user() ? get_user()->groups:false;
+		$group = get_user() ? get_user()->group_id:false;
 		return $ci->layout_model->get_submenu($menu_id, $group);
 	}
 }

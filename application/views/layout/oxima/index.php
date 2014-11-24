@@ -56,14 +56,14 @@
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
 								<?php
-									/* tampilkan menu topleft */
-									echo generate_menu('top');
+									/* tampilkan menu top */
+									//echo generate_menu('top');
 								?>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<?php
-									/* tampilkan menu topleft */
-									//echo generate_menu('topright');
+									/* tampilkan menu top */
+									echo generate_menu('top');
 								?>
 							</ul>
 						</div>
@@ -71,18 +71,18 @@
 				</nav>
 				<?php if(get_user()==false): ?>
 				<div class="row">&nbsp;</div>
-				<div class="col-md-7 putih">
+				<div class="col-md-8 putih">
 					<div class="header-title"><?php echo APPTITLE; ?></div>
 					<p class="header-desc"><?php echo web_content('HOME_TEXT_HEADER') ?></p>
 				</div>
-				<div class="col-md-5 hidden-sm hidden-xs pad-bottom">
+				<div class="col-md-4 hidden-sm hidden-xs pad-bottom">
 					<center><img src="assets/img/Maqui Berry.jpg" class="radius" /></center>
 				</div>
 				<?php endif; ?>
 			</div>
 		</div> 
 		
-		<div class="container">
+		<div class="container" style="min-height:400px;">
 			<div class="row">&nbsp;</div>
 			<?php echo $content_for_layout ?>
 		</div>

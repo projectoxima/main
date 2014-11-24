@@ -42,11 +42,11 @@ class Auth extends OxyController {
 					$this->session->set_userdata($user);
 					redirect(base_url() . 'home');
 				} else {
-					$user = array(
-								'groups'		=> 1,
+					/*$user = array(
+								'groups'		=> 1, // maksud group diset 1 buat apa?
 								'logged_in'	=> TRUE
-					     );
-
+					     );*/
+					$user['logged_in'] = TRUE;
 					$this->session->set_userdata($user);
 					redirect(base_url() . 'register');
 				}
