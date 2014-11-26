@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2014 at 07:35 AM
+-- Generation Time: Nov 26, 2014 at 09:13 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -276,6 +276,23 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reports`
+--
+
+CREATE TABLE IF NOT EXISTS `reports` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `ref_id` bigint(20) DEFAULT NULL,
+  `description` text NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `ref_id` (`ref_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reserved_pins`
 --
 
@@ -400,8 +417,8 @@ CREATE TABLE IF NOT EXISTS `user_bonus` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `bonus_id` int(11) NOT NULL,
-  `bonus` int(11) NOT NULL,
-  `bonus_cut` int(11) NOT NULL,
+  `bonus` bigint(20) NOT NULL,
+  `bonus_cut` bigint(20) NOT NULL,
   `newmember_id` bigint(20) NOT NULL,
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -426,6 +443,25 @@ CREATE TABLE IF NOT EXISTS `user_sponsor` (
   KEY `user_id` (`user_id`),
   KEY `titik_id` (`titik_id`),
   KEY `sponsor_id` (`sponsor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `withdraw`
+--
+
+CREATE TABLE IF NOT EXISTS `withdraw` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `amount` bigint(20) NOT NULL,
+  `charge` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `transfer_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -487,6 +523,13 @@ ALTER TABLE `profiles`
   ADD CONSTRAINT `profiles_ibfk_2` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `reports`
+--
+ALTER TABLE `reports`
+  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`ref_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `reserved_pins`
 --
 ALTER TABLE `reserved_pins`
@@ -524,9 +567,9 @@ ALTER TABLE `users`
 -- Constraints for table `user_bonus`
 --
 ALTER TABLE `user_bonus`
-  ADD CONSTRAINT `user_bonus_ibfk_3` FOREIGN KEY (`newmember_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_bonus_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_bonus_ibfk_2` FOREIGN KEY (`bonus_id`) REFERENCES `bonus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_bonus_ibfk_2` FOREIGN KEY (`bonus_id`) REFERENCES `bonus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `user_bonus_ibfk_3` FOREIGN KEY (`newmember_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_sponsor`
@@ -535,6 +578,12 @@ ALTER TABLE `user_sponsor`
   ADD CONSTRAINT `user_sponsor_ibfk_3` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_sponsor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_sponsor_ibfk_2` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `withdraw`
+--
+ALTER TABLE `withdraw`
+  ADD CONSTRAINT `withdraw_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
