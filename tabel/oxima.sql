@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.11.1deb2+deb7u1
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Nov 25, 2014 at 08:59 AM
--- Server version: 5.5.35
--- PHP Version: 5.4.4-14+deb7u10
+-- Host: 127.0.0.1
+-- Generation Time: Nov 26, 2014 at 02:12 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -78,7 +78,15 @@ CREATE TABLE IF NOT EXISTS `idbarangs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idbarang` (`idbarang`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `idbarangs`
+--
+
+INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`) VALUES
+(1, '0001', 0, '2014-11-23 11:14:55', 0),
+(2, '0002', 0, '2014-11-23 11:14:55', 0);
 
 -- --------------------------------------------------------
 
@@ -109,7 +117,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (1, NULL, 'top', '*', 'Home', 1, '', '', 1),
 (2, NULL, 'top', '*', 'Tentang Kami', NULL, '', '', 1),
 (3, NULL, 'top', '*', 'Members', NULL, '', '', 1),
-(4, NULL, 'top', '*', 'Register', 5, '', '', 1),
+(4, NULL, 'top', '*', 'Register', 0, '', '', 1),
 (5, NULL, 'top', '*', 'News', NULL, '', '', 1),
 (6, NULL, 'top', '*', 'Promo', NULL, '', '', 1),
 (7, NULL, 'top', '*', 'Login', 3, '', '', 1),
@@ -192,8 +200,9 @@ CREATE TABLE IF NOT EXISTS `pins` (
 
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) DEFAULT NULL,
-  `sponsor_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `no_id` bigint(20) DEFAULT NULL,
+  `no_sponsor` bigint(20) NOT NULL,
   `tgl_pengajuan` date NOT NULL,
   `nama_lengkap` varchar(128) NOT NULL,
   `alamat` varchar(512) NOT NULL,
@@ -213,9 +222,15 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `nama_ahli_waris` varchar(128) NOT NULL,
   `hubungan_keluarga` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `no_id` (`user_id`),
-  KEY `sponsor_id` (`sponsor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `no_id` (`no_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `profiles`
+--
+
+INSERT INTO `profiles` (`id`, `user_id`, `no_id`, `no_sponsor`, `tgl_pengajuan`, `nama_lengkap`, `alamat`, `kota`, `propinsi`, `kodepos`, `tempat_lahir`, `tgl_lahir`, `agama`, `jenis_kelamin`, `phone`, `ktp`, `email`, `no_rekening`, `bank`, `nama_rekening`, `nama_ahli_waris`, `hubungan_keluarga`) VALUES
+(1, 4, NULL, 0, '0000-00-00', 'asep', 'asep', 'asep', 'asep', 'asep', 'asep', '0000-00-00', 'Lainnya', 'Perempuan', 123, 123, 'AsepSulanjana@gmail.com', 123, 'asep', 'asep', 'asep', 'asep');
 
 -- --------------------------------------------------------
 
@@ -228,13 +243,22 @@ CREATE TABLE IF NOT EXISTS `reserved_pins` (
   `pin_id` bigint(20) DEFAULT NULL,
   `idbarang_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT '0',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `pin_id` (`pin_id`),
   KEY `idbarang_id` (`idbarang_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `reserved_pins`
+--
+
+INSERT INTO `reserved_pins` (`id`, `pin_id`, `idbarang_id`, `user_id`, `create_time`) VALUES
+(1, 1, 1, 1, '2014-11-24 00:52:02'),
+(2, 1, 2, 0, '2014-11-26 01:02:09'),
+(3, 2, 3, 3, '2014-11-26 01:00:15'),
+(4, 2, 4, 4, '2014-11-26 01:00:33');
 
 -- --------------------------------------------------------
 
@@ -243,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `reserved_pins` (
 --
 
 CREATE TABLE IF NOT EXISTS `resets` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `token` varchar(128) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `waktu` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -296,92 +320,28 @@ CREATE TABLE IF NOT EXISTS `titiks` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(256) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
-  `group_id` int(11) DEFAULT NULL,
-  `pin_id` bigint(20) DEFAULT NULL,
+  `pin_id` varchar(256) DEFAULT NULL,
+  `group_id` tinyint(4) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `phone` varchar(32) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
-  `stokis` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`username`),
-  KEY `user_type` (`group_id`),
   KEY `pin_id` (`pin_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0),
-(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 0);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `idbarangs`
---
-ALTER TABLE `idbarangs`
-  ADD CONSTRAINT `idbarangs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `menus`
---
-ALTER TABLE `menus`
-  ADD CONSTRAINT `menus_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `menus_ibfk_2` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `parent_childs`
---
-ALTER TABLE `parent_childs`
-  ADD CONSTRAINT `parent_childs_ibfk_3` FOREIGN KEY (`parent_child_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `parent_childs_ibfk_2` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `pins`
---
-ALTER TABLE `pins`
-  ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `profiles`
---
-ALTER TABLE `profiles`
-  ADD CONSTRAINT `profiles_ibfk_2` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `reserved_pins`
---
-ALTER TABLE `reserved_pins`
-  ADD CONSTRAINT `reserved_pins_ibfk_1` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `resets`
---
-ALTER TABLE `resets`
-  ADD CONSTRAINT `resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `titiks`
---
-ALTER TABLE `titiks`
-  ADD CONSTRAINT `titiks_ibfk_1` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `titiks_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `users_ibfk_4` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+INSERT INTO `users` (`id`, `username`, `password`, `pin_id`, `group_id`, `email`, `phone`, `status`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', NULL, 1, 'Melangbong@yahoo.com', '85759979248', 0),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', NULL, 2, NULL, '1', 0),
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', '3', 3, NULL, '1', 0),
+(4, 'asep', 'dc855efb0dc7476760afaa1b281665f1', '0', 3, 'AsepSulanjana@gmail.com', '123', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

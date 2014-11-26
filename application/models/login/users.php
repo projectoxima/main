@@ -29,7 +29,7 @@ class Users extends CI_Model {
   }
 
   public function find_by_id_pin($pin, $id) {
-    $this->db->where(array('pin_id' => $pin, 'produk_id' => $id));
+    $this->db->where(array('pin_id' => $pin, 'idbarang_id' => $id));
     $query = $this->db->get('reserved_pins');
 
     if($query->num_rows() > 0){

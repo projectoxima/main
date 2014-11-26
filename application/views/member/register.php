@@ -110,11 +110,11 @@
 			    Budha
 			  </label>
 			</div>
-			<div class="col-sm-10">
-				<label class="col-sm-4 control-label">Lain-lain</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" name="agama-lain">
-				</div>			
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="agama" id="agama-6" value="Lainnya">
+			    Lainnya
+			  </label>
 			</div>
 		</div>
 	</div>

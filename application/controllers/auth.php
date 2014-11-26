@@ -35,18 +35,16 @@ class Auth extends OxyController {
 		} else {
 			$pins = $this->users->find_by_id_pin($pin, $id);
 			if($pins){
-				$user = $this->users->find_user($pins['pin_id']);
+				$user = $this->users->find_user($pins['user_id']);
 
 				if($user){
 					$user['logged_in'] = TRUE;
 					$this->session->set_userdata($user);
 					redirect(base_url() . 'home');
 				} else {
-					/*$user = array(
-								'groups'		=> 1, // maksud group diset 1 buat apa?
-								'logged_in'	=> TRUE
-					     );*/
 					$user['logged_in'] = TRUE;
+					$user['pin_id'] = $pins['pin_id'];
+					$user['idbarang_id'] = $pins['idbarang_id'];
 					$this->session->set_userdata($user);
 					redirect(base_url() . 'register');
 				}
