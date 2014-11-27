@@ -21,6 +21,9 @@ class OxyController extends CI_Controller {
 				}
 			}
 		}
+		
+		/* load language */
+		$this->lang->load('message', LANG);
 	}
 	
 }

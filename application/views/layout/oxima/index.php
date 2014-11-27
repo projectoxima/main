@@ -12,6 +12,7 @@
 
 		<link href="<?php echo site_url(); ?>/assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/custom.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/jquery.growl.css" rel="stylesheet">
 
 		<style type="text/css">
 		.navbar {
@@ -89,5 +90,13 @@
 		
 		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/bootstrap/bootstrap.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/jquery.growl.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				<?php if(isset($alert) && !empty($alert)): ?>
+				$.growl.notice({message:'<?php echo addslashes($alert); ?>'});
+				<?php endif; ?>
+			})
+		</script>
 	</body>
 </html>
