@@ -10,8 +10,8 @@
 
 		<title>Oxima</title>
 
-		<link href="<?php echo site_url(); ?>/assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-		<link href="<?php echo site_url(); ?>/assets/css/custom.css" rel="stylesheet">
+		<link href="<?php echo base_url(); ?>assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo base_url(); ?>assets/css/custom.css" rel="stylesheet">
 
 		<style type="text/css">
 		.navbar {
