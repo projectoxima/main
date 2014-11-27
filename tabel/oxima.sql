@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 27, 2014 at 10:32 PM
+-- Generation Time: Nov 28, 2014 at 01:38 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -35,28 +35,6 @@ CREATE TABLE IF NOT EXISTS `bonus` (
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `update_by` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `create_by` (`create_by`),
-  KEY `update_by` (`update_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `buyback`
---
-
-CREATE TABLE IF NOT EXISTS `buyback` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
-  `total` int(11) NOT NULL,
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_by` bigint(20) DEFAULT NULL,
-  `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
-  `update_by` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -162,9 +140,18 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (8, 2, 'top', '*', 'Profil Perusahaan', 6, '', '', 1),
 (9, 2, 'top', '*', 'Profil Produk', 7, '', '', 1),
 (10, 3, 'top', '*', 'Profil Member', NULL, '', '', 1),
-(50, NULL, 'top', '1', 'Generate', NULL, '', '', 1),
-(51, 50, 'top', '1', 'PIN', NULL, '', '', 1),
-(52, 50, 'top', '1', 'ID Barang', NULL, '', '', 1),
+(50, NULL, 'top', '1', 'Manage User', NULL, '', '', 1),
+(51, NULL, 'top', '1', 'Membership', NULL, '', '', 1),
+(52, NULL, 'top', '1', 'Network Graph', NULL, '', '', 1),
+(53, NULL, 'top', '1', 'Member', NULL, '', '', 1),
+(54, NULL, 'top', '1', 'Reports', NULL, '', '', 1),
+(55, NULL, 'top', '1', 'Statistics', NULL, '', '', 1),
+(56, NULL, 'top', '1', 'Settings', NULL, '', '', 1),
+(57, NULL, 'top', '1', 'Profile', NULL, '', '', 1),
+(58, 51, 'top', '1', 'Manage PIN & ID Barang', NULL, '', '', 1),
+(59, 51, 'top', '1', 'Reserved PIN', NULL, '', '', 1),
+(60, 53, 'top', '1', 'Set/Approve Repeat Order', NULL, '', '', 1),
+(61, 53, 'top', '1', 'Withdraw', NULL, '', '', 1),
 (100, NULL, 'top', '1', 'Logout', 4, '', '', 1),
 (200, NULL, 'top', '2', 'Logout', 4, '', '', 1),
 (300, NULL, 'top', '3', 'Logout', 4, '', '', 1);
@@ -182,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `modules`
@@ -195,7 +182,25 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (4, 'auth', 'logout', 'user-logout', ''),
 (5, 'member', 'index', 'register', ''),
 (6, 'company', 'profile', 'company-profile', ''),
-(7, 'company', 'product', 'company-product', '');
+(7, 'company', 'product', 'company-product', ''),
+(8, 'auth', 'dashboard_login', 'login-dashboard', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification`
+--
+
+CREATE TABLE IF NOT EXISTS `notification` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `action` varchar(30) NOT NULL,
+  `description` text NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `read` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -276,6 +281,28 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `repeat_order`
+--
+
+CREATE TABLE IF NOT EXISTS `repeat_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_by` bigint(20) DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `update_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `create_by` (`create_by`),
+  KEY `update_by` (`update_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reports`
 --
 
@@ -343,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `setupvalue` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `setupkey` (`setupkey`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `settings`
@@ -351,7 +378,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 INSERT INTO `settings` (`id`, `setupkey`, `setupvalue`) VALUES
 (1, 'LAYOUT', 'oxima'),
-(2, 'APPTITLE', 'Oxima');
+(2, 'APPTITLE', 'Oxima'),
+(3, 'LANG', 'id');
 
 -- --------------------------------------------------------
 
@@ -478,14 +506,6 @@ ALTER TABLE `bonus`
   ADD CONSTRAINT `bonus_ibfk_2` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `buyback`
---
-ALTER TABLE `buyback`
-  ADD CONSTRAINT `buyback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `buyback_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `buyback_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Constraints for table `idbarangs`
 --
 ALTER TABLE `idbarangs`
@@ -499,6 +519,12 @@ ALTER TABLE `idbarangs`
 ALTER TABLE `menus`
   ADD CONSTRAINT `menus_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `menus_ibfk_2` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `parent_childs`
@@ -523,6 +549,14 @@ ALTER TABLE `pins`
 ALTER TABLE `profiles`
   ADD CONSTRAINT `profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `profiles_ibfk_2` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `repeat_order`
+--
+ALTER TABLE `repeat_order`
+  ADD CONSTRAINT `repeat_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `repeat_order_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `repeat_order_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `reports`
