@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2014 at 01:38 AM
+-- Generation Time: Nov 28, 2014 at 07:07 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -148,7 +148,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (55, NULL, 'top', '1', 'Statistics', NULL, '', '', 1),
 (56, NULL, 'top', '1', 'Settings', NULL, '', '', 1),
 (57, NULL, 'top', '1', 'Profile', NULL, '', '', 1),
-(58, 51, 'top', '1', 'Manage PIN & ID Barang', NULL, '', '', 1),
+(58, 51, 'top', '1', 'Manage PIN & ID Barang', 9, '', '', 1),
 (59, 51, 'top', '1', 'Reserved PIN', NULL, '', '', 1),
 (60, 53, 'top', '1', 'Set/Approve Repeat Order', NULL, '', '', 1),
 (61, 53, 'top', '1', 'Withdraw', NULL, '', '', 1),
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `modules`
@@ -183,7 +183,10 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (5, 'member', 'index', 'register', ''),
 (6, 'company', 'profile', 'company-profile', ''),
 (7, 'company', 'product', 'company-product', ''),
-(8, 'auth', 'dashboard_login', 'login-dashboard', '');
+(8, 'auth', 'dashboard_login', 'login-dashboard', ''),
+(9, 'admin', 'pin_and_idbarang', 'manage-pin-dan-idbarang', ''),
+(10, 'admin', 'pin_list', 'daftar-pin', ''),
+(11, 'admin', 'generate_pin', 'generate-pin', '');
 
 -- --------------------------------------------------------
 
@@ -243,7 +246,28 @@ CREATE TABLE IF NOT EXISTS `pins` (
   KEY `user_id` (`user_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
+
+--
+-- Dumping data for table `pins`
+--
+
+INSERT INTO `pins` (`id`, `pin`, `status`, `create_time`, `user_id`, `create_by`, `update_time`, `update_by`) VALUES
+(16, 'BE6B4D7D7D37', 0, '2014-11-27 23:04:28', NULL, 1, '0000-00-00 00:00:00', NULL),
+(17, '029013F7911A', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(18, '0FAF97B149DC', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(19, 'E4FB7936720F', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(20, '7D5995DB9F3D', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(21, 'B73CBC81D2B8', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(22, 'F05A53DDA264', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(23, '5A30C7A613C6', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(24, 'AE90942E36AF', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(25, 'F237D632D61C', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(26, '6FE5D0DD6676', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(27, '1513CC3A7546', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(28, '5EA51D8E2CA8', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(29, '69FF2EF42008', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(30, '623309C88C91', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -254,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `pins` (
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL,
-  `sponsor_id` bigint(20) NOT NULL,
+  `sponsor_id` bigint(20) DEFAULT NULL,
   `tgl_pengajuan` date NOT NULL,
   `nama_lengkap` varchar(128) NOT NULL,
   `alamat` varchar(512) NOT NULL,
@@ -276,7 +300,14 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   PRIMARY KEY (`id`),
   KEY `no_id` (`user_id`),
   KEY `sponsor_id` (`sponsor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `profiles`
+--
+
+INSERT INTO `profiles` (`id`, `user_id`, `sponsor_id`, `tgl_pengajuan`, `nama_lengkap`, `alamat`, `kota`, `propinsi`, `kodepos`, `tempat_lahir`, `tgl_lahir`, `agama`, `jenis_kelamin`, `phone`, `ktp`, `email`, `no_rekening`, `bank`, `nama_rekening`, `nama_ahli_waris`, `hubungan_keluarga`) VALUES
+(1, 1, NULL, '0000-00-00', 'Joko Bodo', '', '', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', '');
 
 -- --------------------------------------------------------
 
