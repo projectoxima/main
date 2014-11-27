@@ -1,11 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 3.4.11.1deb2+deb7u1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 26, 2014 at 02:12 AM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Host: localhost
+-- Generation Time: Nov 27, 2014 at 10:32 PM
+-- Server version: 5.5.35
+-- PHP Version: 5.4.4-14+deb7u10
+
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -72,16 +73,14 @@ CREATE TABLE IF NOT EXISTS `contents` (
   `text` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data untuk tabel `contents`
+-- Dumping data for table `contents`
 --
 
 INSERT INTO `contents` (`id`, `key`, `text`) VALUES
-(1, 'HOME_TEXT_HEADER', 'Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain'),
-(2, 'OXIMA_COMPANY_PROFILE', 'ini deskripsi dari company profile'),
-(3, 'OXIMA_COMPANY_PRODUCT', 'ini deskripsi oxima company product');
+(1, 'HOME_TEXT_HEADER', 'Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain');
 
 -- --------------------------------------------------------
 
@@ -122,16 +121,10 @@ CREATE TABLE IF NOT EXISTS `idbarangs` (
   `update_by` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idbarang` (`idbarang`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `idbarangs`
---
-
-INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`) VALUES
-(1, '0001', 0, '2014-11-23 11:14:55', 0),
-(2, '0002', 0, '2014-11-23 11:14:55', 0);
+  KEY `user_id` (`user_id`),
+  KEY `create_by` (`create_by`),
+  KEY `update_by` (`update_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -155,16 +148,16 @@ CREATE TABLE IF NOT EXISTS `menus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=301 ;
 
 --
--- Dumping data untuk tabel `menus`
+-- Dumping data for table `menus`
 --
 
 INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`, `param`, `custom_url`, `show`) VALUES
 (1, NULL, 'top', '*', 'Home', 1, '', '', 1),
 (2, NULL, 'top', '*', 'Tentang Kami', NULL, '', '', 1),
 (3, NULL, 'top', '*', 'Members', NULL, '', '', 1),
-(4, NULL, 'top', '*', 'Register', NULL, '', '', 1),
-(5, NULL, 'top', '*', 'News', 8, '', '', 1),
-(6, NULL, 'top', '*', 'Promo', 10, '', '', 1),
+(4, NULL, 'top', '*', 'Register', 5, '', '', 1),
+(5, NULL, 'top', '*', 'News', NULL, '', '', 1),
+(6, NULL, 'top', '*', 'Promo', NULL, '', '', 1),
 (7, NULL, 'top', '*', 'Login', 3, '', '', 1),
 (8, 2, 'top', '*', 'Profil Perusahaan', 6, '', '', 1),
 (9, 2, 'top', '*', 'Profil Produk', 7, '', '', 1),
@@ -189,10 +182,10 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
--- Dumping data untuk tabel `modules`
+-- Dumping data for table `modules`
 --
 
 INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
@@ -202,57 +195,7 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (4, 'auth', 'logout', 'user-logout', ''),
 (5, 'member', 'index', 'register', ''),
 (6, 'company', 'profile', 'company-profile', ''),
-(7, 'company', 'product', 'company-product', ''),
-(8, 'news', 'news_list', 'news', ''),
-(9, 'news', 'news_detail', 'news_detail/(:any)', '$1'),
-(10, 'promo', 'promo_list', 'promo', ''),
-(11, 'promo', 'promo_detail', 'promo_detail/(:any)', '$1');
-
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `news`
---
-
-CREATE TABLE IF NOT EXISTS `news` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `news_title` varchar(255) NOT NULL,
-  `news_description` text NOT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data untuk tabel `news`
---
-
-INSERT INTO `news` (`id`, `news_title`, `news_description`, `create_date`) VALUES
-(1, 'News 1', 'isi news 1', '2014-11-26 14:12:50'),
-(2, 'News 2', 'isi news 2', '2014-11-26 14:12:50');
-
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `promo`
---
-
-CREATE TABLE IF NOT EXISTS `promo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `promo_title` varchar(255) NOT NULL,
-  `promo_description` text NOT NULL,
-  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data untuk tabel `promo`
---
-
-INSERT INTO `promo` (`id`, `promo_title`, `promo_description`, `create_date`) VALUES
-(1, 'Promo 1', 'isi promo 1', '2014-11-26 14:12:50'),
-(2, 'Promo 2', 'isi promo 2', '2014-11-26 14:12:50');
+(7, 'company', 'product', 'company-product', '');
 
 -- --------------------------------------------------------
 
@@ -305,9 +248,8 @@ CREATE TABLE IF NOT EXISTS `pins` (
 
 CREATE TABLE IF NOT EXISTS `profiles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `no_id` bigint(20) DEFAULT NULL,
-  `no_sponsor` bigint(20) NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `sponsor_id` bigint(20) NOT NULL,
   `tgl_pengajuan` date NOT NULL,
   `nama_lengkap` varchar(128) NOT NULL,
   `alamat` varchar(512) NOT NULL,
@@ -327,15 +269,9 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `nama_ahli_waris` varchar(128) NOT NULL,
   `hubungan_keluarga` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `no_id` (`no_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `profiles`
---
-
-INSERT INTO `profiles` (`id`, `user_id`, `no_id`, `no_sponsor`, `tgl_pengajuan`, `nama_lengkap`, `alamat`, `kota`, `propinsi`, `kodepos`, `tempat_lahir`, `tgl_lahir`, `agama`, `jenis_kelamin`, `phone`, `ktp`, `email`, `no_rekening`, `bank`, `nama_rekening`, `nama_ahli_waris`, `hubungan_keluarga`) VALUES
-(1, 4, NULL, 0, '0000-00-00', 'asep', 'asep', 'asep', 'asep', 'asep', 'asep', '0000-00-00', 'Lainnya', 'Perempuan', 123, 123, 'AsepSulanjana@gmail.com', 123, 'asep', 'asep', 'asep', 'asep');
+  KEY `no_id` (`user_id`),
+  KEY `sponsor_id` (`sponsor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -364,9 +300,10 @@ CREATE TABLE IF NOT EXISTS `reserved_pins` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `pin_id` bigint(20) DEFAULT NULL,
   `idbarang_id` bigint(20) DEFAULT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '0',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `update_by` bigint(20) DEFAULT NULL,
@@ -375,18 +312,9 @@ CREATE TABLE IF NOT EXISTS `reserved_pins` (
   KEY `idbarang_id` (`idbarang_id`),
   KEY `user_id` (`user_id`),
   KEY `create_by` (`create_by`),
-  KEY `update_by` (`update_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `reserved_pins`
---
-
-INSERT INTO `reserved_pins` (`id`, `pin_id`, `idbarang_id`, `user_id`, `create_time`) VALUES
-(1, 1, 1, 1, '2014-11-24 00:52:02'),
-(2, 1, 2, 0, '2014-11-26 01:02:09'),
-(3, 2, 3, 3, '2014-11-26 01:00:15'),
-(4, 2, 4, 4, '2014-11-26 01:00:33');
+  KEY `update_by` (`update_by`),
+  KEY `parent_id` (`parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -395,7 +323,7 @@ INSERT INTO `reserved_pins` (`id`, `pin_id`, `idbarang_id`, `user_id`, `create_t
 --
 
 CREATE TABLE IF NOT EXISTS `resets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `token` varchar(128) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `waktu` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -453,13 +381,11 @@ CREATE TABLE IF NOT EXISTS `titiks` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(256) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
-  `pin_id` varchar(256) DEFAULT NULL,
-  `group_id` tinyint(4) DEFAULT NULL,
-  `email` varchar(128) DEFAULT NULL,
-  `phone` varchar(32) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `pin_id` bigint(20) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `stokis` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -472,17 +398,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `pin_id` (`pin_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `pin_id`, `group_id`, `email`, `phone`, `status`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', NULL, 1, 'Melangbong@yahoo.com', '85759979248', 0),
-(2, 'operator', '4b583376b2767b923c3e1da60d10de59', NULL, 2, NULL, '1', 0),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', '3', 3, NULL, '1', 0),
-(4, 'asep', 'dc855efb0dc7476760afaa1b281665f1', '0', 3, 'AsepSulanjana@gmail.com', '123', 0);
+INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -556,17 +481,17 @@ ALTER TABLE `bonus`
 -- Constraints for table `buyback`
 --
 ALTER TABLE `buyback`
-  ADD CONSTRAINT `buyback_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `buyback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `buyback_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `buyback_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `buyback_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `idbarangs`
 --
 ALTER TABLE `idbarangs`
-  ADD CONSTRAINT `idbarangs_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `idbarangs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `idbarangs_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `idbarangs_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `idbarangs_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `menus`
@@ -579,18 +504,18 @@ ALTER TABLE `menus`
 -- Constraints for table `parent_childs`
 --
 ALTER TABLE `parent_childs`
-  ADD CONSTRAINT `parent_childs_ibfk_5` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `parent_childs_ibfk_2` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `parent_childs_ibfk_3` FOREIGN KEY (`parent_child_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `parent_childs_ibfk_4` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `parent_childs_ibfk_4` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `parent_childs_ibfk_5` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `pins`
 --
 ALTER TABLE `pins`
-  ADD CONSTRAINT `pins_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `pins_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `profiles`
@@ -603,18 +528,19 @@ ALTER TABLE `profiles`
 -- Constraints for table `reports`
 --
 ALTER TABLE `reports`
-  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`ref_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`ref_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `reserved_pins`
 --
 ALTER TABLE `reserved_pins`
-  ADD CONSTRAINT `reserved_pins_ibfk_5` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_pins_ibfk_6` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `reserved_pins_ibfk_1` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `reserved_pins_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `reserved_pins_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_4` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `reserved_pins_ibfk_4` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_pins_ibfk_5` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `resets`
@@ -626,19 +552,19 @@ ALTER TABLE `resets`
 -- Constraints for table `titiks`
 --
 ALTER TABLE `titiks`
-  ADD CONSTRAINT `titiks_ibfk_4` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `titiks_ibfk_1` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `titiks_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `titiks_ibfk_3` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `titiks_ibfk_3` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `titiks_ibfk_4` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_6` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `users_ibfk_4` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `users_ibfk_5` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `users_ibfk_5` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `users_ibfk_6` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_bonus`
@@ -652,9 +578,9 @@ ALTER TABLE `user_bonus`
 -- Constraints for table `user_sponsor`
 --
 ALTER TABLE `user_sponsor`
-  ADD CONSTRAINT `user_sponsor_ibfk_3` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_sponsor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_sponsor_ibfk_2` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_sponsor_ibfk_2` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `user_sponsor_ibfk_3` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `withdraw`
