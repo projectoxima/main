@@ -46,6 +46,9 @@ define('USER_ADMIN',		1);
 define('USER_OPERATOR',		2);
 define('USER_MEMBER',		3);
 
+define('INACTIVE',		0);
+define('ACTIVE',		1);
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

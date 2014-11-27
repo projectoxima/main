@@ -8,4 +8,7 @@ $route['register'] = 'member/index/';
 $route['company-profile'] = 'company/profile/';
 $route['company-product'] = 'company/product/';
 $route['login-dashboard'] = 'auth/dashboard_login/';
+$route['manage-pin-dan-idbarang'] = 'admin/pin_and_idbarang/';
+$route['daftar-pin'] = 'admin/pin_list/';
+$route['generate-pin'] = 'admin/generate_pin/';
 ?>

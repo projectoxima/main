@@ -13,6 +13,13 @@
 		<link href="<?php echo site_url(); ?>/assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/custom.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/jquery.growl.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/jquery.dataTables.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/jquery-ui.min.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.css" rel="stylesheet">
+		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/datatables/jquery.dataTables.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.pack.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/custom.js"></script>
 
 		<style type="text/css">
 		.navbar {
@@ -88,7 +95,6 @@
 			<?php echo $content_for_layout ?>
 		</div>
 		
-		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/bootstrap/bootstrap.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/jquery.growl.js"></script>
 		<script type="text/javascript">
