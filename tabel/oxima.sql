@@ -72,14 +72,16 @@ CREATE TABLE IF NOT EXISTS `contents` (
   `text` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `contents`
+-- Dumping data untuk tabel `contents`
 --
 
 INSERT INTO `contents` (`id`, `key`, `text`) VALUES
-(1, 'HOME_TEXT_HEADER', 'Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain');
+(1, 'HOME_TEXT_HEADER', 'Produk ini dapat membantu menyembuhkan berbagai macam penyakit yang disebabkan oleh faktor pola makan, cara hidup dan lingkungan. Diantara penyakit tersebut adalah: Kanker, Diabetes, Stroke, Asam Urat, Jantung, Paru-paru, Hepatitis A-B-C, Tumor, Penuaan Dini dan lain-lain'),
+(2, 'OXIMA_COMPANY_PROFILE', 'ini deskripsi dari company profile'),
+(3, 'OXIMA_COMPANY_PRODUCT', 'ini deskripsi oxima company product');
 
 -- --------------------------------------------------------
 
@@ -120,7 +122,6 @@ CREATE TABLE IF NOT EXISTS `idbarangs` (
   `update_by` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idbarang` (`idbarang`),
-<<<<<<< HEAD
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -131,12 +132,6 @@ CREATE TABLE IF NOT EXISTS `idbarangs` (
 INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`) VALUES
 (1, '0001', 0, '2014-11-23 11:14:55', 0),
 (2, '0002', 0, '2014-11-23 11:14:55', 0);
-=======
-  KEY `user_id` (`user_id`),
-  KEY `create_by` (`create_by`),
-  KEY `update_by` (`update_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
->>>>>>> 120918ffbf4159bcb4e60fa86685d7c9b7f55ac0
 
 -- --------------------------------------------------------
 
@@ -160,16 +155,16 @@ CREATE TABLE IF NOT EXISTS `menus` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=301 ;
 
 --
--- Dumping data for table `menus`
+-- Dumping data untuk tabel `menus`
 --
 
 INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`, `param`, `custom_url`, `show`) VALUES
 (1, NULL, 'top', '*', 'Home', 1, '', '', 1),
 (2, NULL, 'top', '*', 'Tentang Kami', NULL, '', '', 1),
 (3, NULL, 'top', '*', 'Members', NULL, '', '', 1),
-(4, NULL, 'top', '*', 'Register', 0, '', '', 1),
-(5, NULL, 'top', '*', 'News', NULL, '', '', 1),
-(6, NULL, 'top', '*', 'Promo', NULL, '', '', 1),
+(4, NULL, 'top', '*', 'Register', NULL, '', '', 1),
+(5, NULL, 'top', '*', 'News', 8, '', '', 1),
+(6, NULL, 'top', '*', 'Promo', 10, '', '', 1),
 (7, NULL, 'top', '*', 'Login', 3, '', '', 1),
 (8, 2, 'top', '*', 'Profil Perusahaan', 6, '', '', 1),
 (9, 2, 'top', '*', 'Profil Produk', 7, '', '', 1),
@@ -194,10 +189,10 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `modules`
+-- Dumping data untuk tabel `modules`
 --
 
 INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
@@ -207,7 +202,57 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (4, 'auth', 'logout', 'user-logout', ''),
 (5, 'member', 'index', 'register', ''),
 (6, 'company', 'profile', 'company-profile', ''),
-(7, 'company', 'product', 'company-product', '');
+(7, 'company', 'product', 'company-product', ''),
+(8, 'news', 'news_list', 'news', ''),
+(9, 'news', 'news_detail', 'news_detail/(:any)', '$1'),
+(10, 'promo', 'promo_list', 'promo', ''),
+(11, 'promo', 'promo_detail', 'promo_detail/(:any)', '$1');
+
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `news`
+--
+
+CREATE TABLE IF NOT EXISTS `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `news_title` varchar(255) NOT NULL,
+  `news_description` text NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data untuk tabel `news`
+--
+
+INSERT INTO `news` (`id`, `news_title`, `news_description`, `create_date`) VALUES
+(1, 'News 1', 'isi news 1', '2014-11-26 14:12:50'),
+(2, 'News 2', 'isi news 2', '2014-11-26 14:12:50');
+
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `promo`
+--
+
+CREATE TABLE IF NOT EXISTS `promo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `promo_title` varchar(255) NOT NULL,
+  `promo_description` text NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data untuk tabel `promo`
+--
+
+INSERT INTO `promo` (`id`, `promo_title`, `promo_description`, `create_date`) VALUES
+(1, 'Promo 1', 'isi promo 1', '2014-11-26 14:12:50'),
+(2, 'Promo 2', 'isi promo 2', '2014-11-26 14:12:50');
 
 -- --------------------------------------------------------
 
@@ -328,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `reserved_pins` (
   PRIMARY KEY (`id`),
   KEY `pin_id` (`pin_id`),
   KEY `idbarang_id` (`idbarang_id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;

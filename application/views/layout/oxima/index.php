@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<link rel="icon" href="favicon.ico">
+		<link rel="icon" href="<?php echo site_url(); ?>/assets/img/favicon.jpg">
 
 		<title>Oxima</title>
 
@@ -76,7 +76,7 @@
 					<p class="header-desc"><?php echo web_content('HOME_TEXT_HEADER') ?></p>
 				</div>
 				<div class="col-md-4 hidden-sm hidden-xs pad-bottom">
-					<center><img src="assets/img/Maqui Berry.jpg" class="radius" /></center>
+					<center><img src="<?php echo site_url(); ?>assets/img/Maqui Berry.jpg" class="radius" /></center>
 				</div>
 				<?php endif; ?>
 			</div>

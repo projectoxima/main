@@ -22,7 +22,7 @@ class Welcome extends OxyController {
 		$data = array(
 			'text'=>'hasilnya adalah ' . $angka
 		);
-		$this->layout->view('welcome/index', $data);
+		$this->layout->view('welcome/test', $data);
 	}
 	
 	/* untuk simpan routing [JANGAN DIHAPUS] */
