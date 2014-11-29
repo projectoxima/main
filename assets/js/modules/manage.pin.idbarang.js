@@ -5,8 +5,8 @@ $(function(){
 			"iDisplayLength" : 10,
 			'bRetrieve': true,
 			"bFilter": true,
-			'sDom': 'ftp',
-			"bLengthChange": false,
+			'sDom': 'lftp',
+			"bLengthChange": true,
 			"bInfo": true,
 			"bJQueryUI": true,
 			"aoColumnDefs": [

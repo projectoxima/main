@@ -67,7 +67,7 @@ class Managepinidbarang extends OxyController {
 				}
 			}
 		}
-		redirect(route_url('admin', 'pin_and_idbarang'));
+		redirect(route_url('managepinidbarang', 'pin_and_idbarang'));
 	}
 	
 	/* datatable ajax paging */
@@ -126,7 +126,7 @@ class Managepinidbarang extends OxyController {
 				$generated++;
 			}
 		}
-		redirect(route_url('admin', 'pin_and_idbarang'));
+		redirect(route_url('managepinidbarang', 'pin_and_idbarang'));
 	}
 
 	public function pin_and_idbarang(){

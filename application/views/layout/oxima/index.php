@@ -25,7 +25,7 @@
 		.navbar {
 			margin-bottom: 20px;
 		}
-		ul.nav li.dropdown:hover > ul.dropdown-menu {
+		ul.nav li.dropdown:hover > ul.dropdown-menu{
 			display: block;
 			-webkit-border-radius: 5px;
 			-moz-border-radius: 5px;
@@ -33,6 +33,12 @@
 		}
 		ul.dropdown-menu li a{
 			color: #000 !important;
+		}
+		ul.navbar-nav li.aktif{
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			background: #2d213c;
 		}
 		.box {
 		    margin-right: 0px;
@@ -71,7 +77,7 @@
 							<ul class="nav navbar-nav navbar-right">
 								<?php
 									/* tampilkan menu top */
-									echo generate_menu('top');
+									echo generate_menu('top', $this->router->fetch_class(), $this->router->fetch_method());
 								?>
 							</ul>
 						</div>

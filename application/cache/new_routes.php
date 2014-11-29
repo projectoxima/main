@@ -12,4 +12,5 @@ $route['manage-pin-dan-idbarang'] = 'managepinidbarang/pin_and_idbarang/';
 $route['daftar-pin'] = 'managepinidbarang/pin_list/';
 $route['generate-pin'] = 'managepinidbarang/generate_pin/';
 $route['daftar-idbarang'] = 'managepinidbarang/idbarang_list/';
+$route['manage-user'] = 'manageuser/index/';
 ?>
