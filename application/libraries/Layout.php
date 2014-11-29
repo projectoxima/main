@@ -22,9 +22,12 @@ class Layout{
 		$loadedData['content_for_layout'] = $this->obj->load->view($view, $data, true);
 		
 		/* pass alert */
-		if(!$this->obj->input->post())
+		if(!$this->obj->input->post()){
 			/* key alert otomatis akan dibaca sebagai pesan growl */
-			$loadedData['alert'] = $this->obj->session->flashdata('message');
+			$loadedData['alert_success'] = $this->obj->session->flashdata('message_success');
+			$loadedData['alert_error'] = $this->obj->session->flashdata('message_error');
+			$loadedData['alert_warning'] = $this->obj->session->flashdata('message_warning');
+		}
 
 		/* layout utama disimpan di file index.php */
 		if($return){

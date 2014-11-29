@@ -78,17 +78,21 @@ if (!function_exists('generate_menu')){
 			if(count($menuitem->submenu)<=0)
 				$html .= '<li class="' .$active. '">' . anchor($menuurl, $menuitem->label, array()) . '</li>';
 			else{
-				$html .= '<li class="dropdown">';
+				$submenu_text = '<ul class="dropdown-menu" role="menu">';
+				foreach($menuitem->submenu as $submenuitem){
+					$submenu_text .= '<li class="submenu">' . anchor(route_url_id($submenuitem->module_id), $submenuitem->label, array()) . '</li>';
+					if(empty($active))
+						$active = $ctrl==$submenuitem->controller ? ' aktif ':'';
+				}
+				
+				$html .= '<li class="dropdown ' .$active. '">';
 				$html .= anchor($menuurl, $menuitem->label . '<span class="caret"></span>', array(
 					'class'=>'dropdown-toggle',
 					'data-toggle'=>'dropdown',
 					'role'=>'button',
 					'aria-expanded'=>'false'
 				)) ;
-				$html .= '<ul class="dropdown-menu" role="menu">';
-				foreach($menuitem->submenu as $submenuitem){
-					$html .= '<li class="submenu">' . anchor(route_url_id($submenuitem->module_id), $submenuitem->label, array()) . '</li>';
-				}
+				$html .= $submenu_text;
 				$html .= '</ul>';
 				$html .= '</li>';
 			}

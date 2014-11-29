@@ -1,5 +1,5 @@
 <div class="col-md-6">
-	<h4>Manage PIN</h4>
+	<h3>Manage PIN</h3>
 	
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -22,7 +22,7 @@
 
 
 <div class="col-md-6">
-	<h4>Manage ID Barang</h4>
+	<h3>Manage ID Barang</h3>
 	
 	<div class="panel panel-default">
 		<div class="panel-body">
