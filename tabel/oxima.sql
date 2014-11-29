@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 29, 2014 at 12:06 PM
+-- Generation Time: Nov 29, 2014 at 03:52 PM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -17777,7 +17777,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `modules`
@@ -17797,7 +17797,8 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (11, 'managepinidbarang', 'generate_pin', 'generate-pin', ''),
 (12, 'managepinidbarang', 'idbarang_list', 'daftar-idbarang', ''),
 (13, 'manageuser', 'index', 'manage-user', ''),
-(14, 'manageuser', 'user_list', 'daftar-user', '');
+(14, 'manageuser', 'user_list', 'daftar-user', ''),
+(15, 'manageuser', 'add_user', 'tambah-user', '');
 
 -- --------------------------------------------------------
 
@@ -17951,7 +17952,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   PRIMARY KEY (`id`),
   KEY `no_id` (`user_id`),
   KEY `sponsor_id` (`sponsor_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `profiles`
@@ -17960,7 +17961,8 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 INSERT INTO `profiles` (`id`, `user_id`, `sponsor_id`, `tgl_pengajuan`, `nama_lengkap`, `alamat`, `kota`, `propinsi`, `kodepos`, `tempat_lahir`, `tgl_lahir`, `agama`, `jenis_kelamin`, `phone`, `ktp`, `email`, `no_rekening`, `bank`, `nama_rekening`, `nama_ahli_waris`, `hubungan_keluarga`) VALUES
 (1, 1, NULL, '0000-00-00', 'Mas Admin', 'Bandung', '', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', ''),
 (2, 2, NULL, '0000-00-00', 'Mas Operator', 'Bandung', 'Bandung', 'Jawa Barat', '', '', '0000-00-00', '', '', 0, 0, 'yoviesmanda@gmail.com', 0, '', '', '', ''),
-(3, 3, NULL, '0000-00-00', 'Mas Member', 'Bandung', 'Bandung', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', '');
+(3, 3, NULL, '0000-00-00', 'Mas Member', 'Bandung', 'Bandung', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', ''),
+(4, 6, NULL, '2014-11-29', 'joko', 'bandung', 'bandung', 'jawa barat', '12345', 'bandung', '1988-01-08', 'Islam', 'Laki-Laki', 3424343, 34343243, 'joko@gmail.com', 43423443, 'mandiri', 'joko', 'joni', 'anak');
 
 -- --------------------------------------------------------
 
@@ -18117,7 +18119,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `pin_id` (`pin_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `users`
@@ -18126,7 +18128,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (2, 'operator', '098f6bcd4621d373cade4e832627b4f6', 2, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL);
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 0, 0, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
