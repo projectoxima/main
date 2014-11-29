@@ -22,7 +22,7 @@ class Auth extends OxyController {
 		$pin 			= $this->input->post('pin');
 		$id 			= $this->input->post('id');
 
-		$user = $this->users->find_by_username_password($username, $password);
+		$user = $this->users->find_by_username_password($username, $password, false);
 
 		// Jika username terdaftar
 		if($user) {
@@ -54,6 +54,54 @@ class Auth extends OxyController {
 				redirect(base_url() . 'auth/login');
 			}
 		}
+	}
+	
+	/* login method untuk admin dan operator */
+	public function dashboard_login(){
+		$captcha = '';
+		
+		/* delete image captcha sebelumnya */
+		$capimage = getcwd() . '/files/images/' . $this->session->userdata('captcha.time') . '.jpg';
+		if(file_exists($capimage))
+			unlink($capimage);
+		
+		if ($this->input->post()){
+			$username = $this->input->post('username');
+			$password = $this->input->post('password');
+			$captcha = $this->input->post('captcha');
+			$user = $this->users->find_by_username_password($username, $password, true);
+			if($user && $captcha===$this->session->userdata('captcha')) {
+				$user['logged_in'] = TRUE;
+				$this->session->set_userdata($user);
+				$this->session->set_flashdata('message', $this->lang->line('message_login_success'));
+				redirect(route_url('welcome', 'index'));
+			}else{
+				$this->session->set_flashdata('message', $this->lang->line('message_login_failed'));
+				redirect(route_url('auth', 'dashboard_login'));
+			}
+		}else{
+			/* generate captha */
+			$this->load->helper('captcha');
+			$word = substr(md5(time()), 0, 5);
+			/* save captcha to session, untuk proses login */
+			$this->session->set_userdata('captcha', $word);
+			$vals = array(
+				'word'	=> $word,
+				'img_path'	=> './files/images/',
+				'img_url'	=>  base_url() . '/files/images/',
+				'img_width'	=> '150',
+				'img_height' => 30,
+				'expiration' => 36000
+				);
+
+			$cap = create_captcha($vals);
+			/* simpan time (filename captcha), agar bisa didelete */
+			$this->session->set_userdata('captcha.time', $cap['time']);
+			$captcha = $cap['image'];
+		}
+		$this->layout->view('dashboard/dashboard_login', array(
+			'captcha'=>$captcha
+		));
 	}
 
 	public function logout() {

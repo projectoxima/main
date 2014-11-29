@@ -17,14 +17,6 @@ class Welcome extends OxyController {
 		$this->layout->view('welcome/index', $data);
 	}
 	
-	public function test($num){
-		$angka = $num*10;
-		$data = array(
-			'text'=>'hasilnya adalah ' . $angka
-		);
-		$this->layout->view('welcome/index', $data);
-	}
-	
 	/* untuk simpan routing [JANGAN DIHAPUS] */
 	function save_routing(){
 		$this->load->model('layouting/layout_model');

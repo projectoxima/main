@@ -16,8 +16,12 @@ class Users extends CI_Model {
       }
   }
 
-  public function find_by_username_password($username, $password) {
-  	$this->db->where(array('username' => $username, 'password' => md5($password)));
+  public function find_by_username_password($username, $password, $with_admin_and_operator) {
+	$criteria = array('username' => $username, 'password' => md5($password));
+	if(!$with_admin_and_operator){
+		$criteria['group_id'] = USER_MEMBER;
+	}
+  	$this->db->where($criteria);
   	$query = $this->db->get('users');
 
   	if($query->num_rows() > 0){

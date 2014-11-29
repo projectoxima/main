@@ -6,18 +6,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<link rel="icon" href="favicon.ico">
+		<link rel="icon" href="<?php echo site_url(); ?>/assets/img/favicon.jpg">
 
 		<title>Oxima</title>
 
 		<link href="<?php echo site_url(); ?>/assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/custom.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/jquery.growl.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/jquery.dataTables.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/jquery-ui.min.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.css" rel="stylesheet">
+		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/datatables/jquery.dataTables.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.pack.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/custom.js"></script>
 
 		<style type="text/css">
 		.navbar {
 			margin-bottom: 20px;
 		}
-		ul.nav li.dropdown:hover > ul.dropdown-menu {
+		ul.nav li.dropdown:hover > ul.dropdown-menu{
 			display: block;
 			-webkit-border-radius: 5px;
 			-moz-border-radius: 5px;
@@ -25,6 +33,12 @@
 		}
 		ul.dropdown-menu li a{
 			color: #000 !important;
+		}
+		ul.navbar-nav li.aktif{
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			background: #2d213c;
 		}
 		.box {
 		    margin-right: 0px;
@@ -63,7 +77,7 @@
 							<ul class="nav navbar-nav navbar-right">
 								<?php
 									/* tampilkan menu top */
-									echo generate_menu('top');
+									echo generate_menu('top', $this->router->fetch_class(), $this->router->fetch_method());
 								?>
 							</ul>
 						</div>
@@ -76,7 +90,7 @@
 					<p class="header-desc"><?php echo web_content('HOME_TEXT_HEADER') ?></p>
 				</div>
 				<div class="col-md-4 hidden-sm hidden-xs pad-bottom">
-					<center><img src="assets/img/Maqui Berry.jpg" class="radius" /></center>
+					<center><img src="<?php echo site_url(); ?>assets/img/Maqui Berry.jpg" class="radius" /></center>
 				</div>
 				<?php endif; ?>
 			</div>
@@ -87,7 +101,14 @@
 			<?php echo $content_for_layout ?>
 		</div>
 		
-		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/bootstrap/bootstrap.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/jquery.growl.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				<?php if(isset($alert) && !empty($alert)): ?>
+				$.growl.notice({message:'<?php echo addslashes($alert); ?>'});
+				<?php endif; ?>
+			})
+		</script>
 	</body>
 </html>

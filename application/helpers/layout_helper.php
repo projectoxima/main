@@ -62,7 +62,7 @@ if (!function_exists('get_submenu')){
 
 /* generate menu (format bootstrap) berdasarkan posisi */
 if (!function_exists('generate_menu')){
-	function generate_menu($position){
+	function generate_menu($position, $ctrl, $act){
 		$mainmenu = get_mainmenu($position);
 		foreach($mainmenu as &$mitem){
 			$tmpmenu = get_submenu($mitem->id);
@@ -73,8 +73,10 @@ if (!function_exists('generate_menu')){
 		$html = '';
 		foreach($mainmenu as $menuitem){
 			$menuurl = route_url_id($menuitem->module_id);
+			$active = $ctrl==$menuitem->controller ? ' aktif ':'';
+			
 			if(count($menuitem->submenu)<=0)
-				$html .= '<li>' . anchor($menuurl, $menuitem->label, array()) . '</li>';
+				$html .= '<li class="' .$active. '">' . anchor($menuurl, $menuitem->label, array()) . '</li>';
 			else{
 				$html .= '<li class="dropdown">';
 				$html .= anchor($menuurl, $menuitem->label . '<span class="caret"></span>', array(

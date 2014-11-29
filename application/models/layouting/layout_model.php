@@ -46,13 +46,15 @@ class layout_model extends CI_Model {
 	
 	/* ambil main menu */
 	public function get_mainmenu($position, $group){
-		$this->db->from('menus');
-		$this->db->where('menu_id', null);
-		$this->db->where('position', $position);
+		$this->db->select('m.*, md.controller, md.action');
+		$this->db->from('menus m');
+		$this->db->join('modules md', 'm.module_id=md.id', 'left');
+		$this->db->where('m.menu_id', null);
+		$this->db->where('m.position', $position);
 		if(!$group){
-			$this->db->like('groups', '*', 'both');
+			$this->db->like('m.groups', '*', 'both');
 		}else{
-			$this->db->like('groups', $group, 'both');
+			$this->db->like('m.groups', $group, 'both');
 		}
 		$query = $this->db->get()->result();
 		return $query;
@@ -60,12 +62,14 @@ class layout_model extends CI_Model {
 	
 	/* ambil sub menu */
 	public function get_submenu($menu_id, $group){
-		$this->db->from('menus');
-		$this->db->where('menu_id', $menu_id);
+		$this->db->select('m.*, md.controller, md.action');
+		$this->db->from('menus m');
+		$this->db->join('modules md', 'm.module_id=md.id', 'left');
+		$this->db->where('m.menu_id', $menu_id);
 		if(!$group){
-			$this->db->like('groups', '*', 'both');
+			$this->db->like('m.groups', '*', 'both');
 		}else{
-			$this->db->like('groups', $group, 'both');
+			$this->db->like('m.groups', $group, 'both');
 		}
 		$query = $this->db->get()->result();
 		return $query;

@@ -27,3 +27,9 @@ List helpers
 	- get_user()
 - settings_helper
 	- load_settings()
+
+List constants
+----------------
+- LAYOUT (oxima)
+- APPTITLE (Oxima)
+- LANG (id)

@@ -1,0 +1,15 @@
+{
+  "name": "DataTables",
+  "version": "1.9.4",
+  "description": "Datatables",
+  "homepage": "http://www.datatables.net",
+  "jam": {
+    "dependencies": {
+      "jquery": ">1.4.3"
+    },
+    "main": "jquery.dataTables.min.js",
+    "shim": {
+	"deps": ["jquery"]
+    }
+  }
+}
