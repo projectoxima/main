@@ -24,4 +24,21 @@ class user_model extends CI_Model {
 		$this->db->order_by($sortcol, $sorttype);
 		return $this->db->get()->result();
 	}
+	
+	function member_resume(){
+		$total = $this->db->get_where('users', array('group_id'=>USER_MEMBER))->num_rows();
+		$aktif = $this->db->get_where('users', array('group_id'=>USER_MEMBER, 'status'=>ACTIVE))->num_rows();
+		return (object) array('total'=>$total, 'aktif'=>$aktif);
+	}
+	
+	function save_user($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('users', $data);
+		return $this->db->insert_id();
+	}
+	
+	function save_profile($data){
+		$this->db->insert('profiles', $data);
+		return $this->db->insert_id();
+	}
 }
