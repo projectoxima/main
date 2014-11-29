@@ -43,15 +43,15 @@ class Manageuser extends OxyController {
 		
 		foreach($list_pin as $num=>$item){
 			$status = '';
-			if($item->status==USER_ADMIN)
+			if($item->group_id==USER_ADMIN)
 				$status = '<font color="#0000ff">Admin</font>';
-			if($item->status==USER_OPERATOR)
+			if($item->group_id==USER_OPERATOR)
 				$status = '<font color="#0000aa">Operator</font>';
-			if($item->status==USER_MEMBER)
+			if($item->group_id==USER_MEMBER)
 				$status = '<font color="#000077">Member</font>';
 			
 			$buttons = '';
-			if($item->status==USER_ADMIN){
+			if($item->group_id!=USER_ADMIN){
 				$buttons = '<button class="btn btn-success btn-xs marbottom">detail</button> &nbsp; '
 					. '<button class="btn btn-danger btn-xs marbottom">disable</button> &nbsp; '
 					. '<button class="btn btn-primary btn-xs marbottom">edit</button>';
