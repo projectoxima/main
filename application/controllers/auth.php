@@ -8,16 +8,15 @@ class Auth extends OxyController {
 		$this->load->model('login/reset_passwords');
 	}
 
-	public function index()
-	{
+	public function index(){
 		$this->load->view('404.html');	
 	}
 
-	public function login() {
+	public function login(){
 		$this->load->view('dashboard/login');
 	}
 
-	public function do_login() {
+	public function do_login(){
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		$pin 			= $this->input->post('pin');
