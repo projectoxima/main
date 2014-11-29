@@ -110,3 +110,17 @@ if (!function_exists('web_content')){
 		return $content;
 	}
 }
+
+/* get link ke image */
+if (!function_exists('url_image')){
+	function url_image($image_filename){
+		return base_url() . 'assets/img/' . $image_filename;
+	}
+}
+
+/* get link ke photo */
+if (!function_exists('url_photo')){
+	function url_photo($image_filename){
+		return base_url() . 'files/photo/' . $image_filename;
+	}
+}

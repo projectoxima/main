@@ -49,6 +49,8 @@ define('USER_MEMBER',		3);
 define('INACTIVE',		0);
 define('ACTIVE',		1);
 
+define('ENCRYPT_KEY',		'jgj%^GHJGJHJkkj');
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

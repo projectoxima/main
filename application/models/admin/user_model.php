@@ -25,6 +25,13 @@ class user_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
+	function user_detail($user_id){
+		$this->db->from('users u');
+		$this->db->join('profiles p', 'p.user_id=u.id', 'left');
+		$this->db->where('u.id', $user_id);
+		return $this->db->get()->row();
+	}
+	
 	function member_resume(){
 		$total = $this->db->get_where('users', array('group_id'=>USER_MEMBER))->num_rows();
 		$aktif = $this->db->get_where('users', array('group_id'=>USER_MEMBER, 'status'=>ACTIVE))->num_rows();
