@@ -124,3 +124,10 @@ if (!function_exists('url_photo')){
 		return base_url() . 'files/photo/' . $image_filename;
 	}
 }
+
+/* generate text with color */
+if (!function_exists('print_warna')){
+	function print_warna($text, $color='blue'){
+		return '<font color="' .$color. '">' .$text. '</font>';
+	}
+}

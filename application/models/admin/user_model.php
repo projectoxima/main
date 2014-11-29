@@ -26,6 +26,7 @@ class user_model extends CI_Model {
 	}
 	
 	function user_detail($user_id){
+		$this->db->select('u.*, p.*');
 		$this->db->from('users u');
 		$this->db->join('profiles p', 'p.user_id=u.id', 'left');
 		$this->db->where('u.id', $user_id);
