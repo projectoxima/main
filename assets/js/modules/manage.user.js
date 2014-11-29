@@ -10,7 +10,8 @@ $(function(){
 			"bInfo": true,
 			"bJQueryUI": true,
 			"aoColumnDefs": [
-				  { 'bSortable': false, 'aTargets': [0] }
+				  { 'bSortable': false, 'aTargets': [0] },
+				  { "sClass": "tengah", "aTargets": [6] }
 			],
 			"bServerSide": true,
 			"sAjaxSource": window.user_list_url,
