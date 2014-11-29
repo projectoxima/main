@@ -105,8 +105,14 @@
 		<script src="<?php echo site_url(); ?>/assets/js/jquery.growl.js"></script>
 		<script type="text/javascript">
 			$(function(){
-				<?php if(isset($alert) && !empty($alert)): ?>
-				$.growl.notice({message:'<?php echo addslashes($alert); ?>'});
+				<?php if(isset($alert_success) && !empty($alert_success)): ?>
+				$.growl.notice({message:'<?php echo addslashes($alert_success); ?>'});
+				<?php endif; ?>
+				<?php if(isset($alert_error) && !empty($alert_error)): ?>
+				$.growl.error({message:'<?php echo addslashes($alert_error); ?>'});
+				<?php endif; ?>
+				<?php if(isset($alert_warning) && !empty($alert_warning)): ?>
+				$.growl.error({message:'<?php echo addslashes($alert_warning); ?>'});
 				<?php endif; ?>
 			})
 		</script>

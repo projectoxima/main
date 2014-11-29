@@ -74,10 +74,10 @@ class Auth extends OxyController {
 			if($user && $captcha===$this->session->userdata('captcha')) {
 				$user['logged_in'] = TRUE;
 				$this->session->set_userdata($user);
-				$this->session->set_flashdata('message', $this->lang->line('message_login_success'));
+				$this->session->set_flashdata('message_success', $this->lang->line('message_login_success'));
 				redirect(route_url('welcome', 'index'));
 			}else{
-				$this->session->set_flashdata('message', $this->lang->line('message_login_failed'));
+				$this->session->set_flashdata('message_error', $this->lang->line('message_login_failed'));
 				redirect(route_url('auth', 'dashboard_login'));
 			}
 		}else{
