@@ -51,9 +51,11 @@ class Manageuser extends OxyController {
 				$status = '<font color="#000077">Member</font>';
 			
 			$buttons = '';
-			if($item->group_id!=USER_ADMIN){
-				$buttons = '<button class="btn btn-success btn-xs marbottom">detail</button> &nbsp; '
-					. '<button class="btn btn-danger btn-xs marbottom">disable</button> &nbsp; '
+			if($item->group_id==USER_ADMIN){
+				$buttons = '<button class="btn btn-success btn-xs marbottom">detail</button>';
+			}else{
+				$buttons = '<button class="btn btn-success btn-xs marbottom">detail</button>'
+					. '<button class="btn btn-danger btn-xs marbottom">disable</button>'
 					. '<button class="btn btn-primary btn-xs marbottom">edit</button>';
 			}
 			
