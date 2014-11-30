@@ -19,6 +19,7 @@
 		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/datatables/jquery.dataTables.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.pack.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-ui.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/custom.js"></script>
 
 		<style type="text/css">
@@ -102,6 +103,8 @@
 		</div>
 		
 		<script src="<?php echo site_url(); ?>/assets/js/bootstrap/bootstrap.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/bootstrap/bootstrap-tooltip.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/bootstrap/bootstrap-confirmation.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/jquery.growl.js"></script>
 		<script type="text/javascript">
 			$(function(){

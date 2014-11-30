@@ -64,6 +64,7 @@ class Manageuser extends OxyController {
 			$user_id_dec = $this->encoder->encode($user_id_dec, ENCRYPT_KEY);
 			$user_id_dec = urlencode($user_id_dec);
 			$url_detail = route_url('manageuser', 'user_detail', array($user_id_dec));
+			$url_toggle = route_url('manageuser', 'toggle_status_user', array($user_id_dec));
 			
 			if($item->group_id==USER_ADMIN){
 				$buttons = '<a class="btn btn-success btn-xs marbottom" href="' .$url_detail. '">detail</a>';
@@ -71,9 +72,9 @@ class Manageuser extends OxyController {
 				$buttons = '<a class="btn btn-success btn-xs marbottom" href="' .$url_detail. '">detail</a>'
 					. '<br/><a class="btn btn-success btn-xs marbottom">edit</a>';
 				if($item->status==ACTIVE)
-					$buttons .= '<br/><button class="btn btn-success btn-xs marbottom">disable</button>';
+					$buttons .= '<br/><a class="btn btn-success btn-xs marbottom button-status" href="' .$url_toggle. '">disable</a>';
 				else
-					$buttons .= '<br/><button class="btn btn-warning btn-xs marbottom">enable</button>';
+					$buttons .= '<br/><a class="btn btn-warning btn-xs marbottom button-status" href="' .$url_toggle. '">enable</a>';
 			}
 			
 			array_push($resultdata['aaData'], array(
@@ -90,6 +91,25 @@ class Manageuser extends OxyController {
 		
 		echo json_encode($resultdata);
 		die;
+	}
+	
+	/* enable/disable user */
+	public function toggle_status_user($user_id){
+		$user_id_dec = urldecode($user_id);
+		$user_id_dec = $this->encoder->decode($user_id_dec, ENCRYPT_KEY);
+		$user_id = $user_id_dec;
+		
+		if($user_id > 0){
+			$detail_user = $this->user->user_detail($user_id);
+			if($detail_user->status==ACTIVE){
+				$this->user->set_status($user_id, false);
+			}else{
+				$this->user->set_status($user_id, true);
+			}
+			redirect(route_url('manageuser', 'index'));
+		}else
+			//~ bad request
+			$this->layout->view('error/400', array());
 	}
 	
 	/* simpan data user, dipanggil oleh method add_user */

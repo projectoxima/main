@@ -35,7 +35,7 @@
 	<div class="col-md-6 form-horizontal">
 		<div class="form-group">
 			<label class="col-sm-6 control-label">Nama lengkap</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->nama_lengkap ?></label>
 			</div>
 		</div>
@@ -85,49 +85,49 @@
 	<div class="col-md-6 form-horizontal">
 		<div class="form-group">
 			<label class="col-sm-6 control-label">Phone</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->phone ?></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-6 control-label">KTP</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->ktp ?></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-6 control-label">Email</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->email ?></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-6 control-label">No. rekening</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->no_rekening ?></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-6 control-label">Bank</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->bank ?></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-6 control-label">Nama rekening</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->nama_rekening ?></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-6 control-label">Nama ahli waris</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->nama_ahli_waris ?></label>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-6 control-label">Hubungan keluarga</label>
-			<div class="col-sm-6  bg-info">
+			<div class="col-sm-6	bg-info">
 				<label class="control-label"><?php echo $user->hubungan_keluarga ?></label>
 			</div>
 		</div>
@@ -138,95 +138,50 @@
 <?php if($user->group_id==USER_MEMBER): ?>
 
 <div class="col-md-12">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">
-				<label>Histori Bonus</label>
+
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-bonus">Histori Bonus</a></li>
+			<li><a href="#tabs-repeat-order">Histori Repeat Order</a></li>
+			<li><a href="#tabs-daftar-sponsor">Daftar Sponsor</a></li>
+			<li><a href="#tabs-daftar-withdraw">Daftar Withdraw</a></li>
+			<li><a href="#tabs-report">Histori Report</a></li>
+			<li><a href="#tabs-graph">Network Graph</a></li>
+		</ul>
+		<div id="tabs-bonus">
+			<div class="container">
+				<strong>ada</strong>
 			</div>
 		</div>
-		<div class="panel-body">
-		</div>
-		<div class="panel-footer">
-			<div class="panel-title">
-				<label>Total Bonus Rp. </label>
+		<div id="tabs-repeat-order">
+			<div class="container">
+				<strong>ada</strong>
 			</div>
 		</div>
+		<div id="tabs-daftar-sponsor">
+			<div class="container">
+				<strong>ada</strong>
+			</div>
+		</div>
+		<div id="tabs-daftar-withdraw">
+			<div class="container">
+				<strong>ada</strong>
+			</div>
+		</div>
+		<div id="tabs-report">
+			<div class="container">
+				<strong>ada</strong>
+			</div>
+		</div>
+		<div id="tabs-graph"></div>
 	</div>
-	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">
-				<label>Histori Repeat Order</label>
-			</div>
-		</div>
-		<div class="panel-body">
-		</div>
-		<div class="panel-footer">
-			<div class="panel-title">
-				<label>Jumlah Repeat Order </label>
-			</div>
-		</div>
-	</div>
-	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">
-				<label>Daftar Sponsor</label>
-			</div>
-		</div>
-		<div class="panel-body">
-		</div>
-		<div class="panel-footer">
-			<div class="panel-title">
-				<label></label>
-			</div>
-		</div>
-	</div>
-	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">
-				<label>Daftar Withdraw</label>
-			</div>
-		</div>
-		<div class="panel-body">
-		</div>
-		<div class="panel-footer">
-			<div class="panel-title">
-				<label>Total Withdraw Rp. </label>
-			</div>
-		</div>
-	</div>
-	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">
-				<label>Histori Report</label>
-			</div>
-		</div>
-		<div class="panel-body">
-		</div>
-		<div class="panel-footer">
-			<div class="panel-title">
-				<label> </label>
-			</div>
-		</div>
-	</div>
-	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">
-				<label>Network Graph</label>
-			</div>
-		</div>
-		<div class="panel-body">
-		</div>
-		<div class="panel-footer">
-			<div class="panel-title">
-				<label></label>
-			</div>
-		</div>
-	</div>
+
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+</script>
 
 <?php endif; ?>

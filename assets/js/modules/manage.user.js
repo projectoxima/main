@@ -30,6 +30,24 @@ $(function(){
 			},
 			"fnDrawCallback": function(oSettings) {
 				$.fancybox.hideLoading();
+				
+				bstatus = $('.button-status');
+				for(i=0; i<bstatus.length; i++){
+					var that = bstatus.eq(i);
+					var judul = that.text()=='enable' ? 'Yakin akan diaktifkan ?':'Yakin akan dinonaktifkan ?';
+					bstatus.eq(i).confirmation({
+						placement: 'left',
+						trigger: 'click', 
+						singleton: true,
+						title: judul,
+						href: that.attr('href'),
+						btnCancelClass: 'btn-warning',
+						onCancel: function(){
+							$('.button-status').confirmation('hide');
+						}
+					});
+				}
+				
 			}
 	});
 

@@ -33,6 +33,12 @@ class user_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 	
+	function set_status($user_id, $stat){
+		$this->db->where('id', $user_id);
+		$this->db->update('users', array('status'=>$stat ? 1:0));
+		return true; 
+	}
+	
 	function member_resume(){
 		$total = $this->db->get_where('users', array('group_id'=>USER_MEMBER))->num_rows();
 		$aktif = $this->db->get_where('users', array('group_id'=>USER_MEMBER, 'status'=>ACTIVE))->num_rows();
