@@ -115,4 +115,16 @@ class Users extends CI_Model {
       return 0;
     }
   }
+
+  function find_profile($id){
+    $this->db->where(array('user_id' => $id));
+    $query = $this->db->get('profiles');
+
+    if($query->num_rows() > 0){
+      $users = $query->result_array();
+      return $users[0];
+    } else {
+      return 0;
+    }
+  }
 }

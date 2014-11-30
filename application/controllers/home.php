@@ -5,10 +5,12 @@ class Home extends OxyController {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('login/users');
 	}
 
 	public function index(){
-		$this->layout->view('dashboard/content', null);
+		$data['profile'] = $this->users->find_profile($this->session->userdata('id'));
+		$this->layout->view('dashboard/member', $data);
 	}
 	
 	public function umum(){
