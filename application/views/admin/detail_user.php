@@ -135,6 +135,98 @@
 </div>
 
 <!-- tampil jika detail member -->
+<?php if($user->group_id==USER_MEMBER): ?>
+
 <div class="col-md-12">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">
+				<label>Histori Bonus</label>
+			</div>
+		</div>
+		<div class="panel-body">
+		</div>
+		<div class="panel-footer">
+			<div class="panel-title">
+				<label>Total Bonus Rp. </label>
+			</div>
+		</div>
+	</div>
 	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">
+				<label>Histori Repeat Order</label>
+			</div>
+		</div>
+		<div class="panel-body">
+		</div>
+		<div class="panel-footer">
+			<div class="panel-title">
+				<label>Jumlah Repeat Order </label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">
+				<label>Daftar Sponsor</label>
+			</div>
+		</div>
+		<div class="panel-body">
+		</div>
+		<div class="panel-footer">
+			<div class="panel-title">
+				<label></label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">
+				<label>Daftar Withdraw</label>
+			</div>
+		</div>
+		<div class="panel-body">
+		</div>
+		<div class="panel-footer">
+			<div class="panel-title">
+				<label>Total Withdraw Rp. </label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">
+				<label>Histori Report</label>
+			</div>
+		</div>
+		<div class="panel-body">
+		</div>
+		<div class="panel-footer">
+			<div class="panel-title">
+				<label> </label>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">
+				<label>Network Graph</label>
+			</div>
+		</div>
+		<div class="panel-body">
+		</div>
+		<div class="panel-footer">
+			<div class="panel-title">
+				<label></label>
+			</div>
+		</div>
+	</div>
 </div>
+
+<?php endif; ?>
