@@ -17,7 +17,11 @@ class Users extends CI_Model {
   }
 
   public function find_by_username_password($username, $password, $with_admin_and_operator) {
-	$criteria = array('username' => $username, 'password' => md5($password));
+	$criteria = array(
+		'username' => $username, 
+		'password' => md5($password),
+		'status' => ACTIVE
+	);
 	if(!$with_admin_and_operator){
 		$criteria['group_id'] = USER_MEMBER;
 	}
