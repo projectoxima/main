@@ -194,6 +194,7 @@
     <script type="text/javascript">
       // Forgot Password
       $('#btn_forgot_password').click(function(){
+        $.growl.warning({ message: "Reset password is in progress..." });
         $.ajax({
           url: '<?php echo base_url();?>auth/forgot_password',
           type: 'POST',
