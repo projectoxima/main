@@ -31,6 +31,9 @@
     <!-- ANIMATE -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/animatecss/animate.min.css" />
 
+    <!-- GROWL -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.growl.css" />
+
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
 
@@ -143,7 +146,7 @@
             <h4 class="modal-title">Password Reset</h4>
           </div>
           <div class="modal-body">
-            CUser dengan alamat email "<span id="alamat_email"></span>" tidak dikenal, silakan coba lagi masukkan alamat email anda.
+            User dengan alamat email "<span id="alamat_email"></span>" tidak dikenal, silakan coba lagi masukkan alamat email anda.
           </div>
           <div class="modal-footer">
             <button data-dismiss="modal" class="btn btn-default" type="button">OK</button>
@@ -183,6 +186,9 @@
     <!-- BOOTSTRAP -->
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap/bootstrap.min.js"></script>
 
+    <!-- GROWL -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.growl.js"></script>
+
     <!-- CUSTOM SCRIPT -->
     <script src="<?php echo base_url(); ?>assets/js/script.js"></script>
     <script type="text/javascript">
@@ -196,20 +202,29 @@
         })
         .done(function(response, textStatus, jqhr) {
           if(response.status == 'error') {
+            $.growl.warning({ message: "Alamat email tidak dikenali." });
+            /**
             var email = $('#email').val();
             $('#alamat_email').html(email);
             $('#email').val('');
             $('#modal-error-email').modal('show');
+            */
           } else {
+            $.growl.notice({ message: "Link untuk melakukan reset password sudah dikirim melalui email. Mohon periksa email anda." });
+            /**
             $('#email').val('');
             $('#modal-cek-email').modal('show');
+            */
           }
         })
         .fail(function(){
+          $.growl.error({ message: "Reset password error, silahkan coba lagi." });
+            /**
             var email = $('#email').val();
             $('#alamat_email').html(email);
             $('#email').val('');
             $('#modal-error-email').modal('show');
+            */
         });
       });
 
