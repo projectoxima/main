@@ -10,5 +10,10 @@ class Reservedpin extends OxyController {
 		$this->load->model('admin/reservedpin_model', 'rpin');
 	}
 
-	
+	public function index(){
+		
+		$this->layout->view('reservedpin/manage_users', array(
+			'member_resume'=>$member_resume
+		));
+	}
 }
