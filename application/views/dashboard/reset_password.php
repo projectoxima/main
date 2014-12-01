@@ -31,6 +31,9 @@
     <!-- ANIMATE -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/animatecss/animate.min.css" />
 
+    <!-- GROWL -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jquery.growl.css" />
+
     <!-- FONTS -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
 
@@ -59,11 +62,13 @@
                   <input type="text" class="form-control" id="password" name="password">
                   <span for="password" class="error-span"><?php echo $this->session->flashdata('message'); ?></span>
                 </div>
+                <!--
                 <div class="form-group"> 
                   <label for="confirm_password">Confirm Password</label>
                   <i class="fa fa-lock"></i>
                   <input type="password" class="form-control" id="confirm_password" name="confirm_password">
                 </div>
+                -->
                 <br>
                 <div class="form-group"> 
                   <button id="btn_reset" class="btn btn-danger" type="button">Submit</button>
@@ -104,6 +109,9 @@
     <!-- BOOTSTRAP -->
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap/bootstrap.min.js"></script>
 
+    <!-- GROWL -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.growl.js"></script>
+
     <script type="text/javascript">
       // Reset Password
       $('#btn_reset').click(function(){
@@ -114,12 +122,15 @@
           dataType: 'json'
         })
         .done(function(response, textStatus, jqhr){
+          $.growl.notice({ message: "Reset password success." });
+          /**
           $('#password').val('');
           $('#confirm_password').val('');
           $('#modal-reset-success').modal('show');
+          */
         })
         .fail(function(){
-
+          $.growl.error({ message: "Reset password failed. Please try again." });
         });
       });
     </script>

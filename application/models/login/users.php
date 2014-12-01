@@ -92,7 +92,7 @@ class Users extends CI_Model {
 
   function find_email($email) {
     $this->db->where(array('email' => $email));
-    $query = $this->db->get('users');
+    $query = $this->db->get('profiles');
 
     if($query->num_rows() > 0){
       $user = $query->result_array();

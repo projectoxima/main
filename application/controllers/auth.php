@@ -28,6 +28,7 @@ class Auth extends OxyController {
 		if($user) {
 			$user['logged_in'] = TRUE;
 			$this->session->set_userdata($user);
+			$this->session->set_flashdata('message_success', $this->lang->line('member_login_success'));
 			redirect(base_url() . 'home');
 
 		// Jika username tidak terdaftar
@@ -39,18 +40,21 @@ class Auth extends OxyController {
 				if($user){
 					$user['logged_in'] = TRUE;
 					$this->session->set_userdata($user);
+					$this->session->set_flashdata('message_success', $this->lang->line('member_login_success'));
 					redirect(base_url() . 'home');
 				} else {
 					$user['logged_in'] = TRUE;
 					$user['pin_id'] = $pins['pin_id'];
 					$user['idbarang_id'] = $pins['idbarang_id'];
 					$this->session->set_userdata($user);
+					$this->session->set_flashdata('message_error', $this->lang->line('member_login_failed'));
 					redirect(base_url() . 'register');
 				}
 
 			// Jika pin dan id tidak cocok
 			} else {
 				$this->session->set_flashdata('message', 'Pin dan id tidak cocok');
+				$this->session->set_flashdata('message_error', $this->lang->line('member_login_failed'));
 				redirect(base_url() . 'auth/login');
 			}
 		}
@@ -114,6 +118,7 @@ class Auth extends OxyController {
 		$find_email = $this->users->find_email($pesan);
 
 		if($find_email == 0) {
+			// $this->session->set_flashdata('message_error', $this->lang->line('email_not_recognized'));
 			echo json_encode(array('status' => 'error'));
 		} else {
 				$email_config = Array(
@@ -137,7 +142,7 @@ class Auth extends OxyController {
 	    //Data for email content
 	    $string = substr(md5(mt_rand()),0,31);
 	    $url = base_url();
-	    $username = $find_email['username'];
+	    $username = $find_email['nama_lengkap'];
 	    $email = $find_email['email'];
 	    $mailContent = "
 	    Hi $username, <br><br>
@@ -162,6 +167,7 @@ class Auth extends OxyController {
 	 		// Send email
 	    $this->email->message($mailContent);
 	    $this->email->send();
+	    // $this->session->set_flashdata('message_error', $this->lang->line('link_reset_password_sent'));
 			echo json_encode(array('status' => 'ok'));
 		}
 	}
