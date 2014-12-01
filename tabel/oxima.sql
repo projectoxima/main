@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.11.1deb2+deb7u1
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Nov 29, 2014 at 07:39 PM
--- Server version: 5.5.35
--- PHP Version: 5.4.4-14+deb7u10
+-- Host: 127.0.0.1
+-- Generation Time: Dec 01, 2014 at 09:58 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17759,18 +17759,20 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (58, 51, 'top', '1', 'Manage PIN & ID Barang', 9, '', '', 1),
 (59, 51, 'top', '1', 'Reserved PIN', NULL, '', '', 1),
 (60, 53, 'top', '1', 'Set/Approve Repeat Order', NULL, '', '', 1),
-(61, 53, 'top', '1', 'Withdraw List', NULL, '', '', 1),
+(61, 53, 'top', '1', 'Withdraw', NULL, '', '', 1),
+(81, NULL, 'top', '2', 'Manage Member', NULL, '', '', 1),
+(82, NULL, 'top', '2', 'Membership', NULL, '', '', 1),
+(83, NULL, 'top', '2', 'Network Graph', NULL, '', '', 1),
+(84, NULL, 'top', '2', 'Member', NULL, '', '', 1),
+(85, NULL, 'top', '2', 'Reports', NULL, '', '', 1),
+(86, NULL, 'top', '2', 'Profile', NULL, '', '', 1),
+(87, 82, 'top', '2', 'Manage PIN & ID Barang', NULL, '', '', 1),
+(88, 82, 'top', '2', 'Reserved PIN', NULL, '', '', 1),
+(89, 84, 'top', '2', 'Set/Approve Repeat Order', NULL, '', '', 1),
+(90, 84, 'top', '2', 'Withdraw', NULL, '', '', 1),
 (100, NULL, 'top', '1', 'Logout', 4, '', '', 1),
-(150, NULL, 'top', '2', 'Manage Member', 13, '', '', 1),
-(151, NULL, 'top', '2', 'Membership', NULL, '', '', 1),
-(152, NULL, 'top', '2', 'Network Graph', NULL, '', '', 1),
-(153, NULL, 'top', '2', 'Member', NULL, '', '', 1),
-(154, NULL, 'top', '2', 'Reports', NULL, '', '', 1),
-(157, NULL, 'top', '2', 'Profile', NULL, '', '', 1),
-(159, 151, 'top', '2', 'Reserved PIN', NULL, '', '', 1),
-(160, 153, 'top', '2', 'Set/Approve Repeat Order', NULL, '', '', 1),
-(161, 153, 'top', '2', 'Withdraw List', NULL, '', '', 1),
 (200, NULL, 'top', '2', 'Logout', 4, '', '', 1),
+(201, NULL, 'top', '3', 'Home', 1, '', '', 1),
 (300, NULL, 'top', '3', 'Logout', 4, '', '', 1);
 
 -- --------------------------------------------------------
@@ -17786,7 +17788,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `modules`
@@ -17797,7 +17799,7 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (2, 'welcome', 'test', 'ambil-angka/(:any)', '$1'),
 (3, 'auth', 'login', 'user-login', ''),
 (4, 'auth', 'logout', 'user-logout', ''),
-(5, 'member', 'index', 'register', ''),
+(5, 'member', 'index', 'member', ''),
 (6, 'company', 'profile', 'company-profile', ''),
 (7, 'company', 'product', 'company-product', ''),
 (8, 'auth', 'dashboard_login', 'login-dashboard', ''),
@@ -17807,8 +17809,7 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (12, 'managepinidbarang', 'idbarang_list', 'daftar-idbarang', ''),
 (13, 'manageuser', 'index', 'manage-user', ''),
 (14, 'manageuser', 'user_list', 'daftar-user', ''),
-(15, 'manageuser', 'add_user', 'tambah-user', ''),
-(16, 'manageuser', 'user_detail', 'detail-user/(:any)', '$1');
+(15, 'member', 'add_member', 'add_member', '');
 
 -- --------------------------------------------------------
 
@@ -17846,7 +17847,17 @@ CREATE TABLE IF NOT EXISTS `parent_childs` (
   KEY `titik_id` (`titik_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `parent_childs`
+--
+
+INSERT INTO `parent_childs` (`id`, `titik_id`, `parent_child_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+(1, 1, 1, '2014-12-01 07:23:23', 3, '0000-00-00 00:00:00', NULL),
+(2, 2, 1, '2014-12-01 07:23:47', 3, '0000-00-00 00:00:00', NULL),
+(3, 3, 1, '2014-12-01 07:25:16', 3, '0000-00-00 00:00:00', NULL),
+(4, 4, 1, '2014-12-01 07:25:16', 3, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -17868,16 +17879,16 @@ CREATE TABLE IF NOT EXISTS `pins` (
   KEY `user_id` (`user_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=71 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data for table `pins`
 --
 
 INSERT INTO `pins` (`id`, `pin`, `status`, `create_time`, `user_id`, `create_by`, `update_time`, `update_by`) VALUES
-(16, 'BE6B4D7D7D37', 0, '2014-11-27 23:04:28', NULL, 1, '0000-00-00 00:00:00', NULL),
-(17, '029013F7911A', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
-(18, '0FAF97B149DC', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(16, 'BE6B4D7D7D37', 1, '2014-11-27 23:04:28', NULL, 1, '0000-00-00 00:00:00', NULL),
+(17, '029013F7911A', 1, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(18, '0FAF97B149DC', 1, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (19, 'E4FB7936720F', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (20, '7D5995DB9F3D', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (21, 'B73CBC81D2B8', 0, '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -17919,17 +17930,7 @@ INSERT INTO `pins` (`id`, `pin`, `status`, `create_time`, `user_id`, `create_by`
 (57, '8F60D5DED18E', 0, '2014-11-28 23:00:54', NULL, 1, '0000-00-00 00:00:00', NULL),
 (58, '839B8179D179', 0, '2014-11-28 23:00:54', NULL, 1, '0000-00-00 00:00:00', NULL),
 (59, '02A8C04071F4', 0, '2014-11-28 23:00:54', NULL, 1, '0000-00-00 00:00:00', NULL),
-(60, 'E1801FDDBE62', 0, '2014-11-28 23:00:54', NULL, 1, '0000-00-00 00:00:00', NULL),
-(61, 'D63DF422E530', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(62, '00043BEF2516', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(63, '9DF832141C5A', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(64, '441C8F355FCB', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(65, '4631ABBFC2F5', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(66, '2FD6E7716246', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(67, 'AC9D1A07BBD2', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(68, '7154CE047C60', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(69, 'D3CEAB1E4305', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
-(70, '4CD08CF08DDC', 0, '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL);
+(60, 'E1801FDDBE62', 0, '2014-11-28 23:00:54', NULL, 1, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -17952,9 +17953,9 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `agama` varchar(32) NOT NULL,
   `jenis_kelamin` varchar(16) NOT NULL,
   `phone` int(11) NOT NULL,
-  `ktp` bigint(20) NOT NULL,
+  `ktp` varchar(20) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `no_rekening` int(11) NOT NULL,
+  `no_rekening` varchar(20) NOT NULL,
   `bank` varchar(128) NOT NULL,
   `nama_rekening` varchar(128) NOT NULL,
   `nama_ahli_waris` varchar(128) NOT NULL,
@@ -17963,18 +17964,19 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   PRIMARY KEY (`id`),
   KEY `no_id` (`user_id`),
   KEY `sponsor_id` (`sponsor_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `profiles`
 --
 
 INSERT INTO `profiles` (`id`, `user_id`, `sponsor_id`, `tgl_pengajuan`, `nama_lengkap`, `alamat`, `kota`, `propinsi`, `kodepos`, `tempat_lahir`, `tgl_lahir`, `agama`, `jenis_kelamin`, `phone`, `ktp`, `email`, `no_rekening`, `bank`, `nama_rekening`, `nama_ahli_waris`, `hubungan_keluarga`, `photo`) VALUES
-(1, 1, NULL, '0000-00-00', 'Mas Admin', 'Bandung', '', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', '', ''),
-(2, 2, NULL, '0000-00-00', 'Mas Operator', 'Bandung', 'Bandung', 'Jawa Barat', '', '', '0000-00-00', '', '', 0, 0, 'yoviesmanda@gmail.com', 0, '', '', '', '', ''),
-(3, 3, NULL, '0000-00-00', 'Mas Member', 'Bandung', 'Bandung', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', '', ''),
-(4, 6, NULL, '2014-11-29', 'joko', 'bandung', 'bandung', 'jawa barat', '12345', 'bandung', '1988-01-08', 'Islam', 'Laki-Laki', 3424343, 34343243, 'joko@gmail.com', 43423443, 'mandiri', 'joko', 'joni', 'anak', ''),
-(5, 7, NULL, '2014-11-29', 'jono', 'cirebon', 'cirebon', 'jawa barat', '23456', 'cirebon', '1990-05-01', 'Islam', 'Laki-Laki', 34324324, 5323243, 'jono@gmail.com', 23432432, 'mandiri', 'jono', 'johan', 'kakak', '');
+(1, 1, NULL, '0000-00-00', 'Mas Admin', 'Bandung', '', '', '', '', '0000-00-00', '', '', 0, '0', '', '0', '', '', '', '', ''),
+(2, 2, NULL, '0000-00-00', 'Mas Operator', 'Bandung', 'Bandung', 'Jawa Barat', '', '', '0000-00-00', '', '', 0, '0', 'yoviesmanda@gmail.com', '0', '', '', '', '', ''),
+(3, 3, NULL, '2014-12-01', 'Mas Member', 'Bandung', 'Bandung', 'Jawa Barat', '', '', '0000-00-00', '', '', 0, '0', 'melangbong@yahoo.com', '0', '', '', '', '', ''),
+(4, 4, NULL, '2014-12-01', 'Asep Irama', 'Bandung', 'Bandung', 'Jawa Barat', '40283', 'Bandung', '0000-00-00', 'Islam', 'Laki-Laki', 2147483647, '089655091296', 'melangbong@yahoo.com', '089655091296', 'BRI Syariah', 'asep', 'asep', 'asep', ''),
+(6, 7, 3, '2014-12-01', 'Jaka Sembung', 'Kiaracondong', 'Bandung', 'Jawa Barat', '40283', 'Bandung', '0000-00-00', 'Islam', 'Laki-Laki', 2147483647, '089655091296', 'melangbong@yahoo.com', '089655091296', 'BRI Syariah', 'Jaka', 'Jaka', 'Jaka', ''),
+(7, 8, 7, '2014-12-01', 'Surti Sutisna', 'Kiaracondong', 'Bandung', 'Jawa Barat', '40283', 'Bandung', '0000-00-00', 'Kristen', 'Perempuan', 2147483647, '089655091296', 'melangbong@yahoo.com', '089655091296', 'BRI Syariah', 'Surti', 'Surti', 'Surti', '');
 
 -- --------------------------------------------------------
 
@@ -18054,14 +18056,21 @@ CREATE TABLE IF NOT EXISTS `resets` (
   `waktu` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `resets`
 --
 
 INSERT INTO `resets` (`id`, `token`, `user_id`, `waktu`) VALUES
-(3, 'e1435f0ec2c3b4804c75c29b83b5377', 1, '2014-11-28 23:19:43');
+(6, 'c646ef7095336d66759a5e55a1b31ff', 1, '2014-12-01 03:12:22'),
+(7, '878f79377a37ee1db8e5f7d907e7c05', 1, '2014-12-01 03:13:15'),
+(8, 'b3aa805ed9bb1a28c0f05e4886b57f5', 1, '2014-12-01 03:23:50'),
+(9, '0a10d468f480d7d35a0e8ba91028d72', 1, '2014-12-01 03:24:19'),
+(10, '2ab97fd7c47ea9b41745c41ea898bcb', 1, '2014-12-01 03:28:21'),
+(12, '91f1cbd0c19cd8e5ded6da2aba10fae', 1, '2014-12-01 03:48:31'),
+(16, '9fe382aec5fb2e9a91566f39c7f04b8', 3, '2014-12-01 04:10:33'),
+(17, '0039bf310a5bfc6bb8d2f44a7aacb7d', 3, '2014-12-01 04:13:35');
 
 -- --------------------------------------------------------
 
@@ -18105,7 +18114,17 @@ CREATE TABLE IF NOT EXISTS `titiks` (
   KEY `user_id` (`user_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `titiks`
+--
+
+INSERT INTO `titiks` (`id`, `idbarang_id`, `user_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+(1, 1, 3, '2014-11-29 15:23:11', 1, '0000-00-00 00:00:00', 1),
+(2, 2, 3, '2014-11-29 15:23:11', 1, '0000-00-00 00:00:00', 1),
+(3, 3, 3, '2014-12-01 07:24:30', 3, '0000-00-00 00:00:00', NULL),
+(4, 4, 3, '2014-12-01 07:24:30', 3, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18131,7 +18150,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `pin_id` (`pin_id`),
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `users`
@@ -18140,9 +18159,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 0, 0, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
-(7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, 16, 1, 0, '2014-11-30 17:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(4, 'asep', 'dc855efb0dc7476760afaa1b281665f1', 3, 16, 0, 0, '2014-12-01 06:36:38', NULL, '0000-00-00 00:00:00', NULL),
+(5, 'jaka', '9d83066da00b7c7fa9de34117f488653', 3, 16, 1, 0, '2014-12-01 06:47:18', NULL, '0000-00-00 00:00:00', NULL),
+(7, 'maki', '9b5bd5c86c722ebf5f5426ca97684933', 3, 17, 1, 0, '2014-12-01 07:03:32', NULL, '0000-00-00 00:00:00', NULL),
+(8, 'surti', '243e920b9731f31f6c7ef116949b3818', 3, 18, 0, 0, '2014-12-01 07:15:20', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
