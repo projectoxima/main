@@ -16,17 +16,22 @@
 			<input type="text" class="form-control" id="password" name="password" placeholder="Password">
 		</div>
 	</div>
+	<?php
+		// Get PIN
+		$pin = $this->members->find_pin($this->session->userdata('pin_id'));
+	?>
+	<input type="hidden" value="<?php echo $this->session->userdata('pin_id'); ?>">
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Pin Sponsor</label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" id="id-sponsor" name="id-sponsor" placeholder="Pin Sponsor" value="<?php echo $pin['pin']; ?>">
+		</div>
+	</div>
 	<!--
 	<div class="form-group">
 		<label class="col-sm-2 control-label">No. ID</label>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" id="no-id" name="no-id" placeholder="Nomor ID">
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">No. Sponsor</label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" id="no-sponsor" name="no-sponsor" placeholder="Nomor Sponsor">
 		</div>
 	</div>
 	<div class="form-group">

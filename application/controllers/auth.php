@@ -29,7 +29,7 @@ class Auth extends OxyController {
 			$user['logged_in'] = TRUE;
 			$this->session->set_userdata($user);
 			$this->session->set_flashdata('message_success', $this->lang->line('member_login_success'));
-			redirect(base_url() . 'home');
+			redirect(base_url() . 'member');
 
 		// Jika username tidak terdaftar
 		} else {
@@ -41,20 +41,20 @@ class Auth extends OxyController {
 					$user['logged_in'] = TRUE;
 					$this->session->set_userdata($user);
 					$this->session->set_flashdata('message_success', $this->lang->line('member_login_success'));
-					redirect(base_url() . 'home');
+					redirect(base_url() . 'member');
 				} else {
 					$user['logged_in'] = TRUE;
 					$user['pin_id'] = $pins['pin_id'];
 					$user['idbarang_id'] = $pins['idbarang_id'];
 					$this->session->set_userdata($user);
 					$this->session->set_flashdata('message_error', $this->lang->line('member_login_failed'));
-					redirect(base_url() . 'register');
+					// redirect(base_url() . 'register');
 				}
 
 			// Jika pin dan id tidak cocok
 			} else {
 				$this->session->set_flashdata('message', 'Pin dan id tidak cocok');
-				$this->session->set_flashdata('message_error', $this->lang->line('member_login_failed'));
+				// $this->session->set_flashdata('message_error', $this->lang->line('member_login_failed'));
 				redirect(base_url() . 'auth/login');
 			}
 		}

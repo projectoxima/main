@@ -16,11 +16,14 @@
 		<link href="<?php echo site_url(); ?>/assets/css/jquery.dataTables.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/jquery-ui.min.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/joint.min.css" rel="stylesheet">
 		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-1.11.1.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/datatables/jquery.dataTables.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.pack.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/jquery/jquery-ui.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/custom.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/joint.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/joint.shapes.org.min.js"></script>
 
 		<style type="text/css">
 		.navbar {

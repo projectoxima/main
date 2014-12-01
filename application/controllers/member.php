@@ -10,28 +10,38 @@ class Member extends OxyController {
 	}
 
 	public function index(){
+		$data['profile'] = $this->users->find_profile($this->session->userdata('id'));
+		$this->layout->view('member/index', $data);
+	}
+
+	public function add_member(){
 		$this->layout->view('member/register', null);
 	}
 
 	public function register(){
-		$data = array(
+		// Alocate the pin for new member
+		// Get unused pin
+		$pin_id = $this->members->get_pin();
+
+		$data_user = array(
 				'username' => $this->input->post('username'),
 				'password' => md5($this->input->post('password')),
-				'pin_id' => $this->session->userdata('pin_id'),
-				'group_id' => 3,
-				'email' => $this->input->post('email'),
-				'phone' => $this->input->post('phone')
+				'pin_id' => $pin_id['id'],
+				'group_id' => 3
 			);
 
-		$new = $this->users->create($data);
-
+		$new = $this->users->create($data_user);
 		$user_id = $this->db->insert_id();
 
+		// Get ID Sponsor
+		$id_sponsor = $this->members->get_sponsor($this->input->post('id-sponsor'));
+
+		// Insert biodata to table profiles
 		$data = array(
 			'user_id' => $user_id,
 			// 'no_id' => $this->input->post('no-id'),
-			// 'no_sponsor' => $this->input->post('no-sponsor'),
-			// 'tgl_pengajuan' => $this->input->post('tanggal-pengajuan'),
+			'sponsor_id' => $id_sponsor['id'],
+			'tgl_pengajuan' => date("Y-m-d"),
 			'nama_lengkap' => $this->input->post('nama-lengkap'),
 			'alamat' => $this->input->post('alamat'),
 			'kota' => $this->input->post('kota'),
@@ -51,16 +61,19 @@ class Member extends OxyController {
 			'hubungan_keluarga' => $this->input->post('hubungan-keluarga'),
 		);
 
-		$new = $this->members->create($data);
+		$new = $this->members->create($data);		
 
 		if($new > 0) {
+			// Update pin status dari unused menjadi used
+			$update_pin = $this->members->update_pin($pin_id['id']);
+
 			echo json_encode(array('status' => 'ok'));
 		} else {
 			echo json_encode(array('status' => 'error'));
 		}
 
 		$this->session->set_flashdata('success', 'Register Success.');
-		redirect(base_url() . 'home');
+		redirect(base_url() . 'member');
 	}
 }
 
