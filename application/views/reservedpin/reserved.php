@@ -6,7 +6,7 @@
 			<h3>Input Reserved PIN</h3>
 			<br/>
 			<br/>
-			<form class="form-horizontal" role="form" method="post" action="<?php echo route_url('reservedpin', 'add') ?>">
+			<form class="form-horizontal form-reserved" role="form" method="post" action="<?php echo route_url('reservedpin', 'add') ?>">
 				<div class="form-group">
 					<label class="col-md-2" for="pin_id">PIN</label>
 					<div class="col-md-4">
@@ -42,6 +42,7 @@
 				<div class="form-group">
 					<div class="col-md-10">
 						<button type="submit" class="btn btn-primary">Simpan</button>
+						<input type="hidden" name="idbarang" />
 					</div>
 				</div>
 			</form>

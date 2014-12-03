@@ -20,9 +20,26 @@ class Reservedpin extends OxyController {
 	//~ khusus admin dan operator
 	public function add(){
 		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
-		
-		}
-		die('Not implemented yet');
+			if($this->input->post()){
+				extract($this->input->post());
+				
+				$daftar_idbarang = explode(',', $idbarang);
+				foreach($daftar_idbarang as $idb){
+					$this->rpin->save(array(
+						'pin_id'=>$pin_id,
+						'idbarang_id'=>$idb,
+						'parent_id'=>$parent_id,
+						'user_id'=>$user_id,
+						'create_by'=>get_user()->id
+					));
+					$this->rpin->update_pin_status($pin_id, ACTIVE);
+					$this->rpin->update_idbarang_status($idb, ACTIVE);
+				}
+			}
+			redirect(route_url('reservedpin', 'index'));
+		}else
+			//~ unauthorize
+			$this->layout->view('error/401', array());
 	}
 	
 	//~ all user

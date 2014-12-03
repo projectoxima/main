@@ -55,5 +55,23 @@ class reservedpin_model extends CI_Model {
 		$this->db->limit($limit);
 		return $this->db->get()->result();
 	}
+	
+	function save($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('reserved_pins', $data);
+		return $this->db->insert_id();
+	}
+	
+	function update_pin_status($pin_id, $status){
+		$this->db->where('id', $pin_id);
+		$this->db->update('pins', array('status'=>$status));
+		return true; 
+	}
+	
+	function update_idbarang_status($idbarang_id, $status){
+		$this->db->where('id', $idbarang_id);
+		$this->db->update('idbarangs', array('status'=>$status));
+		return true; 
+	}
 
 }

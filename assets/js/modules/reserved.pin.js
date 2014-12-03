@@ -54,6 +54,7 @@ $(function(){
 	selector_idbarang.chosen();
 	selector_idbarang.chosen().change(function(){
 		multiple_selected = $(this).val();
+		$('input[name=idbarang]').val(multiple_selected);
 		console.log('change');
 		console.log(multiple_selected);
 	});
