@@ -56,10 +56,17 @@ class Reservedpin extends OxyController {
 			"aaData"=>array()
 		);
 		
-		$data_kolom = array('id','pin_id','idbarang_id','parent_id','user_id', 'status', 'create_time');
+		$data_kolom = array('id','pin','idbarang','nama_pemilik','nama_parent', 'status', 'create_time');
 		
-		$list_users = $this->rpin->reserved_get_paging($sSearch, 
-				$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0);
+		$list_users = array();
+		
+		if(get_user()->group_id==USER_MEMBER)
+			$list_users = $this->rpin->reserved_get_paging($sSearch, 
+					$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0,
+					get_user()->id);
+		else
+			$list_users = $this->rpin->reserved_get_paging($sSearch, 
+					$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0);
 		
 		if(count($list_users) < $iDisplayLength){
 			$resultdata['iTotalRecords'] = count($list_users);
@@ -67,21 +74,38 @@ class Reservedpin extends OxyController {
 		}
 		
 		foreach($list_users as $num=>$item){
-			
-			array_push($resultdata['aaData'], array(
-				(($pagepos*$iDisplayLength) + $num+1),
-				$item->pin_id,
-				$item->idbarang_id,
-				$item->parent_id,
-				$item->user_id,
-				$item->status,
-				$item->create_time,
-				''
-			));
+			if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR]))
+				array_push($resultdata['aaData'], array(
+					(($pagepos*$iDisplayLength) + $num+1),
+					$item->nama_pemilik,
+					$item->nama_parent,
+					$item->pin,
+					$item->idbarang,
+					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
+					$item->create_time,
+					'<button class="btn btn-danger btn-xs">hapus</button>'
+				));
+			else
+				array_push($resultdata['aaData'], array(
+					(($pagepos*$iDisplayLength) + $num+1),
+					$item->nama_pemilik,
+					$item->nama_parent,
+					$item->pin,
+					$item->idbarang,
+					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
+					$item->create_time
+				));
 		}
 		
 		echo json_encode($resultdata);
 		die;
+	}
+	
+	//~ khusus untuk admin dan operator
+	public function delete_reserved($reserved_id){
+		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
+			
+		}
 	}
 	
 	//~ ambil pin yang masih belum ada pemiliknya
@@ -96,7 +120,8 @@ class Reservedpin extends OxyController {
 	//~ ambil idbarang yang masih belum ada pemiliknya
 	public function idbarang_list($keyword){
 		if($this->input->is_ajax_request()){
-			$daftar_idbarang = $this->rpin->search_idbarang($keyword);
+			$selected = $this->input->post('selected');
+			$daftar_idbarang = $this->rpin->search_idbarang($keyword, $selected);
 			echo json_encode($daftar_idbarang);
 		}
 		die;

@@ -6,9 +6,16 @@ class reservedpin_model extends CI_Model {
 		parent::__construct();
 	}
 	
-	function reserved_get_paging($keyword, $start, $length, $sortcol, $sorttype){
-		$this->db->select('rp.*');
+	function reserved_get_paging($keyword, $start, $length, $sortcol, $sorttype, $user_id=null){
+		$this->db->select('rp.id, p.pin, idb.idbarang, pem.nama_lengkap AS nama_pemilik, par.nama_lengkap AS nama_parent, rp.status, rp.create_time');
 		$this->db->from('reserved_pins rp');
+		$this->db->join('pins p', 'p.id=rp.pin_id', 'left');
+		$this->db->join('idbarangs idb', 'idb.id=rp.idbarang_id', 'left');
+		$this->db->join('profiles pem', 'pem.user_id=rp.user_id', 'left');
+		$this->db->join('profiles par', 'par.user_id=rp.parent_id', 'left');
+		$this->db->where("( pem.nama_lengkap LIKE '%$keyword%' OR par.nama_lengkap LIKE '%$keyword%' OR p.pin LIKE '%$keyword%' OR idb.idbarang LIKE '%$keyword%')", null, false);
+		if(!empty($user_id))
+			$this->db->where('rp.user_id', $user_id);
 		$this->db->limit($length, $start);
 		$this->db->order_by($sortcol, $sorttype);
 		return $this->db->get()->result();
@@ -22,10 +29,16 @@ class reservedpin_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function search_idbarang($keyword, $limit=10){
+	function search_idbarang($keyword, $selected, $limit=10){
+		$filter_sel = '';
+		if(is_array($selected) && count($selected)>0)
+			$filter_sel = implode(',', $selected);
+		
 		$this->db->from('idbarangs');
 		$this->db->like('idbarang', $keyword, 'both');
 		$this->db->where('status', INACTIVE);
+		if(!empty($filter_sel))
+			$this->db->where("id NOT IN($filter_sel)", null, false);
 		$this->db->limit($limit);
 		return $this->db->get()->result();
 	}

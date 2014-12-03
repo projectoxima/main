@@ -63,7 +63,7 @@ $(function(){
 		console.log(multiple_selected);
 		var that = $(this);
 		var key = $(this).val();
-		$.get(window.reserved_active_idbarang_url +'/'+ key, function(res){
+		$.post(window.reserved_active_idbarang_url +'/'+ key, {selected: multiple_selected}, function(res){
 			selector_idbarang.find('option:not(:selected)').remove();
 			for(item in res){
 				selector_idbarang.append('<option value="' +res[item].id+ '">' +res[item].idbarang+ '</option>');
@@ -71,6 +71,7 @@ $(function(){
 			//~ that.val(key);
 			selector_idbarang.trigger("chosen:updated");
 			selector_idbarang.chosen().val(multiple_selected);
+			console.log('post');
 		}, 'json');
 	});
 	
@@ -85,7 +86,7 @@ $(function(){
 			"bJQueryUI": true,
 			"aoColumnDefs": [
 				  { 'bSortable': false, 'aTargets': [0] },
-				  { "sClass": "tengah", "aTargets": [7] }
+				  { "sClass": "tengah", "aTargets": [0] }
 			],
 			"bServerSide": true,
 			"sAjaxSource": window.reserved_pin_url,
