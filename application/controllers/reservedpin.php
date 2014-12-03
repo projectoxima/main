@@ -10,20 +10,22 @@ class Reservedpin extends OxyController {
 		$this->load->model('admin/reservedpin_model', 'rpin');
 	}
 
+	//~ all user
 	public function index(){
 		
 		$this->layout->view('reservedpin/reserved', array(
 		));
 	}
 	
+	//~ khusus admin dan operator
 	public function add(){
-		//~ khusus admin dan operator
 		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
 		
 		}
 		die('Not implemented yet');
 	}
 	
+	//~ all user
 	public function reserved_list(){
 		if(!$this->input->is_ajax_request())
 			die;
@@ -37,15 +39,10 @@ class Reservedpin extends OxyController {
 			"aaData"=>array()
 		);
 		
-		$data_kolom = array('id','pin','nama_lengkap','alamat','kota', 'propinsi');
+		$data_kolom = array('id','pin_id','idbarang_id','parent_id','user_id', 'status', 'create_time');
 		
-		$list_users = array();
-		if(get_user()->group_id==USER_ADMIN)
-			$list_users = $this->rpin->user_get_paging($sSearch, 
+		$list_users = $this->rpin->reserved_get_paging($sSearch, 
 				$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0);
-		else{
-			//todo : pik ente bikin uset_get_paging buat operator, nampilin member aza
-		}
 		
 		if(count($list_users) < $iDisplayLength){
 			$resultdata['iTotalRecords'] = count($list_users);
@@ -53,42 +50,16 @@ class Reservedpin extends OxyController {
 		}
 		
 		foreach($list_users as $num=>$item){
-			$status = '';
-			if($item->group_id==USER_ADMIN)
-				$status = '<font color="#0000ff">Admin</font>';
-			if($item->group_id==USER_OPERATOR)
-				$status = '<font color="#0000aa">Operator</font>';
-			if($item->group_id==USER_MEMBER)
-				$status = '<font color="#000055">Member</font>';
-			
-			$buttons = '';
-			//~ generate url ke page user detail, user_id diencode
-			$user_id_dec = $item->id;
-			$user_id_dec = $this->encoder->encode($user_id_dec, ENCRYPT_KEY);
-			$user_id_dec = urlencode($user_id_dec);
-			$url_detail = route_url('manageuser', 'user_detail', array($user_id_dec));
-			$url_toggle = route_url('manageuser', 'toggle_status_user', array($user_id_dec));
-			
-			if($item->group_id==USER_ADMIN){
-				$buttons = '<a class="btn btn-success btn-xs marbottom" href="' .$url_detail. '">detail</a>';
-			}else{
-				$buttons = '<a class="btn btn-success btn-xs marbottom" href="' .$url_detail. '">detail</a>'
-					. '<br/><a class="btn btn-success btn-xs marbottom">edit</a>';
-				if($item->status==ACTIVE)
-					$buttons .= '<br/><a class="btn btn-success btn-xs marbottom button-status" href="' .$url_toggle. '">disable</a>';
-				else
-					$buttons .= '<br/><a class="btn btn-warning btn-xs marbottom button-status" href="' .$url_toggle. '">enable</a>';
-			}
 			
 			array_push($resultdata['aaData'], array(
 				(($pagepos*$iDisplayLength) + $num+1),
-				$status,
-				$item->status==ACTIVE ? '<font color="green">Aktif</font>':'<font color="red">Belum Aktif</font>',
-				$item->nama_lengkap,
-				$item->alamat,
-				$item->kota,
-				$item->propinsi,
-				$buttons
+				$item->pin_id,
+				$item->idbarang_id,
+				$item->parent_id,
+				$item->user_id,
+				$item->status,
+				$item->create_time,
+				''
 			));
 		}
 		
@@ -96,5 +67,39 @@ class Reservedpin extends OxyController {
 		die;
 	}
 	
+	//~ ambil pin yang masih belum ada pemiliknya
+	public function pin_list($keyword){
+		if($this->input->is_ajax_request()){
+			$daftar_pin = $this->rpin->search_pin($keyword);
+			echo json_encode($daftar_pin);
+		}
+		die;
+	}
 	
+	//~ ambil idbarang yang masih belum ada pemiliknya
+	public function idbarang_list($keyword){
+		if($this->input->is_ajax_request()){
+			$daftar_idbarang = $this->rpin->search_idbarang($keyword);
+			echo json_encode($daftar_idbarang);
+		}
+		die;
+	}
+	
+	//~ ambil data user yang sudah menjadi stokis
+	public function stokis_list($keyword){
+		if($this->input->is_ajax_request()){
+			$daftar_stokis = $this->rpin->search_stokis($keyword);
+			echo json_encode($daftar_stokis);
+		}
+		die;
+	}
+	
+	//~ ambil data user yang childnya  < 3
+	public function parent_list($keyword){
+		if($this->input->is_ajax_request()){
+			$daftar_parent = $this->rpin->search_parent($keyword);
+			echo json_encode($daftar_parent);
+		}
+		die;
+	}
 }

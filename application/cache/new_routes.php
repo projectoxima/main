@@ -22,4 +22,12 @@ $route['status-user/(:any)'] = 'manageuser/toggle_status_user/$1';
 $route['reserved-pin'] = 'reservedpin/index/';
 $route['tambah-reserved'] = 'reservedpin/add/';
 $route['daftar-reserved'] = 'reservedpin/reserved_list/';
+$route['daftar-pin-aktif'] = 'reservedpin/pin_list/';
+$route['daftar-pin-aktif/(:any)'] = 'reservedpin/pin_list/$1';
+$route['reserved-daftar-stokis'] = 'reservedpin/stokis_list/';
+$route['reserved-daftar-stokis/(:any)'] = 'reservedpin/stokis_list/$1';
+$route['reserved-daftar-parent'] = 'reservedpin/parent_list/';
+$route['reserved-daftar-parent/(:any)'] = 'reservedpin/parent_list/$1';
+$route['reserved-idbarang-list'] = 'reservedpin/idbarang_list/';
+$route['reserved-idbarang-list/(:any)'] = 'reservedpin/idbarang_list/$1';
 ?>
