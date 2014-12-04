@@ -35,11 +35,19 @@ List constants
 - LANG (id)
 
 
-Array
-(
-    [pin_id] => 17
-    [user_id] => 3
-    [parent_id] => 3
-    [idbarang_id] => 15
-    [idbarang] => 10,20,23,15
-)
+Notes
+----------------
+- pin expire 3 bulan
+- notification history
+- syslog
+
+SMS
+----------------
+- sukses register
+- bonus akumulasi
+- notif pin buat stokis
+- withdraw & repet order
+- update profil
+- event
+
+Poin ketika repeat order yang dapet cuma satu parent sponsor nya aza
