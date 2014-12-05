@@ -1,9 +1,9 @@
 <div class="col-md-6">
-	<h3>Dashboard login</h3>
+	<h3><?php echo $title ?></h3>
 	
 	<br/>
 	
-	<form class="form-horizontal" role="form" method="post">
+	<form class="form-horizontal" role="form" method="post"  autocomplete="off">
 		<div class="form-group">
 			<label class="col-md-3" for="email">Username</label>
 			<div class="col-md-5">

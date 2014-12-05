@@ -12,52 +12,55 @@ class Auth extends OxyController {
 		$this->load->view('404.html');	
 	}
 
+	//~ proses login khusus member
 	public function login(){
-		$this->load->view('dashboard/login');
-	}
-
-	public function do_login(){
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
-		$pin 			= $this->input->post('pin');
-		$id 			= $this->input->post('id');
-
-		$user = $this->users->find_by_username_password($username, $password, false);
-
-		// Jika username terdaftar
-		if($user) {
-			$user['logged_in'] = TRUE;
-			$this->session->set_userdata($user);
-			$this->session->set_flashdata('message_success', $this->lang->line('member_login_success'));
-			redirect(base_url() . 'member');
-
-		// Jika username tidak terdaftar
-		} else {
-			$pins = $this->users->find_by_id_pin($pin, $id);
-			if($pins){
-				$user = $this->users->find_user($pins['user_id']);
-
-				if($user){
-					$user['logged_in'] = TRUE;
-					$this->session->set_userdata($user);
-					$this->session->set_flashdata('message_success', $this->lang->line('member_login_success'));
-					redirect(base_url() . 'member');
-				} else {
-					$user['logged_in'] = TRUE;
-					$user['pin_id'] = $pins['pin_id'];
-					$user['idbarang_id'] = $pins['idbarang_id'];
-					$this->session->set_userdata($user);
-					$this->session->set_flashdata('message_error', $this->lang->line('member_login_failed'));
-					// redirect(base_url() . 'register');
-				}
-
-			// Jika pin dan id tidak cocok
-			} else {
-				$this->session->set_flashdata('message', 'Pin dan id tidak cocok');
-				// $this->session->set_flashdata('message_error', $this->lang->line('member_login_failed'));
-				redirect(base_url() . 'auth/login');
+		$captcha = '';
+		
+		/* delete image captcha sebelumnya */
+		$capimage = getcwd() . '/files/images/' . $this->session->userdata('captcha.time') . '.jpg';
+		if(file_exists($capimage))
+			unlink($capimage);
+		
+		if ($this->input->post()){
+			$username = $this->input->post('username');
+			$password = $this->input->post('password');
+			$captcha = $this->input->post('captcha');
+			$user = $this->users->find_by_username_password($username, $password, 
+				//~ parameter pembeda login member dengan login admin/operator
+				true);
+			if($user && $captcha===$this->session->userdata('captcha')) {
+				$user['logged_in'] = TRUE;
+				$this->session->set_userdata($user);
+				$this->session->set_flashdata('message_success', $this->lang->line('message_login_success'));
+				redirect(route_url('welcome', 'index'));
+			}else{
+				$this->session->set_flashdata('message_error', $this->lang->line('message_login_failed'));
+				redirect(route_url('auth', 'login'));
 			}
+		}else{
+			/* generate captha */
+			$this->load->helper('captcha');
+			$word = substr(md5(time()), 0, 5);
+			/* save captcha to session, untuk proses login */
+			$this->session->set_userdata('captcha', $word);
+			$vals = array(
+				'word'	=> $word,
+				'img_path'	=> './files/images/',
+				'img_url'	=>  base_url() . '/files/images/',
+				'img_width'	=> '150',
+				'img_height' => 30,
+				'expiration' => 36000
+				);
+
+			$cap = create_captcha($vals);
+			/* simpan time (filename captcha), agar bisa didelete */
+			$this->session->set_userdata('captcha.time', $cap['time']);
+			$captcha = $cap['image'];
 		}
+		$this->layout->view('dashboard/dashboard_login', array(
+			'captcha'=>$captcha,
+			'title'=>'Member login'
+		));
 	}
 	
 	/* login method untuk admin dan operator */
@@ -73,7 +76,7 @@ class Auth extends OxyController {
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 			$captcha = $this->input->post('captcha');
-			$user = $this->users->find_by_username_password($username, $password, true);
+			$user = $this->users->find_by_username_password($username, $password, false);
 			if($user && $captcha===$this->session->userdata('captcha')) {
 				$user['logged_in'] = TRUE;
 				$this->session->set_userdata($user);
@@ -104,7 +107,14 @@ class Auth extends OxyController {
 			$captcha = $cap['image'];
 		}
 		$this->layout->view('dashboard/dashboard_login', array(
-			'captcha'=>$captcha
+			'captcha'=>$captcha,
+			'title'=>'Dashboard login'
+		));
+	}
+	
+	//~ handle proses register member
+	public function register(){
+		$this->layout->view('dashboard/register', array(
 		));
 	}
 
