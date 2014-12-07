@@ -30,4 +30,5 @@ $route['reserved-daftar-parent'] = 'reservedpin/parent_list/';
 $route['reserved-daftar-parent/(:any)'] = 'reservedpin/parent_list/$1';
 $route['reserved-idbarang-list'] = 'reservedpin/idbarang_list/';
 $route['reserved-idbarang-list/(:any)'] = 'reservedpin/idbarang_list/$1';
+$route['register-check-pin'] = 'auth/check_pin/';
 ?>

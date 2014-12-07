@@ -51,3 +51,19 @@ SMS
 - event
 
 Poin ketika repeat order yang dapet cuma satu parent sponsor nya aza
+
+semua bisa RO
+ketika member gabung dia langsung dapat bonus tambahan
+member bisa menggunakan keseluruha bonus tambahan & bonus titik untuk RO
+ketika stokis jual barang harus ada status apakah member sudah lunas atau belum
+- bonus
+- poin
+- promo
+ada pencatatan resume jumlah member yang dia ajak
+
+export ke excel masuk ke report
+mapping
+
+mekanisme backup data
+
+

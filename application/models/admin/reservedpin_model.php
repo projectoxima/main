@@ -24,7 +24,7 @@ class reservedpin_model extends CI_Model {
 	function search_pin($keyword, $limit=10){
 		$this->db->from('pins');
 		$this->db->like('pin', $keyword, 'both');
-		$this->db->where('status', INACTIVE);
+		$this->db->where('status', STATUS_INACTIVE);
 		$this->db->limit($limit);
 		return $this->db->get()->result();
 	}
@@ -36,7 +36,7 @@ class reservedpin_model extends CI_Model {
 		
 		$this->db->from('idbarangs');
 		$this->db->like('idbarang', $keyword, 'both');
-		$this->db->where('status', INACTIVE);
+		$this->db->where('status', STATUS_INACTIVE);
 		if(!empty($filter_sel))
 			$this->db->where("id NOT IN($filter_sel)", null, false);
 		$this->db->limit($limit);
@@ -86,5 +86,14 @@ class reservedpin_model extends CI_Model {
 		$this->db->update('idbarangs', array('status'=>$status));
 		return true; 
 	}
-
+	
+	
+	public function check_pin_idbarang($pin, $idbarang){
+		$this->db->select('*');
+		$this->db->from('reserved_pins rp');
+		$this->db->join('pins p', 'rp.pin_id=p.id');
+		$this->db->join('idbarangs i', 'rp.idbarang_id=i.id');
+		//todo : proses pengecekan pin dan id barang, hasilnya detail pin dan idbarang
+		$this->db->where('rp.');
+	}
 }

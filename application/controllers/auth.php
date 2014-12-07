@@ -6,6 +6,7 @@ class Auth extends OxyController {
 		parent::__construct();
 		$this->load->model('login/users');
 		$this->load->model('login/reset_passwords');
+		$this->load->model('admin/reservedpin_model', 'rpin');
 	}
 
 	public function index(){
@@ -117,11 +118,28 @@ class Auth extends OxyController {
 		$this->layout->view('dashboard/register', array(
 		));
 	}
+	
+	//~ proses pengecekan pin dan idbarang, mode ajax
+	public function check_pin(){
+		if($this->input->post()){
+			$thepin = $this->input->post('user_pin');
+			$list_idbarang = explode(',', $this->input->post('idbarang'));
+			
+			$this->layout->view('dashboard/register', array(
+			));
+		}else
+			$this->layout->view('dashboard/register', array(
+			));
+	}
 
 	public function logout() {
 		$this->session->sess_destroy();	
 		redirect(base_url());
 	}
+	
+	
+	
+	
 
 	public function forgot_password() {
 		$pesan = $this->input->post('email');

@@ -32,8 +32,10 @@ class Reservedpin extends OxyController {
 						'user_id'=>$user_id,
 						'create_by'=>get_user()->id
 					));
-					$this->rpin->update_pin_status($pin_id, ACTIVE);
-					$this->rpin->update_idbarang_status($idb, ACTIVE);
+					
+					//~ update status pin dan idbarang
+					$this->rpin->update_pin_status($pin_id, STATUS_RESERVED);
+					$this->rpin->update_idbarang_status($idb, STATUS_RESERVED);
 				}
 			}
 			redirect(route_url('reservedpin', 'index'));
