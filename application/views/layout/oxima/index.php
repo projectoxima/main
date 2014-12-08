@@ -72,15 +72,17 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href=""></a>
+							<a class="navbar-brand" href="<?php echo route_url('welcome','index') ?>"><?php 
+								if(get_user()){
+									switch(get_user()->group_id){
+										case USER_ADMIN: echo 'Dashboard Administrator'; break;
+										case USER_OPERATOR: echo 'Dashboard Operator'; break;
+										case USER_MEMBER: echo 'Dashboard Member'; break;
+									}
+								}
+							?></a>
 						</div>
 						<div id="navbar" class="navbar-collapse collapse">
-							<ul class="nav navbar-nav">
-								<?php
-									/* tampilkan menu top */
-									//echo generate_menu('top');
-								?>
-							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<?php
 									/* tampilkan menu top */

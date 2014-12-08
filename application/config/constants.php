@@ -51,6 +51,10 @@ define('ACTIVE',		1);
 
 define('ENCRYPT_KEY',		'jgj%^GHJGJHJkkj');
 
+define('STATUS_INACTIVE', 'inactive');
+define('STATUS_RESERVED', 'reserved');
+define('STATUS_ACTIVE', 'active');
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

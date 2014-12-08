@@ -73,7 +73,7 @@ if (!function_exists('generate_menu')){
 		$html = '';
 		foreach($mainmenu as $menuitem){
 			$menuurl = route_url_id($menuitem->module_id);
-			$active = $ctrl==$menuitem->controller ? ' aktif ':'';
+			$active = ($ctrl==$menuitem->controller && $act==$menuitem->action) ? ' aktif ':'';
 			
 			if(count($menuitem->submenu)<=0)
 				$html .= '<li class="' .$active. '">' . anchor($menuurl, $menuitem->label, array()) . '</li>';

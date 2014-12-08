@@ -10,20 +10,39 @@ class Reservedpin extends OxyController {
 		$this->load->model('admin/reservedpin_model', 'rpin');
 	}
 
+	//~ all user
 	public function index(){
 		
 		$this->layout->view('reservedpin/reserved', array(
 		));
 	}
 	
+	//~ khusus admin dan operator
 	public function add(){
-		//~ khusus admin dan operator
 		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
-		
-		}
-		die('Not implemented yet');
+			if($this->input->post()){
+				extract($this->input->post());
+				
+				$daftar_idbarang = explode(',', $idbarang);
+				foreach($daftar_idbarang as $idb){
+					$this->rpin->save(array(
+						'pin_id'=>$pin_id,
+						'idbarang_id'=>$idb,
+						'parent_id'=>$parent_id,
+						'user_id'=>$user_id,
+						'create_by'=>get_user()->id
+					));
+					$this->rpin->update_pin_status($pin_id, ACTIVE);
+					$this->rpin->update_idbarang_status($idb, ACTIVE);
+				}
+			}
+			redirect(route_url('reservedpin', 'index'));
+		}else
+			//~ unauthorize
+			$this->layout->view('error/401', array());
 	}
 	
+	//~ all user
 	public function reserved_list(){
 		if(!$this->input->is_ajax_request())
 			die;
@@ -37,15 +56,17 @@ class Reservedpin extends OxyController {
 			"aaData"=>array()
 		);
 		
-		$data_kolom = array('id','pin','nama_lengkap','alamat','kota', 'propinsi');
+		$data_kolom = array('id','pin','idbarang','nama_pemilik','nama_parent', 'status', 'create_time');
 		
 		$list_users = array();
-		if(get_user()->group_id==USER_ADMIN)
-			$list_users = $this->rpin->user_get_paging($sSearch, 
-				$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0);
-		else{
-			//todo : pik ente bikin uset_get_paging buat operator, nampilin member aza
-		}
+		
+		if(get_user()->group_id==USER_MEMBER)
+			$list_users = $this->rpin->reserved_get_paging($sSearch, 
+					$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0,
+					get_user()->id);
+		else
+			$list_users = $this->rpin->reserved_get_paging($sSearch, 
+					$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0);
 		
 		if(count($list_users) < $iDisplayLength){
 			$resultdata['iTotalRecords'] = count($list_users);
@@ -53,48 +74,74 @@ class Reservedpin extends OxyController {
 		}
 		
 		foreach($list_users as $num=>$item){
-			$status = '';
-			if($item->group_id==USER_ADMIN)
-				$status = '<font color="#0000ff">Admin</font>';
-			if($item->group_id==USER_OPERATOR)
-				$status = '<font color="#0000aa">Operator</font>';
-			if($item->group_id==USER_MEMBER)
-				$status = '<font color="#000055">Member</font>';
-			
-			$buttons = '';
-			//~ generate url ke page user detail, user_id diencode
-			$user_id_dec = $item->id;
-			$user_id_dec = $this->encoder->encode($user_id_dec, ENCRYPT_KEY);
-			$user_id_dec = urlencode($user_id_dec);
-			$url_detail = route_url('manageuser', 'user_detail', array($user_id_dec));
-			$url_toggle = route_url('manageuser', 'toggle_status_user', array($user_id_dec));
-			
-			if($item->group_id==USER_ADMIN){
-				$buttons = '<a class="btn btn-success btn-xs marbottom" href="' .$url_detail. '">detail</a>';
-			}else{
-				$buttons = '<a class="btn btn-success btn-xs marbottom" href="' .$url_detail. '">detail</a>'
-					. '<br/><a class="btn btn-success btn-xs marbottom">edit</a>';
-				if($item->status==ACTIVE)
-					$buttons .= '<br/><a class="btn btn-success btn-xs marbottom button-status" href="' .$url_toggle. '">disable</a>';
-				else
-					$buttons .= '<br/><a class="btn btn-warning btn-xs marbottom button-status" href="' .$url_toggle. '">enable</a>';
-			}
-			
-			array_push($resultdata['aaData'], array(
-				(($pagepos*$iDisplayLength) + $num+1),
-				$status,
-				$item->status==ACTIVE ? '<font color="green">Aktif</font>':'<font color="red">Belum Aktif</font>',
-				$item->nama_lengkap,
-				$item->alamat,
-				$item->kota,
-				$item->propinsi,
-				$buttons
-			));
+			if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR]))
+				array_push($resultdata['aaData'], array(
+					(($pagepos*$iDisplayLength) + $num+1),
+					$item->nama_pemilik,
+					$item->nama_parent,
+					$item->pin,
+					$item->idbarang,
+					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
+					$item->create_time,
+					'<button class="btn btn-danger btn-xs">hapus</button>'
+				));
+			else
+				array_push($resultdata['aaData'], array(
+					(($pagepos*$iDisplayLength) + $num+1),
+					$item->nama_pemilik,
+					$item->nama_parent,
+					$item->pin,
+					$item->idbarang,
+					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
+					$item->create_time
+				));
 		}
 		
 		echo json_encode($resultdata);
 		die;
 	}
 	
+	//~ khusus untuk admin dan operator
+	public function delete_reserved($reserved_id){
+		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
+			
+		}
+	}
 	
+	//~ ambil pin yang masih belum ada pemiliknya
+	public function pin_list($keyword){
+		if($this->input->is_ajax_request()){
+			$daftar_pin = $this->rpin->search_pin($keyword);
+			echo json_encode($daftar_pin);
+		}
+		die;
+	}
+	
+	//~ ambil idbarang yang masih belum ada pemiliknya
+	public function idbarang_list($keyword){
+		if($this->input->is_ajax_request()){
+			$selected = $this->input->post('selected');
+			$daftar_idbarang = $this->rpin->search_idbarang($keyword, $selected);
+			echo json_encode($daftar_idbarang);
+		}
+		die;
+	}
+	
+	//~ ambil data user yang sudah menjadi stokis
+	public function stokis_list($keyword){
+		if($this->input->is_ajax_request()){
+			$daftar_stokis = $this->rpin->search_stokis($keyword);
+			echo json_encode($daftar_stokis);
+		}
+		die;
+	}
+	
+	//~ ambil data user yang childnya  < 3
+	public function parent_list($keyword){
+		if($this->input->is_ajax_request()){
+			$daftar_parent = $this->rpin->search_parent($keyword);
+			echo json_encode($daftar_parent);
+		}
+		die;
+	}
 }

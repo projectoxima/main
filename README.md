@@ -35,4 +35,19 @@ List constants
 - LANG (id)
 
 
+Notes
+----------------
+- pin expire 3 bulan
+- notification history
+- syslog
 
+SMS
+----------------
+- sukses register
+- bonus akumulasi
+- notif pin buat stokis
+- withdraw & repet order
+- update profil
+- event
+
+Poin ketika repeat order yang dapet cuma satu parent sponsor nya aza
