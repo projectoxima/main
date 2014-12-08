@@ -91,17 +91,17 @@
 	    height: 600,
 	    gridSize: 1,
 	    model: graph,
+	    interactive: false,
 	    perpendicularLinks: true
 	});
 
-	var member = function(x, y, rank, name, image, background, border) {
+	var member = function(x, y, name, background, border) {
 
 	    var cell = new joint.shapes.org.Member({
 	        position: { x: x, y: y },
 	        attrs: {
 	            '.card': { fill: background, stroke: border},
-	              image: { 'xlink:href': 'assets/img/'+ image },
-	            '.rank': { text: rank }, '.name': { text: name }
+	            '.name': { text: name, color: 'red', fill: 'red', align: 'center' }
 	        }
 	    });
 	    graph.addCell(cell);
@@ -119,13 +119,15 @@
 	    return cell;
 	}
 
-	var bart = member(300,70,'CEO', 'Bart Simpson', 'member1.png', '#F1C40F', 'gray');
+	var bart = member(300,70,'Bart Simpson', '#F1C40F', 'gray');
+	/**
 	var homer = member(90,200,'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
 	var marge = member(300,200,'VP Sales', 'Marge Simpson', 'member3.png', '#2ECC71', '#008e09');
 	var lisa = member(500,200,'VP Production' , 'Lisa Simpson', 'member4.png', '#2ECC71', '#008e09');
 	var maggie = member(400,350,'Manager', 'Maggie Simpson', 'member5.png', '#3498DB', '#333');
 	var lenny = member(190,350,'Manager', 'Lenny Leonard', 'member6.png', '#3498DB', '#333');
 	var carl = member(190,500,'Manager', 'Carl Carlson', 'member7.png', '#3498DB', '#333');
+	**/
 
 	link(bart, marge, [{x: 385, y: 180}]);
 	link(bart, homer, [{x: 385, y: 180}, {x: 175, y: 180}]);
