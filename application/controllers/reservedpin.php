@@ -19,6 +19,9 @@ class Reservedpin extends OxyController {
 	
 	//~ khusus admin dan operator
 	public function add(){
+		
+		//todo : set biaya daftar belum
+		
 		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
 			if($this->input->post()){
 				extract($this->input->post());

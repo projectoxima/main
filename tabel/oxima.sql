@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2014 at 06:35 PM
+-- Generation Time: Dec 08, 2014 at 08:43 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -18166,6 +18166,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `stokis` tinyint(4) NOT NULL DEFAULT '0',
   `point` int(11) NOT NULL DEFAULT '0',
+  `order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=left, 1=center, 2=right',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
@@ -18182,12 +18183,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `point`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 1, 0, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
-(7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, 0, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `point`, `order`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 1, 0, 0, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
+(7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, 0, 0, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18220,6 +18221,7 @@ CREATE TABLE IF NOT EXISTS `user_sponsor` (
   `user_id` bigint(20) NOT NULL,
   `titik_id` bigint(20) NOT NULL,
   `sponsor_id` bigint(20) NOT NULL,
+  `up_level` int(11) NOT NULL DEFAULT '0',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),

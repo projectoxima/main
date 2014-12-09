@@ -53,15 +53,21 @@
 	<br/>
 	<br/>
 	
-	<table class="table-reserved">
-		<thead><tr>
-			<th width="10px">No</th><th>Pemilik</th><th>Parent</th><th>PIN</th><th>ID Barang</th><th>Status</th><th>Create Time</th>
-			<?php if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])): ?>
-			<th>Aksi</th>
-			<?php endif; ?>
-		</tr></thead>
-	</table>
-	
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h3>Daftar Reserved PIN</h3>
+			<br/>
+			<br/>
+		<table class="table-reserved">
+			<thead><tr>
+				<th width="10px">No</th><th>Pemilik</th><th>Parent</th><th>PIN</th><th>ID Barang</th><th>Status</th><th>Create Time</th>
+				<?php if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])): ?>
+				<th>Aksi</th>
+				<?php endif; ?>
+			</tr></thead>
+		</table>
+		</div>
+	</div>
 	
 </div>
 

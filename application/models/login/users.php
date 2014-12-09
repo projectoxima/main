@@ -36,6 +36,17 @@ class Users extends CI_Model {
 			return 0;
 		}
 	}
+	
+	function get_user_detail($user_id){
+		$this->db->from('users u');
+		$this->db->join('profiles p', 'p.user_id=u.id');
+		$this->db->where('u.id', $user_id);
+		return $this->db->get()->row();
+	}
+	
+	function find_by_id($user_id){
+		return $this->db->get_where('users', array('id'=>$user_id))->row();
+	}
 
 	public function find_by_id_pin($pin, $id) {
 		$this->db->where(array('pin_id' => $pin, 'idbarang_id' => $id));

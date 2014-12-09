@@ -7,6 +7,7 @@ class Auth extends OxyController {
 		$this->load->model('login/users');
 		$this->load->model('login/reset_passwords');
 		$this->load->model('admin/reservedpin_model', 'rpin');
+		$this->load->model('admin/user_model', 'user');
 	}
 
 	public function index(){
@@ -113,10 +114,97 @@ class Auth extends OxyController {
 		));
 	}
 	
+	/* simpan data user, dipanggil oleh method add_user */
+	private function _save_user(){
+		$tmp_id = $this->post->input('id');
+		
+		//todo : set sponsor id
+		
+		$data_user = array(
+				'username'=>$this->input->post('username'),
+				'password'=>md5($this->input->post('password')),
+				'group_id'=>USER_MEMBER,
+				//~ aktifkan status user
+				'status'=>ACTIVE
+			);
+		$data_profile = array(
+				//~ 'user_id'=>$user_id,
+				'sponsor_id'=>null,
+				'tgl_pengajuan'=>date('Y-m-d'),
+				'nama_lengkap'=>$this->input->post('nama-lengkap'),
+				'alamat'=>$this->input->post('alamat'),
+				'kota'=>$this->input->post('kota'),
+				'propinsi'=>$this->input->post('propinsi'),
+				'kodepos'=>$this->input->post('kode-post'),
+				'tempat_lahir'=>$this->input->post('tempat-lahir'),
+				'tgl_lahir'=>$this->input->post('tgl-lahir'),
+				'agama'=>$this->input->post('agama'),
+				'jenis_kelamin'=>$this->input->post('jenis-kelamin'),
+				'phone'=>$this->input->post('phone'),
+				'ktp'=>$this->input->post('no-ktp'),
+				'email'=>$this->input->post('email'),
+				'no_rekening'=>$this->input->post('no-rekening'),
+				'bank'=>$this->input->post('bank'),
+				'nama_rekening'=>$this->input->post('nama-rekening'),
+				'nama_ahli_waris'=>$this->input->post('nama-ahli-waris'),
+				'hubungan_keluarga'=>$this->input->post('hubungan-keluarga')
+			);
+		
+		//~ update akun dan profil
+		if(!empty($tmp_id)){
+			$user_id = decode_id($tmp_id);
+			
+			if(test_id($user_id)){
+				$this->user->update_profile($data_profile, $user_id);
+				$this->user->update_user($data_user, $user_id);
+			}
+		}else{
+			$user_id = $this->user->save_user($data_user);
+			$data_profile['user_id'] = $user_id;
+			$this->user->save_profile($data_profile);
+		}
+		
+		//~ set session mode login
+		$user = $this->users->find_by_id($user_id);
+		$user['logged_in'] = TRUE;
+		$this->session->set_userdata($user);
+		
+		//~ update status pin dan idbarang
+		$pin_id = $this->input->post('pin_id');
+		$pin_id = decode_id($pin_id);
+		if(test_id($pin_id))
+			$this->rpin->update_pin_status($pin_id, STATUS_ACTIVE);
+		$arr_idb = $this->input->post('idbarang_id');
+		if(is_array($arr_idb)){
+			foreach($arr_idb as $aidx=>$iitem){
+				$idb_id = decode_id($iitem);
+				if(test_id($idb_id))
+					$this->rpin->update_idbarang_status($idb_id, STATUS_ACTIVE);
+			}
+		}
+		
+		//todo : proses penyusunan titik
+		//todo : update order pada table users, berdasarkan posisi titik
+		//todo : member action register
+		//todo : add user sponsor
+		//todo : add user & sponsor & parent bonus
+		
+		$this->session->set_flashdata('message_success', $this->lang->line('message_insert_user_success'));
+		redirect(route_url('manageuser', 'index'));
+	}
+	
 	//~ handle proses register member
 	public function register(){
-		$this->layout->view('dashboard/register', array(
-		));
+		if($this->input->post()){
+			$pwd1 = $this->input->post('password');
+			$pwd2 = $this->input->post('password2');
+			if($pwd1==$pwd2 && strlen($pwd1) > 5)
+				$this->_save_user();
+			else
+				$this->session->set_flashdata('message_error', $this->lang->line('message_password_min'));
+			redirect(route_url('auth', 'register'));
+		}else
+			$this->layout->view('dashboard/register', array());
 	}
 	
 	//~ proses pengecekan pin dan idbarang, mode ajax
@@ -124,8 +212,15 @@ class Auth extends OxyController {
 		if($this->input->post()){
 			$thepin = $this->input->post('user_pin');
 			$list_idbarang = explode(',', $this->input->post('idbarang'));
-			
+			$hasil = $this->rpin->check_pin_idbarang($thepin, $list_idbarang);
+			$user_detail = array();
+			if(count($hasil) > 0)
+				$user_detail = $this->users->get_user_detail($hasil[0]->user_id);
 			$this->layout->view('dashboard/register', array(
+				'reserved'=>$hasil,
+				'user'=>$user_detail,
+				'pin'=>$thepin, 
+				'idbarang'=>$list_idbarang
 			));
 		}else
 			$this->layout->view('dashboard/register', array(
