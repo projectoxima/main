@@ -58,25 +58,25 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah Member</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="1250" disabled>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah Bonus</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="Rp. 2.757.000" disabled>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah PO</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="120" disabled>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah Point</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="310" disabled>
 				</div>
 			</div>
   	</form>
