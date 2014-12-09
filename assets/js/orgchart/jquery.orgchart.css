@@ -1,4 +1,6 @@
 div.orgChart {
+    border                : 1px solid #cccccc;
+    background-color      : #ffffe8;
     margin                : 10px;
     padding               : 20px;
 }
