@@ -115,11 +115,19 @@
 
 		<div id='chart-container'>
 		</div>
+
+
+		<div class="hide"><?php echo $tree; ?></div>
+		<div id="orgchart-container"></div>
   </div>
 </div>
 <script src="<?php echo site_url(); ?>/assets/js/orgchart/jquery.orgchart.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#chart-source').orgChart({container: $('#chart-container')});
+
+		$('#org-chart').orgChart({
+		  container: $('#orgchart-container')
+		});
 	});
 </script>

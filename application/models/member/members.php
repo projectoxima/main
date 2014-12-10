@@ -69,4 +69,15 @@ class Members extends CI_Model {
       return 0;
     }
   }
+
+  function find_parents($id){
+    $this->db->where(array('parent_child_id' => $id));
+    $q = $this->db->get('parent_childs');
+
+    if($q->num_rows() > 0){
+      return $q->result_array();
+    } else {
+      return 0;
+    }
+  }
 }

@@ -24,3 +24,7 @@ SMS Notif :
 - Update profile
 - Info Event/Jadwal
 - Poin -> 50.000 poin dapet suzuki ertiga GX
+
+Member Tree
+- Get Top Parent where parent_child_id = NULL
+- lalu get downline dibawahnya perulangan
