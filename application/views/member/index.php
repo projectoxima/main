@@ -1,3 +1,6 @@
+<link href="<?php echo site_url(); ?>/assets/js/orgchart/jquery.orgchart.css" rel="stylesheet">
+<link href="<?php echo site_url(); ?>/assets/js/orgchart/custom.css" rel="stylesheet">
+
 <a class="btn btn-primary" href="<?php echo base_url() ;?>member/add_member">Add Member</a>
 <br><br>
 <span for="username" class="error-span"><?php echo $this->session->flashdata('success'); ?></span>
@@ -55,82 +58,76 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah Member</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="1250" disabled>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah Bonus</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="Rp. 2.757.000" disabled>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah PO</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="120" disabled>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Jumlah Point</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pin" name="pin" value="<?php echo $profile['propinsi'] ;?>" disabled>
+					<input type="text" class="form-control" id="pin" name="pin" value="310" disabled>
 				</div>
 			</div>
   	</form>
   	<h3>Member Tree</h3>
   	<hr>
-  	<div id="paper"></div>
+
+  	<div class="hide">
+			<ul id='chart-source'>
+                <li>Asep
+                    <ul>
+                        <li>Budi<br/>
+                            <ul>
+                                <li>Jaka</li>
+                                <li>Cecep</li>
+                                <li>Kamaluddin</li>
+                            </ul>
+                        </li>
+                        <li>Dede<br/>
+                            <ul>
+                                <li>Eep</li>
+                                <li>Fariz</li>
+                                <li>Luna</li>
+                            </ul>
+                        </li>
+                        <li>Gunawan<br/>
+                            <ul>
+                                <li>Hismi</li>
+                                <li>Ijang</li>
+                                <li>Maya</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+			</ul>
+		</div>
+
+		<div id='chart-container'>
+		</div>
+
+
+		<div class="hide"><?php echo $tree; ?></div>
+		<div id="orgchart-container"></div>
   </div>
 </div>
+<script src="<?php echo site_url(); ?>/assets/js/orgchart/jquery.orgchart.js"></script>
 <script type="text/javascript">
-	var graph = new joint.dia.Graph;
+	$(document).ready(function(){
+		$('#chart-source').orgChart({container: $('#chart-container')});
 
-	var paper = new joint.dia.Paper({
-	    el: $('#paper'),
-	    width: 800,
-	    height: 600,
-	    gridSize: 1,
-	    model: graph,
-	    perpendicularLinks: true
+		$('#org-chart').orgChart({
+		  container: $('#orgchart-container')
+		});
 	});
-
-	var member = function(x, y, rank, name, image, background, border) {
-
-	    var cell = new joint.shapes.org.Member({
-	        position: { x: x, y: y },
-	        attrs: {
-	            '.card': { fill: background, stroke: border},
-	              image: { 'xlink:href': 'assets/img/'+ image },
-	            '.rank': { text: rank }, '.name': { text: name }
-	        }
-	    });
-	    graph.addCell(cell);
-	    return cell;
-	};
-
-	function link(source, target, breakpoints) {
-
-	    var cell = new joint.shapes.org.Arrow({
-	        source: { id: source.id },
-	        target: { id: target.id },
-	        vertices: breakpoints
-	    });
-	    graph.addCell(cell);
-	    return cell;
-	}
-
-	var bart = member(300,70,'CEO', 'Bart Simpson', 'member1.png', '#F1C40F', 'gray');
-	var homer = member(90,200,'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
-	var marge = member(300,200,'VP Sales', 'Marge Simpson', 'member3.png', '#2ECC71', '#008e09');
-	var lisa = member(500,200,'VP Production' , 'Lisa Simpson', 'member4.png', '#2ECC71', '#008e09');
-	var maggie = member(400,350,'Manager', 'Maggie Simpson', 'member5.png', '#3498DB', '#333');
-	var lenny = member(190,350,'Manager', 'Lenny Leonard', 'member6.png', '#3498DB', '#333');
-	var carl = member(190,500,'Manager', 'Carl Carlson', 'member7.png', '#3498DB', '#333');
-
-	link(bart, marge, [{x: 385, y: 180}]);
-	link(bart, homer, [{x: 385, y: 180}, {x: 175, y: 180}]);
-	link(bart, lisa, [{x: 385, y: 180}, {x: 585, y: 180}]);
-	link(homer, lenny, [{x:175 , y: 380}]);
-	link(homer, carl, [{x:175 , y: 530}]);
-	link(marge, maggie, [{x:385 , y: 380}]);
 </script>

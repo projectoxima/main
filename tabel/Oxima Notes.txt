@@ -1,0 +1,30 @@
+Member Page
+- ID
+- PIN
+- Sponsor
+- Jumlah ID/Member
+
+Module :
+- Setting (Akun)
+- Update Profile/View
+- Statistic
+- Graph All
+- Withdraw
+
+Yang bisa dirubah :
+- Username
+- Password
+- Address dll
+
+SMS Notif :
+- Registrasi sukses
+- Bonus
+- Notifikasi PIN stokis
+- Withdraw / RO
+- Update profile
+- Info Event/Jadwal
+- Poin -> 50.000 poin dapet suzuki ertiga GX
+
+Member Tree
+- Get Top Parent where parent_child_id = NULL
+- lalu get downline dibawahnya perulangan

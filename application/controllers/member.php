@@ -11,6 +11,7 @@ class Member extends OxyController {
 
 	public function index(){
 		$data['profile'] = $this->users->find_profile($this->session->userdata('id'));
+		$data['tree'] = $this->traverse_tree(null, 0);
 		$this->layout->view('member/index', $data);
 	}
 
@@ -74,6 +75,29 @@ class Member extends OxyController {
 
 		$this->session->set_flashdata('success', 'Register Success.');
 		redirect(base_url() . 'member');
+	}
+
+	// Fungsi untuk generate member tree
+	private function traverse_tree($idx, $count){
+		// Find Top Parent
+		$parent = $this->members->find_parents($idx);
+
+		if($parent == 0){
+			return;
+		}
+
+		$tree = ($count === 0) ? '<ul id="org-chart">' : '<ul>';
+
+		for($i=0;$i<count($parent);$i++){
+			$tree .= '<li data-id="'.$parent[$i]['id'].'">';
+			$tree .= $parent[$i]['titik_id'];
+
+			$tree .= $this->traverse_tree($parent[$i]['id'], 1);
+			$tree .= '</li>';
+		}
+
+		$tree .= '</ul>';
+		return $tree;
 	}
 }
 
