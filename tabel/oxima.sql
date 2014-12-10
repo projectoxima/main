@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 08, 2014 at 08:43 AM
+-- Generation Time: Dec 10, 2014 at 08:45 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -17815,7 +17815,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `modules`
@@ -17846,7 +17846,8 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (22, 'reservedpin', 'stokis_list', 'reserved-daftar-stokis/(:any)', '$1'),
 (23, 'reservedpin', 'parent_list', 'reserved-daftar-parent/(:any)', '$1'),
 (24, 'reservedpin', 'idbarang_list', 'reserved-idbarang-list/(:any)', '$1'),
-(25, 'auth', 'check_pin', 'register-check-pin', '');
+(25, 'auth', 'check_pin', 'register-check-pin', ''),
+(26, 'welcome', 'bad_request', 'error-bad-request', '');
 
 -- --------------------------------------------------------
 
@@ -18140,6 +18141,7 @@ CREATE TABLE IF NOT EXISTS `titiks` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `idbarang_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
+  `order` enum('left','center','right') NOT NULL DEFAULT 'left',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
@@ -18165,8 +18167,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pin_id` bigint(20) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `stokis` tinyint(4) NOT NULL DEFAULT '0',
+  `biaya_daftar` int(11) DEFAULT '0',
   `point` int(11) NOT NULL DEFAULT '0',
-  `order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=left, 1=center, 2=right',
+  `sponsor_id` bigint(20) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
@@ -18176,19 +18179,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `user_type` (`group_id`),
   KEY `pin_id` (`pin_id`),
   KEY `create_by` (`create_by`),
-  KEY `update_by` (`update_by`)
+  KEY `update_by` (`update_by`),
+  KEY `sponsor_id` (`sponsor_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `point`, `order`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, 0, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 1, 0, 0, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
-(7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, 0, 0, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `biaya_daftar`, `point`, `sponsor_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 1, 0, 0, NULL, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
+(7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, 0, 0, NULL, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18352,7 +18356,8 @@ ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `users_ibfk_4` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `users_ibfk_5` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `users_ibfk_6` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `users_ibfk_6` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `users_ibfk_7` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_bonus`

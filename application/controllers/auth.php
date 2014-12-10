@@ -116,16 +116,39 @@ class Auth extends OxyController {
 	
 	/* simpan data user, dipanggil oleh method add_user */
 	private function _save_user(){
-		$tmp_id = $this->post->input('id');
+		//~ update status pin dan idbarang
+		$pin_id = $this->input->post('pin_id');
+		$pin_id = decode_id($pin_id);
+		if(test_id($pin_id))
+			$this->rpin->update_pin_status($pin_id, STATUS_ACTIVE);
+		$arr_idb = $this->input->post('idbarang_id');
+		if(is_array($arr_idb)){
+			foreach($arr_idb as $aidx=>$iitem){
+				$idb_id = decode_id($iitem);
+				if(test_id($idb_id))
+					$this->rpin->update_idbarang_status($idb_id, STATUS_ACTIVE);
+			}
+		}
 		
-		//todo : set sponsor id
+		//~ stop jika pin_id tidak valid
+		if(!test_id($pin_id)){
+			redirect(route_url('welcome', 'bad_request'));
+			return;
+		}
+		
+		//~ ambil detail info reserved
+		$reserved_detail = $this->rpin->get_reserved_detail_by_pin_id($pin_id);
+		
+		$tmp_id = $this->post->input('id');
 		
 		$data_user = array(
 				'username'=>$this->input->post('username'),
 				'password'=>md5($this->input->post('password')),
 				'group_id'=>USER_MEMBER,
 				//~ aktifkan status user
-				'status'=>ACTIVE
+				'status'=>ACTIVE,
+				//~ sponsor (yang mengajak) yang dapat bonus
+				'sponsor_id'=>$reserved_detail->user_id
 			);
 		$data_profile = array(
 				//~ 'user_id'=>$user_id,
@@ -169,25 +192,39 @@ class Auth extends OxyController {
 		$user['logged_in'] = TRUE;
 		$this->session->set_userdata($user);
 		
-		//~ update status pin dan idbarang
-		$pin_id = $this->input->post('pin_id');
-		$pin_id = decode_id($pin_id);
-		if(test_id($pin_id))
-			$this->rpin->update_pin_status($pin_id, STATUS_ACTIVE);
-		$arr_idb = $this->input->post('idbarang_id');
-		if(is_array($arr_idb)){
-			foreach($arr_idb as $aidx=>$iitem){
-				$idb_id = decode_id($iitem);
-				if(test_id($idb_id))
-					$this->rpin->update_idbarang_status($idb_id, STATUS_ACTIVE);
-			}
-		}
-		
 		//todo : proses penyusunan titik
 		//todo : update order pada table users, berdasarkan posisi titik
-		//todo : member action register
 		//todo : add user sponsor
+		$childs = $this->users->get_last_level_sponsor($reserved_detail->user_id);
+		if(empty($childs)){
+			$root = $this->users->get_root_titik();
+			if(is_object($root)){
+				//~ root parent sudah ada, jadikan root sebagai sponsor
+				//~ titik dibuat sejumlah idbarang
+				if(is_array($arr_idb)){
+					foreach($arr_idb as $aidx=>$iitem){
+						$idb_id = decode_id($iitem);
+						if(test_id($idb_id))
+							$this->users->save_titik($user_id, $idb_id, $root->titik_id);
+					}
+				}
+			}else{
+				//~ root parent belum ada, jadikan member sebagai root parent
+				//~ titik dibuat sejumlah idbarang
+				if(is_array($arr_idb)){
+					foreach($arr_idb as $aidx=>$iitem){
+						$idb_id = decode_id($iitem);
+						if(test_id($idb_id))
+							$this->users->save_root($user_id, $idb_id);
+					}
+				}
+			}
+		}else{
+		}
+		
+		//todo : member action register
 		//todo : add user & sponsor & parent bonus
+		//todo : cek status stokis sponsor
 		
 		$this->session->set_flashdata('message_success', $this->lang->line('message_insert_user_success'));
 		redirect(route_url('manageuser', 'index'));

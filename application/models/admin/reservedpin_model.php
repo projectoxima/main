@@ -113,4 +113,8 @@ class reservedpin_model extends CI_Model {
 		}else
 			return array();
 	}
+	
+	public function get_reserved_detail_by_pin_id($pin_id){
+		return $this->db->get_where('reserved_pins', array('pin_id', $pin_id))->row();
+	}
 }
