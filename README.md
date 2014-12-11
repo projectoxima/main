@@ -74,4 +74,9 @@ ketika stokis jual barang harus ada status apakah member sudah lunas atau belum
 - poin
 - promo
 
+register jadi aktivasi
+login bisa username n password atau pin n idbarang
+proses reserved pin, stokis hanya diberi idbarang, pin diambil secara acak ketika ada member yg beli
 
+yang direserved cukup idbarang
+pin diambil oleh stokis, ketika ada idbarang yang terjual

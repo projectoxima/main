@@ -160,9 +160,8 @@ class Users extends CI_Model {
 	}
 	
 	function save_titik($user_id, $idbarang_id, $titik_parent_id){
-		$this->db->insert('titiks', array(
-			''
-		));
+		$childs = $this->get_last_level_sponsor($titik_parent_id);
+		
 	}
 	
 	function save_root($user_id){

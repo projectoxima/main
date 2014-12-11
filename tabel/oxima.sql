@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 10, 2014 at 08:45 AM
+-- Generation Time: Dec 11, 2014 at 09:21 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -18089,6 +18089,25 @@ INSERT INTO `reserved_pins` (`id`, `pin_id`, `idbarang_id`, `parent_id`, `user_i
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reserved_stokis`
+--
+
+CREATE TABLE IF NOT EXISTS `reserved_stokis` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stokis_id` bigint(20) NOT NULL,
+  `idbarang_id` bigint(20) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_by` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `stokis_id` (`stokis_id`),
+  KEY `idbarang_id` (`idbarang_id`),
+  KEY `create_by` (`create_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `resets`
 --
 
@@ -18141,7 +18160,7 @@ CREATE TABLE IF NOT EXISTS `titiks` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `idbarang_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
-  `order` enum('left','center','right') NOT NULL DEFAULT 'left',
+  `order` enum('left','center','right') DEFAULT 'left',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
@@ -18333,6 +18352,14 @@ ALTER TABLE `reserved_pins`
   ADD CONSTRAINT `reserved_pins_ibfk_4` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `reserved_pins_ibfk_5` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `reserved_pins_ibfk_6` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `reserved_stokis`
+--
+ALTER TABLE `reserved_stokis`
+  ADD CONSTRAINT `reserved_stokis_ibfk_1` FOREIGN KEY (`stokis_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_ibfk_3` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `resets`
