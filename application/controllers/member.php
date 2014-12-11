@@ -11,7 +11,12 @@ class Member extends OxyController {
 
 	public function index(){
 		$data['profile'] = $this->users->find_profile($this->session->userdata('id'));
-		$data['tree'] = $this->traverse_tree(null, 0);
+
+		// Get Top Parent
+		$titiks = $this->members->find_titik_parent($this->session->userdata('id'));
+		$parent = $this->members->find_parent_of_childs($titiks['idbarang_id']);		
+		$data['tree'] = $this->traverse_tree($parent['parent_child_id'], 0);
+
 		$this->layout->view('member/index', $data);
 	}
 
@@ -89,8 +94,11 @@ class Member extends OxyController {
 		$tree = ($count === 0) ? '<ul id="org-chart">' : '<ul>';
 
 		for($i=0;$i<count($parent);$i++){
+			// Get nama pengguna titik
+			$users = $this->users->find_profile($parent[$i]['titik_id']);
+
 			$tree .= '<li data-id="'.$parent[$i]['id'].'">';
-			$tree .= $parent[$i]['titik_id'];
+			$tree .= $users['nama_lengkap'];
 
 			$tree .= $this->traverse_tree($parent[$i]['id'], 1);
 			$tree .= '</li>';

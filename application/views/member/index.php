@@ -83,40 +83,6 @@
   	<h3>Member Tree</h3>
   	<hr>
 
-  	<div class="hide">
-			<ul id='chart-source'>
-                <li>Asep
-                    <ul>
-                        <li>Budi<br/>
-                            <ul>
-                                <li>Jaka</li>
-                                <li>Cecep</li>
-                                <li>Kamaluddin</li>
-                            </ul>
-                        </li>
-                        <li>Dede<br/>
-                            <ul>
-                                <li>Eep</li>
-                                <li>Fariz</li>
-                                <li>Luna</li>
-                            </ul>
-                        </li>
-                        <li>Gunawan<br/>
-                            <ul>
-                                <li>Hismi</li>
-                                <li>Ijang</li>
-                                <li>Maya</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-			</ul>
-		</div>
-
-		<div id='chart-container'>
-		</div>
-
-
 		<div class="hide"><?php echo $tree; ?></div>
 		<div id="orgchart-container"></div>
   </div>
@@ -124,8 +90,6 @@
 <script src="<?php echo site_url(); ?>/assets/js/orgchart/jquery.orgchart.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#chart-source').orgChart({container: $('#chart-container')});
-
 		$('#org-chart').orgChart({
 		  container: $('#orgchart-container')
 		});
