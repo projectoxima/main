@@ -9,12 +9,12 @@ class pinidbarang_model extends CI_Model {
 	function pin_resume(){
 		$total = $this->db->count_all('pins');
 		/* pin yang sudah aktif (sudah diregistrasi oleh member) */
-		$active = $this->db->get_where('pins', array('status'=>ACTIVE))->num_rows();
+		$active = $this->db->get_where('pins', array('status'=>STATUS_ACTIVE))->num_rows();
 		/* pin sudah direserved, tapi member belum register */
 		$this->db->select('*');
 		$this->db->from('pins p');
 		$this->db->join('reserved_pins rp', 'rp.pin_id=p.id');
-		$this->db->where('rp.status', INACTIVE);
+		$this->db->where('rp.status', STATUS_INACTIVE);
 		$reserved = $this->db->get()->num_rows();
 		
 		return (object)array(
@@ -28,12 +28,12 @@ class pinidbarang_model extends CI_Model {
 	function idb_resume(){
 		$total = $this->db->count_all('idbarangs');
 		/* pin yang sudah aktif (sudah diregistrasi oleh member) */
-		$active = $this->db->get_where('idbarangs', array('status'=>ACTIVE))->num_rows();
+		$active = $this->db->get_where('idbarangs', array('status'=>STATUS_ACTIVE))->num_rows();
 		/* pin sudah direserved, tapi member belum register */
 		$this->db->select('*');
 		$this->db->from('idbarangs p');
 		$this->db->join('reserved_pins rp', 'rp.idbarang_id=p.id');
-		$this->db->where('rp.status', INACTIVE);
+		$this->db->where('rp.status', STATUS_INACTIVE);
 		$reserved = $this->db->get()->num_rows();
 		
 		return (object)array(
