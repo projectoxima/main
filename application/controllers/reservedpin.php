@@ -14,14 +14,12 @@ class Reservedpin extends OxyController {
 	public function index(){
 		
 		$this->layout->view('reservedpin/reserved', array(
+			'resume'=>$this->rpin->reserved_stokis_resume()
 		));
 	}
 	
 	//~ khusus admin dan operator
 	public function add(){
-		
-		//todo : set biaya daftar belum
-		
 		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
 			if($this->input->post()){
 				extract($this->input->post());
@@ -29,15 +27,12 @@ class Reservedpin extends OxyController {
 				$daftar_idbarang = explode(',', $idbarang);
 				foreach($daftar_idbarang as $idb){
 					$this->rpin->save(array(
-						'pin_id'=>$pin_id,
 						'idbarang_id'=>$idb,
-						'parent_id'=>$parent_id,
-						'user_id'=>$user_id,
+						'stokis_id'=>$user_id,
 						'create_by'=>get_user()->id
 					));
 					
-					//~ update status pin dan idbarang
-					$this->rpin->update_pin_status($pin_id, STATUS_RESERVED);
+					//~ update status idbarang
 					$this->rpin->update_idbarang_status($idb, STATUS_RESERVED);
 				}
 			}
@@ -61,7 +56,7 @@ class Reservedpin extends OxyController {
 			"aaData"=>array()
 		);
 		
-		$data_kolom = array('id','pin','idbarang','nama_pemilik','nama_parent', 'status', 'create_time');
+		$data_kolom = array('id','nama_pemilik','idbarang', 'status', 'create_time');
 		
 		$list_users = array();
 		
@@ -83,8 +78,6 @@ class Reservedpin extends OxyController {
 				array_push($resultdata['aaData'], array(
 					(($pagepos*$iDisplayLength) + $num+1),
 					$item->nama_pemilik,
-					$item->nama_parent,
-					$item->pin,
 					$item->idbarang,
 					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
 					$item->create_time,
@@ -94,8 +87,6 @@ class Reservedpin extends OxyController {
 				array_push($resultdata['aaData'], array(
 					(($pagepos*$iDisplayLength) + $num+1),
 					$item->nama_pemilik,
-					$item->nama_parent,
-					$item->pin,
 					$item->idbarang,
 					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
 					$item->create_time

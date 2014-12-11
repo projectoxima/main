@@ -23,6 +23,9 @@ $(function(){
 		if(key.length < 2)
 			return;
 		$.get(window.reserved_stokis_url +'/'+ key, function(res){
+			if(res==undefined || res.length==0){
+				$.growl.warning({message: 'Data Stokis tidak ditemukan !'});
+			}
 			selector_stokis.html('<option value=""></option>');
 			for(item in res){
 				selector_stokis.append('<option value="' +res[item].id+ '">' +res[item].nama_lengkap+ '</option>');
@@ -85,8 +88,8 @@ $(function(){
 			"bInfo": true,
 			"bJQueryUI": true,
 			"aoColumnDefs": [
-				  { 'bSortable': false, 'aTargets': [0] },
-				  { "sClass": "tengah", "aTargets": [0] }
+				  { 'bSortable': false, 'aTargets': [0, 5] },
+				  { "sClass": "tengah", "aTargets": [5] }
 			],
 			"bServerSide": true,
 			"sAjaxSource": window.reserved_pin_url,

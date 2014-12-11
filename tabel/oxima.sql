@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 11, 2014 at 09:21 AM
+-- Generation Time: Dec 12, 2014 at 07:49 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -110,18 +110,18 @@ CREATE TABLE IF NOT EXISTS `idbarangs` (
 
 INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `create_by`, `update_time`, `update_by`) VALUES
 (1, '00001', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
-(2, '00002', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
-(3, '00003', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
+(2, '00002', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
+(3, '00003', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (4, '00004', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (5, '00005', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (6, '00006', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (7, '00007', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (8, '00008', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (9, '00009', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
-(10, '00010', 'reserved', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
+(10, '00010', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (11, '00011', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (12, '00012', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
-(13, '00013', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
+(13, '00013', 'reserved', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (14, '00014', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (15, '00015', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (16, '00016', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -131,7 +131,7 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `
 (20, '00020', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (21, '00021', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (22, '00022', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
-(23, '00023', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
+(23, '00023', 'reserved', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (24, '00024', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (25, '00025', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (26, '00026', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -17777,9 +17777,10 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (56, NULL, 'top', '1', 'Settings', NULL, '', '', 1),
 (57, NULL, 'top', '1', 'Profile', NULL, '', '', 1),
 (58, 51, 'top', '1', 'Manage PIN & ID Barang', 9, '', '', 1),
-(59, 51, 'top', '1', 'Reserved PIN', 18, '', '', 1),
+(59, 51, 'top', '1', 'Reserved Stokis', 18, '', '', 1),
 (60, 53, 'top', '1', 'Set/Approve Repeat Order', NULL, '', '', 1),
 (61, 53, 'top', '1', 'Withdraw List', NULL, '', '', 1),
+(62, 51, 'top', '1', 'Reserved to Member', NULL, '', '', 1),
 (100, NULL, 'top', '1', 'Logout', 4, '', '', 1),
 (150, NULL, 'top', '2', 'Manage Member', 13, '', '', 1),
 (151, NULL, 'top', '2', 'Membership', NULL, '', '', 1),
@@ -17787,17 +17788,18 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (153, NULL, 'top', '2', 'Member', NULL, '', '', 1),
 (154, NULL, 'top', '2', 'Reports', NULL, '', '', 1),
 (157, NULL, 'top', '2', 'Profile', NULL, '', '', 1),
-(159, 151, 'top', '2', 'Reserved PIN', 18, '', '', 1),
+(159, 151, 'top', '2', 'Reserved Stokis', 18, '', '', 1),
 (160, 153, 'top', '2', 'Set/Approve Repeat Order', NULL, '', '', 1),
 (161, 153, 'top', '2', 'Withdraw List', NULL, '', '', 1),
+(162, 151, 'top', '2', 'Reserved to Member', NULL, '', '', 1),
 (200, NULL, 'top', '2', 'Logout', 4, '', '', 1),
 (250, NULL, 'top', '3', 'My Account', NULL, '', '', 1),
-(251, NULL, 'top', '3', 'Membership', NULL, '', '', 1),
+(251, NULL, 'top', '3', 'Stokis', NULL, '', '', 1),
 (252, NULL, 'top', '3', 'Network Graph', NULL, '', '', 1),
 (253, NULL, 'top', '3', 'Member', NULL, '', '', 1),
 (254, NULL, 'top', '3', 'Report', NULL, '', '', 1),
 (257, NULL, 'top', '3', 'Profile', NULL, '', '', 1),
-(259, 251, 'top', '3', 'My PIN', 18, '', '', 1),
+(259, 251, 'top', '3', 'Reserved to Member', NULL, '', '', 1),
 (260, 253, 'top', '3', 'Repeat Order', NULL, '', '', 1),
 (261, 253, 'top', '3', 'Withdraw', NULL, '', '', 1),
 (300, NULL, 'top', '3', 'Logout', 4, '', '', 1);
@@ -17839,7 +17841,7 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (15, 'manageuser', 'add_user', 'tambah-user', ''),
 (16, 'manageuser', 'user_detail', 'detail-user/(:any)', '$1'),
 (17, 'manageuser', 'toggle_status_user', 'status-user/(:any)', '$1'),
-(18, 'reservedpin', 'index', 'reserved-pin', ''),
+(18, 'reservedpin', 'index', 'reserved-stokis', ''),
 (19, 'reservedpin', 'add', 'tambah-reserved', ''),
 (20, 'reservedpin', 'reserved_list', 'daftar-reserved', ''),
 (21, 'reservedpin', 'pin_list', 'daftar-pin-aktif/(:any)', '$1'),
@@ -17898,7 +17900,7 @@ CREATE TABLE IF NOT EXISTS `pins` (
 
 INSERT INTO `pins` (`id`, `pin`, `status`, `create_time`, `user_id`, `create_by`, `update_time`, `update_by`) VALUES
 (16, 'BE6B4D7D7D37', 'inactive', '2014-11-27 23:04:28', NULL, 1, '0000-00-00 00:00:00', NULL),
-(17, '029013F7911A', 'reserved', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(17, '029013F7911A', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (18, '0FAF97B149DC', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (19, 'E4FB7936720F', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (20, '7D5995DB9F3D', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -18076,15 +18078,7 @@ CREATE TABLE IF NOT EXISTS `reserved_pins` (
   KEY `create_by` (`create_by`),
   KEY `update_by` (`update_by`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `reserved_pins`
---
-
-INSERT INTO `reserved_pins` (`id`, `pin_id`, `idbarang_id`, `parent_id`, `user_id`, `status`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 17, 1, 3, 3, 0, '2014-12-05 22:58:25', 1, '0000-00-00 00:00:00', NULL),
-(2, 17, 10, 3, 3, 0, '2014-12-05 22:58:25', 1, '0000-00-00 00:00:00', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -18103,7 +18097,18 @@ CREATE TABLE IF NOT EXISTS `reserved_stokis` (
   KEY `stokis_id` (`stokis_id`),
   KEY `idbarang_id` (`idbarang_id`),
   KEY `create_by` (`create_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `reserved_stokis`
+--
+
+INSERT INTO `reserved_stokis` (`id`, `stokis_id`, `idbarang_id`, `status`, `create_by`, `create_time`) VALUES
+(1, 3, 1, 0, 1, '2014-12-11 23:29:09'),
+(2, 3, 2, 0, 1, '2014-12-11 23:29:09'),
+(3, 3, 3, 0, 1, '2014-12-11 23:29:09'),
+(4, 3, 13, 0, 1, '2014-12-11 23:29:09'),
+(5, 3, 23, 0, 1, '2014-12-11 23:29:09');
 
 -- --------------------------------------------------------
 
@@ -18210,7 +18215,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 1, 0, 0, NULL, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
+(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 0, 0, 0, NULL, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
 (7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, 0, 0, NULL, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------

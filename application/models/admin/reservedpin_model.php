@@ -7,15 +7,13 @@ class reservedpin_model extends CI_Model {
 	}
 	
 	function reserved_get_paging($keyword, $start, $length, $sortcol, $sorttype, $user_id=null){
-		$this->db->select('rp.id, p.pin, idb.idbarang, pem.nama_lengkap AS nama_pemilik, par.nama_lengkap AS nama_parent, rp.status, rp.create_time');
-		$this->db->from('reserved_pins rp');
-		$this->db->join('pins p', 'p.id=rp.pin_id', 'left');
+		$this->db->select('rp.id, idb.idbarang, pem.nama_lengkap AS nama_pemilik, rp.status, rp.create_time');
+		$this->db->from('reserved_stokis rp');
 		$this->db->join('idbarangs idb', 'idb.id=rp.idbarang_id', 'left');
-		$this->db->join('profiles pem', 'pem.user_id=rp.user_id', 'left');
-		$this->db->join('profiles par', 'par.user_id=rp.parent_id', 'left');
-		$this->db->where("( pem.nama_lengkap LIKE '%$keyword%' OR par.nama_lengkap LIKE '%$keyword%' OR p.pin LIKE '%$keyword%' OR idb.idbarang LIKE '%$keyword%')", null, false);
+		$this->db->join('profiles pem', 'pem.user_id=rp.stokis_id', 'left');
+		$this->db->where("( pem.nama_lengkap LIKE '%$keyword%' OR idb.idbarang LIKE '%$keyword%')", null, false);
 		if(!empty($user_id))
-			$this->db->where('rp.user_id', $user_id);
+			$this->db->where('rp.stokis_id', $user_id);
 		$this->db->limit($length, $start);
 		$this->db->order_by($sortcol, $sorttype);
 		return $this->db->get()->result();
@@ -71,8 +69,17 @@ class reservedpin_model extends CI_Model {
 	
 	function save($data){
 		$this->db->set('create_time', 'NOW()', FALSE);
-		$this->db->insert('reserved_pins', $data);
+		$this->db->insert('reserved_stokis', $data);
 		return $this->db->insert_id();
+	}
+	
+	function reserved_stokis_resume(){
+		$total = $this->db->count_all('reserved_stokis');
+		$aktif = $this->db->get_where('reserved_stokis', array('status'=>ACTIVE))->num_rows();
+		return (object) array(
+			'total' => $total,
+			'aktif' => $aktif
+		);
 	}
 	
 	function update_pin_status($pin_id, $status){

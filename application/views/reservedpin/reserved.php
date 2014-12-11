@@ -3,30 +3,14 @@
 	<?php if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])): ?>
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<h3>Input Reserved PIN</h3>
+			<h3>Input Reserved Stokis</h3>
 			<br/>
 			<br/>
 			<form class="form-horizontal form-reserved" role="form" method="post" action="<?php echo route_url('reservedpin', 'add') ?>">
 				<div class="form-group">
-					<label class="col-md-2" for="pin_id">PIN</label>
+					<label class="col-md-2" for="user_id">Stokis</label>
 					<div class="col-md-4">
-						<select class="form-control" id="pin_id" name="pin_id" data-placeholder="Pilih PIN" required>
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-2" for="user_id">Pemilik PIN</label>
-					<div class="col-md-4">
-						<select class="form-control" id="user_id" name="user_id" data-placeholder="Pemilik PIN" required>
-							<option value=""></option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-2" for="parent_id">Parent</label>
-					<div class="col-md-4">
-						<select class="form-control" id="parent_id" name="parent_id" data-placeholder="Parent PIN">
+						<select class="form-control" id="user_id" name="user_id" data-placeholder="Pilih Stokis" required>
 							<option value=""></option>
 						</select>
 					</div>
@@ -34,7 +18,7 @@
 				<div class="form-group">
 					<label class="col-md-2" for="idbarang_id">ID Barang</label>
 					<div class="col-md-10">
-						<select class="form-control" id="idbarang_id" name="idbarang_id" multiple data-placeholder="ID Barang" required>
+						<select class="form-control" id="idbarang_id" name="idbarang_id" multiple data-placeholder="Pilih ID Barang" required>
 							<option value=""></option>
 						</select>
 					</div>
@@ -55,17 +39,19 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<h3>Daftar Reserved PIN</h3>
+			<h3>Daftar Reserved Stokis</h3>
 			<br/>
+			<p>Total jumlah ID Barang yang sudah direserved ke Stokis : <?php echo $resume->total ?></p>
+			<p>Total jumlah ID Barang yang sudah aktif : <?php echo $resume->aktif ?></p>
 			<br/>
-		<table class="table-reserved">
-			<thead><tr>
-				<th width="10px">No</th><th>Pemilik</th><th>Parent</th><th>PIN</th><th>ID Barang</th><th>Status</th><th>Create Time</th>
-				<?php if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])): ?>
-				<th>Aksi</th>
-				<?php endif; ?>
-			</tr></thead>
-		</table>
+			<table class="table-reserved">
+				<thead><tr>
+					<th width="10px">No</th><th>Stokis</th><th>ID Barang</th><th>Status</th><th>Create Time</th>
+					<?php if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])): ?>
+					<th>Aksi</th>
+					<?php endif; ?>
+				</tr></thead>
+			</table>
 		</div>
 	</div>
 	
