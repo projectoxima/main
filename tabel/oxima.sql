@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 12, 2014 at 07:49 AM
+-- Generation Time: Dec 12, 2014 at 09:20 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -17780,7 +17780,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (59, 51, 'top', '1', 'Reserved Stokis', 18, '', '', 1),
 (60, 53, 'top', '1', 'Set/Approve Repeat Order', NULL, '', '', 1),
 (61, 53, 'top', '1', 'Withdraw List', NULL, '', '', 1),
-(62, 51, 'top', '1', 'Reserved to Member', NULL, '', '', 1),
+(62, 51, 'top', '1', 'Reserved to Member', 27, '', '', 1),
 (100, NULL, 'top', '1', 'Logout', 4, '', '', 1),
 (150, NULL, 'top', '2', 'Manage Member', 13, '', '', 1),
 (151, NULL, 'top', '2', 'Membership', NULL, '', '', 1),
@@ -17791,7 +17791,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (159, 151, 'top', '2', 'Reserved Stokis', 18, '', '', 1),
 (160, 153, 'top', '2', 'Set/Approve Repeat Order', NULL, '', '', 1),
 (161, 153, 'top', '2', 'Withdraw List', NULL, '', '', 1),
-(162, 151, 'top', '2', 'Reserved to Member', NULL, '', '', 1),
+(162, 151, 'top', '2', 'Reserved to Member', 27, '', '', 1),
 (200, NULL, 'top', '2', 'Logout', 4, '', '', 1),
 (250, NULL, 'top', '3', 'My Account', NULL, '', '', 1),
 (251, NULL, 'top', '3', 'Stokis', NULL, '', '', 1),
@@ -17799,7 +17799,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (253, NULL, 'top', '3', 'Member', NULL, '', '', 1),
 (254, NULL, 'top', '3', 'Report', NULL, '', '', 1),
 (257, NULL, 'top', '3', 'Profile', NULL, '', '', 1),
-(259, 251, 'top', '3', 'Reserved to Member', NULL, '', '', 1),
+(259, 251, 'top', '3', 'Reserved to Member', 27, '', '', 1),
 (260, 253, 'top', '3', 'Repeat Order', NULL, '', '', 1),
 (261, 253, 'top', '3', 'Withdraw', NULL, '', '', 1),
 (300, NULL, 'top', '3', 'Logout', 4, '', '', 1);
@@ -17817,7 +17817,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `modules`
@@ -17849,7 +17849,8 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (23, 'reservedpin', 'parent_list', 'reserved-daftar-parent/(:any)', '$1'),
 (24, 'reservedpin', 'idbarang_list', 'reserved-idbarang-list/(:any)', '$1'),
 (25, 'auth', 'check_pin', 'register-check-pin', ''),
-(26, 'welcome', 'bad_request', 'error-bad-request', '');
+(26, 'welcome', 'bad_request', 'error-bad-request', ''),
+(27, 'reservedpin', 'reserved_member', 'reserved-to-member', '');
 
 -- --------------------------------------------------------
 
