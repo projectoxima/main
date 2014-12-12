@@ -10,11 +10,14 @@ class Reservedpin extends OxyController {
 		$this->load->model('admin/reservedpin_model', 'rpin');
 	}
 
-	//~ all user
+	//~ ============= reserved stokis, hanya untuk admin dan operator
 	public function index(){
-		
-		$this->layout->view('reservedpin/reserved', array(
-		));
+		if(get_user()->group_id!=USER_MEMBER)
+			$this->layout->view('reservedpin/reserved', array(
+				'resume'=>$this->rpin->reserved_stokis_resume()
+			));
+		else
+			$this->layout->view('error/401', array());
 	}
 	
 	//~ khusus admin dan operator
@@ -26,14 +29,13 @@ class Reservedpin extends OxyController {
 				$daftar_idbarang = explode(',', $idbarang);
 				foreach($daftar_idbarang as $idb){
 					$this->rpin->save(array(
-						'pin_id'=>$pin_id,
 						'idbarang_id'=>$idb,
-						'parent_id'=>$parent_id,
-						'user_id'=>$user_id,
+						'stokis_id'=>$user_id,
 						'create_by'=>get_user()->id
 					));
-					$this->rpin->update_pin_status($pin_id, ACTIVE);
-					$this->rpin->update_idbarang_status($idb, ACTIVE);
+					
+					//~ update status idbarang
+					$this->rpin->update_idbarang_status($idb, STATUS_RESERVED);
 				}
 			}
 			redirect(route_url('reservedpin', 'index'));
@@ -56,7 +58,7 @@ class Reservedpin extends OxyController {
 			"aaData"=>array()
 		);
 		
-		$data_kolom = array('id','pin','idbarang','nama_pemilik','nama_parent', 'status', 'create_time');
+		$data_kolom = array('id','nama_pemilik','idbarang', 'status', 'create_time');
 		
 		$list_users = array();
 		
@@ -78,8 +80,6 @@ class Reservedpin extends OxyController {
 				array_push($resultdata['aaData'], array(
 					(($pagepos*$iDisplayLength) + $num+1),
 					$item->nama_pemilik,
-					$item->nama_parent,
-					$item->pin,
 					$item->idbarang,
 					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
 					$item->create_time,
@@ -89,8 +89,6 @@ class Reservedpin extends OxyController {
 				array_push($resultdata['aaData'], array(
 					(($pagepos*$iDisplayLength) + $num+1),
 					$item->nama_pemilik,
-					$item->nama_parent,
-					$item->pin,
 					$item->idbarang,
 					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
 					$item->create_time
@@ -144,4 +142,24 @@ class Reservedpin extends OxyController {
 		}
 		die;
 	}
+	
+	//~ =============== start reserved to member
+	//~ reserved member dilakukan ketika ada member yang membeli produk
+	//~ baik member lama maupun member baru
+	//~ dapat diakses admin, operator, dan stokis, 
+	//~ hanya saja klw stokis terbatas hanya dapat melihat punya dirinya sendiri
+	public function reserved_member(){
+		$cekuser = true;
+		if(get_user()->group_id==USER_MEMBER && get_user()->stokis==INACTIVE)
+			//~ yang dapat mengakses hanya member stokis
+			$cekuser = false;
+		
+		
+		if($cekuser)
+			$this->layout->view('reservedpin/reserved_to_member', array());
+		else
+			$this->layout->view('error/401', array('message'=>'Anda belum menjadi stokis'));
+	}
+	
+	//~ =============== end reserved to member
 }

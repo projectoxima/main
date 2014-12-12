@@ -55,6 +55,10 @@ define('STATUS_INACTIVE', 'inactive');
 define('STATUS_RESERVED', 'reserved');
 define('STATUS_ACTIVE', 'active');
 
+define('ORDER_LEFT', 'left');
+define('ORDER_CENTER', 'center');
+define('ORDER_RIGHT', 'right');
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -105,7 +105,7 @@
 			</div>
 		</div> 
 		
-		<div class="container" style="min-height:400px;">
+		<div class="container" style="min-height:700px;">
 			<div class="row">&nbsp;</div>
 			<?php echo $content_for_layout ?>
 		</div>

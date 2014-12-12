@@ -51,8 +51,21 @@ class user_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 	
+	function update_user($data, $user_id){
+		$this->db->where('user_id', $user_id);
+		$this->db->set('update_time', 'NOW()', FALSE);
+		$this->db->update('users', $data);
+		return true;
+	}
+	
 	function save_profile($data){
 		$this->db->insert('profiles', $data);
 		return $this->db->insert_id();
+	}
+	
+	function update_profile($data, $user_id){
+		$this->db->where('user_id', $user_id);
+		$this->db->update('profiles', $data);
+		return true;
 	}
 }

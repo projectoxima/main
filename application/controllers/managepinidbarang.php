@@ -35,10 +35,17 @@ class Managepinidbarang extends OxyController {
 		}
 		
 		foreach($list_pin as $num=>$item){
+			$warna = '';
+			switch($item->status){
+				case STATUS_INACTIVE: $warna = 'red'; break;
+				case STATUS_ACTIVE: $warna = 'blue'; break;
+				case STATUS_RESERVED: $warna = 'green'; break;
+			}
+			$statusnya = print_warna(ucfirst($item->status), $warna);
 			array_push($resultdata['aaData'], array(
 				(($pagepos*$iDisplayLength) + $num+1),
 				$item->pin,
-				$item->status==ACTIVE ? '<font color="green">Aktif</font>':'<font color="red">Belum Aktif</font>',
+				$statusnya,
 				empty($item->nama_lengkap) ? '-':$item->nama_lengkap,
 				$item->create_time
 			));
@@ -95,10 +102,17 @@ class Managepinidbarang extends OxyController {
 		}
 		
 		foreach($list_pin as $num=>$item){
+			$warna = '';
+			switch($item->status){
+				case STATUS_INACTIVE: $warna = 'red'; break;
+				case STATUS_ACTIVE: $warna = 'blue'; break;
+				case STATUS_RESERVED: $warna = 'green'; break;
+			}
+			$statusnya = print_warna(ucfirst($item->status), $warna);
 			array_push($resultdata['aaData'], array(
 				(($pagepos*$iDisplayLength) + $num+1),
 				$item->idbarang,
-				$item->status==ACTIVE ? '<font color="green">Aktif</font>':'<font color="red">Belum Aktif</font>',
+				$statusnya,
 				empty($item->nama_lengkap) ? '-':$item->nama_lengkap,
 				$item->create_time
 			));

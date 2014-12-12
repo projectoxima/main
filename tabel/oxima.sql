@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 06, 2014 at 02:47 AM
+-- Generation Time: Dec 12, 2014 at 09:20 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -109,9 +109,9 @@ CREATE TABLE IF NOT EXISTS `idbarangs` (
 --
 
 INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `create_by`, `update_time`, `update_by`) VALUES
-(1, '00001', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
-(2, '00002', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
-(3, '00003', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
+(1, '00001', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
+(2, '00002', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
+(3, '00003', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (4, '00004', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (5, '00005', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (6, '00006', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -121,7 +121,7 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `
 (10, '00010', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (11, '00011', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (12, '00012', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
-(13, '00013', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
+(13, '00013', 'reserved', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (14, '00014', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (15, '00015', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (16, '00016', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -131,7 +131,7 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `
 (20, '00020', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (21, '00021', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (22, '00022', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
-(23, '00023', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
+(23, '00023', 'reserved', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (24, '00024', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (25, '00025', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (26, '00026', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -17719,6 +17719,22 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `member_action`
+--
+
+CREATE TABLE IF NOT EXISTS `member_action` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `action` varchar(30) NOT NULL,
+  `description` text NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menus`
 --
 
@@ -17761,9 +17777,10 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (56, NULL, 'top', '1', 'Settings', NULL, '', '', 1),
 (57, NULL, 'top', '1', 'Profile', NULL, '', '', 1),
 (58, 51, 'top', '1', 'Manage PIN & ID Barang', 9, '', '', 1),
-(59, 51, 'top', '1', 'Reserved PIN', 18, '', '', 1),
+(59, 51, 'top', '1', 'Reserved Stokis', 18, '', '', 1),
 (60, 53, 'top', '1', 'Set/Approve Repeat Order', NULL, '', '', 1),
 (61, 53, 'top', '1', 'Withdraw List', NULL, '', '', 1),
+(62, 51, 'top', '1', 'Reserved to Member', 27, '', '', 1),
 (100, NULL, 'top', '1', 'Logout', 4, '', '', 1),
 (150, NULL, 'top', '2', 'Manage Member', 13, '', '', 1),
 (151, NULL, 'top', '2', 'Membership', NULL, '', '', 1),
@@ -17771,17 +17788,18 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (153, NULL, 'top', '2', 'Member', NULL, '', '', 1),
 (154, NULL, 'top', '2', 'Reports', NULL, '', '', 1),
 (157, NULL, 'top', '2', 'Profile', NULL, '', '', 1),
-(159, 151, 'top', '2', 'Reserved PIN', 18, '', '', 1),
+(159, 151, 'top', '2', 'Reserved Stokis', 18, '', '', 1),
 (160, 153, 'top', '2', 'Set/Approve Repeat Order', NULL, '', '', 1),
 (161, 153, 'top', '2', 'Withdraw List', NULL, '', '', 1),
+(162, 151, 'top', '2', 'Reserved to Member', 27, '', '', 1),
 (200, NULL, 'top', '2', 'Logout', 4, '', '', 1),
 (250, NULL, 'top', '3', 'My Account', NULL, '', '', 1),
-(251, NULL, 'top', '3', 'Membership', NULL, '', '', 1),
+(251, NULL, 'top', '3', 'Stokis', NULL, '', '', 1),
 (252, NULL, 'top', '3', 'Network Graph', NULL, '', '', 1),
 (253, NULL, 'top', '3', 'Member', NULL, '', '', 1),
 (254, NULL, 'top', '3', 'Report', NULL, '', '', 1),
 (257, NULL, 'top', '3', 'Profile', NULL, '', '', 1),
-(259, 251, 'top', '3', 'My PIN', 18, '', '', 1),
+(259, 251, 'top', '3', 'Reserved to Member', 27, '', '', 1),
 (260, 253, 'top', '3', 'Repeat Order', NULL, '', '', 1),
 (261, 253, 'top', '3', 'Withdraw', NULL, '', '', 1),
 (300, NULL, 'top', '3', 'Logout', 4, '', '', 1);
@@ -17799,7 +17817,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `modules`
@@ -17823,30 +17841,16 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (15, 'manageuser', 'add_user', 'tambah-user', ''),
 (16, 'manageuser', 'user_detail', 'detail-user/(:any)', '$1'),
 (17, 'manageuser', 'toggle_status_user', 'status-user/(:any)', '$1'),
-(18, 'reservedpin', 'index', 'reserved-pin', ''),
+(18, 'reservedpin', 'index', 'reserved-stokis', ''),
 (19, 'reservedpin', 'add', 'tambah-reserved', ''),
 (20, 'reservedpin', 'reserved_list', 'daftar-reserved', ''),
 (21, 'reservedpin', 'pin_list', 'daftar-pin-aktif/(:any)', '$1'),
 (22, 'reservedpin', 'stokis_list', 'reserved-daftar-stokis/(:any)', '$1'),
 (23, 'reservedpin', 'parent_list', 'reserved-daftar-parent/(:any)', '$1'),
-(24, 'reservedpin', 'idbarang_list', 'reserved-idbarang-list/(:any)', '$1');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `notification`
---
-
-CREATE TABLE IF NOT EXISTS `notification` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `action` varchar(30) NOT NULL,
-  `description` text NOT NULL,
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `read` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+(24, 'reservedpin', 'idbarang_list', 'reserved-idbarang-list/(:any)', '$1'),
+(25, 'auth', 'check_pin', 'register-check-pin', ''),
+(26, 'welcome', 'bad_request', 'error-bad-request', ''),
+(27, 'reservedpin', 'reserved_member', 'reserved-to-member', '');
 
 -- --------------------------------------------------------
 
@@ -17951,6 +17955,21 @@ INSERT INTO `pins` (`id`, `pin`, `status`, `create_time`, `user_id`, `create_by`
 (68, '7154CE047C60', 'inactive', '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
 (69, 'D3CEAB1E4305', 'inactive', '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL),
 (70, '4CD08CF08DDC', 'inactive', '2014-11-29 02:12:08', NULL, 1, '0000-00-00 00:00:00', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `points`
+--
+
+CREATE TABLE IF NOT EXISTS `points` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `type` enum('SELF','CHILD') NOT NULL,
+  `child_id` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -18065,6 +18084,36 @@ CREATE TABLE IF NOT EXISTS `reserved_pins` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reserved_stokis`
+--
+
+CREATE TABLE IF NOT EXISTS `reserved_stokis` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stokis_id` bigint(20) NOT NULL,
+  `idbarang_id` bigint(20) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_by` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `stokis_id` (`stokis_id`),
+  KEY `idbarang_id` (`idbarang_id`),
+  KEY `create_by` (`create_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `reserved_stokis`
+--
+
+INSERT INTO `reserved_stokis` (`id`, `stokis_id`, `idbarang_id`, `status`, `create_by`, `create_time`) VALUES
+(1, 3, 1, 0, 1, '2014-12-11 23:29:09'),
+(2, 3, 2, 0, 1, '2014-12-11 23:29:09'),
+(3, 3, 3, 0, 1, '2014-12-11 23:29:09'),
+(4, 3, 13, 0, 1, '2014-12-11 23:29:09'),
+(5, 3, 23, 0, 1, '2014-12-11 23:29:09');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `resets`
 --
 
@@ -18117,6 +18166,7 @@ CREATE TABLE IF NOT EXISTS `titiks` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `idbarang_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
+  `order` enum('left','center','right') DEFAULT 'left',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
@@ -18142,6 +18192,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pin_id` bigint(20) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `stokis` tinyint(4) NOT NULL DEFAULT '0',
+  `biaya_daftar` int(11) DEFAULT '0',
+  `point` int(11) NOT NULL DEFAULT '0',
+  `sponsor_id` bigint(20) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
@@ -18151,19 +18204,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `user_type` (`group_id`),
   KEY `pin_id` (`pin_id`),
   KEY `create_by` (`create_by`),
-  KEY `update_by` (`update_by`)
+  KEY `update_by` (`update_by`),
+  KEY `sponsor_id` (`sponsor_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 1, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
-(7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `biaya_daftar`, `point`, `sponsor_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 0, 0, 0, NULL, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
+(7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, 0, 0, NULL, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18196,6 +18250,7 @@ CREATE TABLE IF NOT EXISTS `user_sponsor` (
   `user_id` bigint(20) NOT NULL,
   `titik_id` bigint(20) NOT NULL,
   `sponsor_id` bigint(20) NOT NULL,
+  `up_level` int(11) NOT NULL DEFAULT '0',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -18242,17 +18297,17 @@ ALTER TABLE `idbarangs`
   ADD CONSTRAINT `idbarangs_ibfk_3` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `member_action`
+--
+ALTER TABLE `member_action`
+  ADD CONSTRAINT `member_action_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `menus`
 --
 ALTER TABLE `menus`
   ADD CONSTRAINT `menus_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `menus_ibfk_2` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `notification`
---
-ALTER TABLE `notification`
-  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `parent_childs`
@@ -18305,6 +18360,14 @@ ALTER TABLE `reserved_pins`
   ADD CONSTRAINT `reserved_pins_ibfk_6` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `reserved_stokis`
+--
+ALTER TABLE `reserved_stokis`
+  ADD CONSTRAINT `reserved_stokis_ibfk_1` FOREIGN KEY (`stokis_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_ibfk_3` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `resets`
 --
 ALTER TABLE `resets`
@@ -18326,7 +18389,8 @@ ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_3` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `users_ibfk_4` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `users_ibfk_5` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `users_ibfk_6` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `users_ibfk_6` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `users_ibfk_7` FOREIGN KEY (`sponsor_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_bonus`

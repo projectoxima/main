@@ -25,6 +25,9 @@ List helpers
 	- web_content($key)
 - session_helper
 	- get_user()
+	- encode_id($table_id)
+	- decode_id($decode_string)
+	- test_id($decode_result)
 - settings_helper
 	- load_settings()
 
@@ -50,4 +53,30 @@ SMS
 - update profil
 - event
 
+
+TODO
+----------------
+- export ke excel masuk ke report
+- mapping member
+- mekanisme backup data
+- ada pencatatan resume jumlah member yang dia ajak
+
+
+Other Info
+----------------
 Poin ketika repeat order yang dapet cuma satu parent sponsor nya aza
+
+semua bisa RO
+ketika member gabung dia langsung dapat bonus tambahan
+member bisa menggunakan keseluruha bonus tambahan & bonus titik untuk RO
+ketika stokis jual barang harus ada status apakah member sudah lunas atau belum
+- bonus
+- poin
+- promo
+
+register jadi aktivasi
+login bisa username n password atau pin n idbarang
+proses reserved pin, stokis hanya diberi idbarang, pin diambil secara acak ketika ada member yg beli
+
+yang direserved cukup idbarang
+pin diambil oleh stokis, ketika ada idbarang yang terjual

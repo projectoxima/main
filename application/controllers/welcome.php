@@ -39,4 +39,8 @@ class Welcome extends OxyController {
 		file_put_contents(APPPATH . "cache/new_routes.php", $output);
 		redirect(base_url());
 	}
+	
+	function bad_request(){
+		$this->layout->view('error/400', array());
+	}
 }

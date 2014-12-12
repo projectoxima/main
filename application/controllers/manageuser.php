@@ -8,7 +8,7 @@ class Manageuser extends OxyController {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('admin/user_model', 'user');
-		$this->load->library('Encoder');
+		//~ $this->load->library('Encoder');
 	}
 
 	/* halaman daftar user */
@@ -60,9 +60,7 @@ class Manageuser extends OxyController {
 			
 			$buttons = '';
 			//~ generate url ke page user detail, user_id diencode
-			$user_id_dec = $item->id;
-			$user_id_dec = $this->encoder->encode($user_id_dec, ENCRYPT_KEY);
-			$user_id_dec = urlencode($user_id_dec);
+			$user_id_dec = encode_id($item->id);
 			$url_detail = route_url('manageuser', 'user_detail', array($user_id_dec));
 			$url_toggle = route_url('manageuser', 'toggle_status_user', array($user_id_dec));
 			
@@ -173,11 +171,8 @@ class Manageuser extends OxyController {
 	
 	/* detail user */
 	function user_detail($user_id){
-		$user_id_dec = urldecode($user_id);
-		$user_id_dec = $this->encoder->decode($user_id_dec, ENCRYPT_KEY);
-		$user_id = $user_id_dec;
-		
-		if($user_id > 0){
+		$user_id = decode_id($user_id);
+		if(test_id($user_id)){
 			$detail_user = $this->user->user_detail($user_id);
 			$this->layout->view('admin/detail_user', array(
 				'user'=>$detail_user

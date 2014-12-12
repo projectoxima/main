@@ -1,136 +1,169 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Users extends CI_Model {
-  public function __construct()
-  {
-      parent::__construct();
-  }
-
-  public function find_all() {
-      $query = $this->db->get('users');
-
-      if($query->num_rows() > 0){
-          return $query->result_array();
-      } else {
-          return 0;
-      }
-  }
-
-  public function find_by_username_password($username, $password, $mode_member) {
-	$criteria = array(
-		'username' => $username, 
-		'password' => md5($password),
-		'status' => ACTIVE
-	);
-  	$this->db->where($criteria);
-  	if($mode_member){
-		$this->db->where('group_id', USER_MEMBER);
-	}else{
-		$this->db->where(sprintf("group_id IN ('%s', '%s')", USER_ADMIN, USER_OPERATOR), null, false);
+	public function __construct(){
+		parent::__construct();
 	}
-  	$query = $this->db->get('users');
 
-  	if($query->num_rows() > 0){
-      $user = $query->result_array();
-      return $user[0];
-  	} else {
-  		return 0;
-  	}
-  }
+	public function find_all() {
+		$query = $this->db->get('users');
 
-  public function find_by_id_pin($pin, $id) {
-    $this->db->where(array('pin_id' => $pin, 'idbarang_id' => $id));
-    $query = $this->db->get('reserved_pins');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		} else {
+			return 0;
+		}
+	}
 
-    if($query->num_rows() > 0){
-      $pin = $query->result_array();
-      return $pin[0];
-    } else {
-      return 0;
-    }
-  }
+	public function find_by_username_password($username, $password, $mode_member) {
+		$criteria = array(
+			'username' => $username, 
+			'password' => md5($password),
+			'status' => ACTIVE
+		);
+			$this->db->where($criteria);
+			if($mode_member){
+			$this->db->where('group_id', USER_MEMBER);
+		}else{
+			$this->db->where(sprintf("group_id IN ('%s', '%s')", USER_ADMIN, USER_OPERATOR), null, false);
+		}
+		$query = $this->db->get('users');
 
-  function find_username($name) {
-      $this->db->where(array('username' => $name));
-      $query = $this->db->get('users');
+		if($query->num_rows() > 0){
+			$user = $query->result_array();
+			return $user[0];
+		} else {
+			return 0;
+		}
+	}
+	
+	function get_user_detail($user_id){
+		$this->db->from('users u');
+		$this->db->join('profiles p', 'p.user_id=u.id');
+		$this->db->where('u.id', $user_id);
+		return $this->db->get()->row();
+	}
+	
+	function find_by_id($user_id){
+		return $this->db->get_where('users', array('id'=>$user_id))->row();
+	}
 
-      if($query->num_rows() > 0) {
-          return $query->result_array();
-      } else {
-          return 0;
-      }
-  }
+	public function find_by_id_pin($pin, $id) {
+		$this->db->where(array('pin_id' => $pin, 'idbarang_id' => $id));
+		$query = $this->db->get('reserved_pins');
 
-  function find_user($id){
-    $this->db->where(array('id' => $id));
-    $query = $this->db->get('users');
+		if($query->num_rows() > 0){
+			$pin = $query->result_array();
+			return $pin[0];
+		} else {
+			return 0;
+		}
+	}
 
-    if($query->num_rows() > 0){
-      $users = $query->result_array();
-      return $users[0];
-    } else {
-      return 0;
-    }
-  }
+	function find_username($name) {
+		$this->db->where(array('username' => $name));
+		$query = $this->db->get('users');
 
-  function create($user){
-    $query = $this->db->insert('users', $user);
+		if($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return 0;
+		}
+	}
 
-    return $query;
-  }
+	function find_user($id){
+		$this->db->where(array('id' => $id));
+		$query = $this->db->get('users');
 
-  function update($id, $data){
-    $this->db->where('id', $id);
-    $query = $this->db->update('users', $data);
+		if($query->num_rows() > 0){
+			$users = $query->result_array();
+			return $users[0];
+		} else {
+			return 0;
+		}
+	}
 
-    return $query;
-  }
+	function create($user){
+		$query = $this->db->insert('users', $user);
 
-  function remove($id){
-    $query = $this->db->delete('users', array('id' => $id));
+		return $query;
+	}
 
-    return $query; 
-  }
+	function update($id, $data){
+		$this->db->where('id', $id);
+		$query = $this->db->update('users', $data);
 
-  function find_email($email) {
-    $this->db->where(array('email' => $email));
-    $query = $this->db->get('profiles');
+		return $query;
+	}
 
-    if($query->num_rows() > 0){
-      $user = $query->result_array();
-      return $user[0];
-    } else {
-      return 0;
-    }      
-  }
+	function remove($id){
+		$query = $this->db->delete('users', array('id' => $id));
 
-  function insert_token($data) {
-    $query = $this->db->insert('resets', $data);
+		return $query; 
+	}
 
-    return $query;      
-  }
+	function find_email($email) {
+		$this->db->where(array('email' => $email));
+		$query = $this->db->get('profiles');
 
-  function find_where($column, $data) {
-    $this->db->where(array($column => $data));
-    $query = $this->db->get('users');
+		if($query->num_rows() > 0){
+			$user = $query->result_array();
+			return $user[0];
+		} else {
+			return 0;
+		}			
+	}
 
-    if($query->num_rows() > 0) {
-      $result = $query->result_array();
-      return $result[0];      
-    } else {
-      return 0;
-    }
-  }
+	function insert_token($data) {
+		$query = $this->db->insert('resets', $data);
 
-  function find_profile($id){
-    $this->db->where(array('user_id' => $id));
-    $query = $this->db->get('profiles');
+		return $query;			
+	}
 
-    if($query->num_rows() > 0){
-      $users = $query->result_array();
-      return $users[0];
-    } else {
-      return 0;
-    }
-  }
+	function find_where($column, $data) {
+		$this->db->where(array($column => $data));
+		$query = $this->db->get('users');
+
+		if($query->num_rows() > 0) {
+			$result = $query->result_array();
+			return $result[0];			
+		} else {
+			return 0;
+		}
+	}
+
+	function find_profile($id){
+		$this->db->where(array('user_id' => $id));
+		$query = $this->db->get('profiles');
+
+		if($query->num_rows() > 0){
+			$users = $query->result_array();
+			return $users[0];
+		} else {
+			return 0;
+		}
+	}
+	
+	//~ mengambil data member yang berada pada jaringan sponsor tertentu
+	function get_last_level_sponsor($sponsor_id){
+		$this->db->from('user_sponsor m');
+		$this->db->where('m.sponsor_id', $sponsor_id);
+		$this->db->where('m.up_level=(SELECT MAX(up_level) FROM user_sponsor WHERE sponsor_id=' .$sponsor_id. ')', null, false);
+		return $this->db->get()->result();
+	}
+	
+	function get_root_titik(){
+		$this->db->from('parent_childs pc');
+		$this->db->join('titik t', 't.id=pc.titik_id', 'left');
+		$this->db->where('pc.parent_child_id is NULL', null, false);
+		return $this->db->get()->row();
+	}
+	
+	function save_titik($user_id, $idbarang_id, $titik_parent_id){
+		$childs = $this->get_last_level_sponsor($titik_parent_id);
+		
+	}
+	
+	function save_root($user_id){
+	}
 }
