@@ -82,9 +82,13 @@
   	</form>
   	<h3>Member Tree</h3>
   	<hr>
+  	<a class="btn btn-primary" href="<?php echo base_url() ;?>member/">Member Tree</a>
+  	<br>
 
 		<div class="hide"><?php echo $tree; ?></div>
 		<div id="orgchart-container"></div>
+
+		<div id="orgchart"></div>
   </div>
 </div>
 
@@ -110,9 +114,11 @@
 							<input type="text" class="form-control" id="view-alamat" name="view-alamat" disabled>
 						</div>
 					</div>
+					<input type="hidden" id="titik-id" name="titik-id">
         </form>
       </div>
       <div class="modal-footer">
+        <button type="button" id="upline-button" class="btn btn-default" data-dismiss="modal" rel="tooltip" data-toggle="tooltip" title="Upline">Upline</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" rel="tooltip" data-toggle="tooltip" title="Canceled">Close</button>
       </div>
     </div><!-- /.modal-content -->
@@ -133,6 +139,7 @@
 		      if(response.status == "ok"){
 		        $('#view-name').val(response.data.nama_lengkap);
 		        $('#view-alamat').val(response.data.alamat);
+		        $('#titik-id').val(id);
 		      }
 		    })
 		    .fail(function(){
@@ -141,6 +148,11 @@
 
 		    $('#modal-view-profile').modal('show')
 		  }
+		});
+
+		$('#upline-button').click(function(){
+			var id = $('#titik-id').val();
+			window.location = '<?php echo base_url(); ?>' + 'member/upline/' + id;
 		});
 	});
 </script>

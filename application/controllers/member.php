@@ -20,6 +20,17 @@ class Member extends OxyController {
 		$this->layout->view('member/index', $data);
 	}
 
+	public function upline($id){
+		$data['profile'] = $this->users->find_profile($this->session->userdata('id'));
+
+		// Get Top Parent
+		// $titiks = $this->members->find_titik_parent($this->session->userdata('id'));
+		$parent = $this->members->find_parent_of_childs($id);		
+		$data['tree'] = $this->traverse_tree($parent['parent_child_id'], 0);
+
+		$this->layout->view('member/index', $data);
+	}
+
 	public function add_member(){
 		$this->layout->view('member/register', null);
 	}
