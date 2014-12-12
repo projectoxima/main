@@ -107,6 +107,16 @@ class Member extends OxyController {
 		$tree .= '</ul>';
 		return $tree;
 	}
+
+	public function get_profile($id){
+		$profile = $this->users->find_profile($id);
+
+		if($profile > 0){
+			echo json_encode(array('status' => 'ok', 'data' => $profile));
+		} else {
+			echo json_encode(array('status' => 'error'));
+		}
+	}
 }
 
 /* End of file home.php */
