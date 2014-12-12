@@ -32,4 +32,5 @@ $route['reserved-idbarang-list'] = 'reservedpin/idbarang_list/';
 $route['reserved-idbarang-list/(:any)'] = 'reservedpin/idbarang_list/$1';
 $route['register-check-pin'] = 'auth/check_pin/';
 $route['error-bad-request'] = 'welcome/bad_request/';
+$route['reserved-to-member'] = 'reservedpin/reserved_member/';
 ?>

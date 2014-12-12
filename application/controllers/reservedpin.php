@@ -10,12 +10,14 @@ class Reservedpin extends OxyController {
 		$this->load->model('admin/reservedpin_model', 'rpin');
 	}
 
-	//~ all user
+	//~ ============= reserved stokis, hanya untuk admin dan operator
 	public function index(){
-		
-		$this->layout->view('reservedpin/reserved', array(
-			'resume'=>$this->rpin->reserved_stokis_resume()
-		));
+		if(get_user()->group_id!=USER_MEMBER)
+			$this->layout->view('reservedpin/reserved', array(
+				'resume'=>$this->rpin->reserved_stokis_resume()
+			));
+		else
+			$this->layout->view('error/401', array());
 	}
 	
 	//~ khusus admin dan operator
@@ -140,4 +142,24 @@ class Reservedpin extends OxyController {
 		}
 		die;
 	}
+	
+	//~ =============== start reserved to member
+	//~ reserved member dilakukan ketika ada member yang membeli produk
+	//~ baik member lama maupun member baru
+	//~ dapat diakses admin, operator, dan stokis, 
+	//~ hanya saja klw stokis terbatas hanya dapat melihat punya dirinya sendiri
+	public function reserved_member(){
+		$cekuser = true;
+		if(get_user()->group_id==USER_MEMBER && get_user()->stokis==INACTIVE)
+			//~ yang dapat mengakses hanya member stokis
+			$cekuser = false;
+		
+		
+		if($cekuser)
+			$this->layout->view('reservedpin/reserved_to_member', array());
+		else
+			$this->layout->view('error/401', array('message'=>'Anda belum menjadi stokis'));
+	}
+	
+	//~ =============== end reserved to member
 }

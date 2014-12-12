@@ -1,6 +1,5 @@
 <div class="col-md-12">
 	
-	<?php if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])): ?>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<h3>Input Reserved Stokis</h3>
@@ -32,7 +31,6 @@
 			</form>
 		</div>
 	</div>
-	<?php endif; ?>
 	
 	<br/>
 	<br/>
