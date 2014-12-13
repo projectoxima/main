@@ -179,6 +179,35 @@ class reservedpin_model extends CI_Model {
 	}
 	
 	//~ reservedpin/reserved_member_save
+	//~ mengambil data member yang berada pada jaringan sponsor tertentu
+	function get_last_level_sponsor($sponsor_id){
+		$this->db->from('user_sponsor m');
+		$this->db->join('titiks t', 't.id=m.titik_id');
+		$this->db->where('m.sponsor_id', $sponsor_id);
+		$this->db->where('m.up_level=(SELECT MAX(up_level) FROM user_sponsor WHERE sponsor_id=' .$sponsor_id. ')', null, false);
+		$this->db->order_by('t.order ASC');
+		return $this->db->get()->result();
+	}
+	
+	//~ reservedpin/reserved_member_save
+	function get_root_titik(){
+		$this->db->from('parent_childs pc');
+		$this->db->join('titik t', 't.id=pc.titik_id', 'left');
+		$this->db->where('pc.parent_child_id is NULL', null, false);
+		return $this->db->get()->row();
+	}
+	
+	//~ reservedpin/reserved_member_save
+	function save_titik($user_id, $idbarang_id, $titik_parent_id){
+		$childs = $this->get_last_level_sponsor($titik_parent_id);
+		
+	}
+	
+	//~ reservedpin/reserved_member_save
+	function save_root($user_id){
+	}
+	
+	//~ reservedpin/reserved_member_save
 	public function save_profiles($data){
 		$this->db->set('create_time', 'NOW()', FALSE);
 		$this->db->insert('profiles', $data);

@@ -143,27 +143,4 @@ class Users extends CI_Model {
 			return 0;
 		}
 	}
-	
-	//~ mengambil data member yang berada pada jaringan sponsor tertentu
-	function get_last_level_sponsor($sponsor_id){
-		$this->db->from('user_sponsor m');
-		$this->db->where('m.sponsor_id', $sponsor_id);
-		$this->db->where('m.up_level=(SELECT MAX(up_level) FROM user_sponsor WHERE sponsor_id=' .$sponsor_id. ')', null, false);
-		return $this->db->get()->result();
-	}
-	
-	function get_root_titik(){
-		$this->db->from('parent_childs pc');
-		$this->db->join('titik t', 't.id=pc.titik_id', 'left');
-		$this->db->where('pc.parent_child_id is NULL', null, false);
-		return $this->db->get()->row();
-	}
-	
-	function save_titik($user_id, $idbarang_id, $titik_parent_id){
-		$childs = $this->get_last_level_sponsor($titik_parent_id);
-		
-	}
-	
-	function save_root($user_id){
-	}
 }

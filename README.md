@@ -80,3 +80,9 @@ proses reserved pin, stokis hanya diberi idbarang, pin diambil secara acak ketik
 
 yang direserved cukup idbarang
 pin diambil oleh stokis, ketika ada idbarang yang terjual
+
+Proses Penambahan Titik
+-----------------------
+Ketika ada member yang beli barang lagi ke sponsor, maka titiknya harus ada dibawah
+titik punya dirinya sendiri, titiknya harus berada pada jaringan punya dirinya.
+

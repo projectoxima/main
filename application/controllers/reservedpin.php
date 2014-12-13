@@ -182,6 +182,19 @@ class Reservedpin extends OxyController {
 				if(count($idbarang)==0)
 					throw new Exception('Pilih salah satu atau lebih ID Barang');
 				
+				$sponsor_id = 0;
+				if(get_user()->group_id==USER_MEMBER)
+					$sponsor_id = get_user()->id;
+				else{
+					if(empty($stokis_pin))
+						throw new Exception('PIN Stokis harus diisi');
+					
+					$member_sponsor = $this->rpin->get_member_active_data(addslashes($stokis_pin));
+					if(!is_object($member_sponsor))
+						throw new Exception('PIN sponsor tidak valid, data sponsor tidak ditemukan');
+					$sponsor_id = $member_sponsor->id;
+				}
+				
 				if($member=='aktif'){
 					//~ get member data
 					$member_data = $this->rpin->get_member_active_data(addslashes($input_pin));
@@ -193,19 +206,6 @@ class Reservedpin extends OxyController {
 					if(!is_object($new_member_pin))
 						throw new Exception('PIN tidak tersedia, kontak admin');
 					$this->rpin->update_pin_status($new_member_pin->id, STATUS_ACTIVE);
-					
-					$sponsor_id = 0;
-					if(get_user()->group_id==USER_MEMBER)
-						$sponsor_id = get_user()->id;
-					else{
-						if(empty($stokis_pin))
-							throw new Exception('PIN Stokis harus diisi');
-						
-						$member_sponsor = $this->rpin->get_member_active_data(addslashes($stokis_pin));
-						if(!is_object($member_sponsor))
-							throw new Exception('PIN sponsor tidak valid, data sponsor tidak ditemukan');
-						$sponsor_id = $member_sponsor->id;
-					}
 					
 					$table_users = array(
 						'username'=>$new_member_pin->pin,
@@ -253,7 +253,10 @@ class Reservedpin extends OxyController {
 						'create_by'=>get_user()->id
 					);
 					
-					//~ todo : setup parent_childs
+					//todo : setup parent_childs
+					//todo : member action register
+					//todo : add user & sponsor & parent bonus
+					//todo : cek status stokis sponsor
 				}
 				
 				redirect(route_url('reservedpin', 'reserved_member'));
