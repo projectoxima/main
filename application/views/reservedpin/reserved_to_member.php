@@ -8,6 +8,8 @@
 	<h3>Reserved to Member</h3>
 	<div class="panel panel-default">
 		<div class="panel-body">
+		<form method="post" action="<?php echo route_url('reservedpin', 'reserved_member_save') ?>">
+			
 			<div class="col-md-3">
 				<label>Pilih ID Barang yang akan dijual</label>
 			</div>
@@ -16,35 +18,91 @@
 					<thead><tr>
 						<th width="10px">No</th><th>ID Barang</th><th>Status</th><th>Pilih</th>
 					</tr></thead>
+					<tbody>
+					<?php foreach($daftar_barang as $idx=>$dbarang): ?>
+					<tr>
+						<td><?php echo $idx+1 ?></td>
+						<td><?php echo $dbarang->idbarang ?></td>
+						<td><?php echo $dbarang->status ?></td>
+						<td align="center"><input type="checkbox" name="idbarang[]" value="<?php echo encode_id($dbarang->id) ?>" /></td>
+					</tr>
+					<?php endforeach; ?>
+					</tbody>
 				</table>
 			</div>
+			
+			<?php if(get_user()->group_id!=USER_MEMBER): ?>
+			<div class="col-md-12 row">&nbsp;</div>
+			
+			<div class="col-md-3">
+				<label>PIN Stokis</label>
+			</div>
+			<div class="col-md-9">
+				<div class="col-md-4">
+					<input type="text" class="form-control" name="stokis_pin" placeholder="PIN Stokis" required />
+				</div>
+			</div>
+			<?php endif; ?>
 			
 			<div class="col-md-12 row">&nbsp;</div>
 			
 			<div class="col-md-3">
 				<label>Pilih pembeli barang</label>
 			</div>
-			<div class="col-md-9">
-				<button class="btn btn-warning">Member aktif</button> &nbsp; 
-				<button class="btn btn-success">Member baru</button> &nbsp; 
+			<div class="col-md-2">
+				<div class="radio">
+					<label>
+					<input type="radio" name="member" id="member-aktif" value="aktif" checked>Member aktif
+					</label>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<div class="radio">
+					<label>
+					<input type="radio" name="member" id="member-baru" value="baru">Member baru
+					</label>
+				</div>
+			</div>
+			
+			<div class="col-md-12 row">&nbsp;</div>
+			
+			<div class="col-md-9 col-md-offset-3 member-aktif">
+				<p><i>Silakan masukan PIN Member yang membeli barang</i></p>
+				<div class="col-md-4">
+					<input type="text" class="form-control" name="input_pin" placeholder="Member PIN" />
+				</div>
+			</div>
+			
+			<div class="col-md-9 col-md-offset-3 member-baru" style="display:none;">
+				<p><i>Silakan masukan data Member baru yang membeli barang</i></p>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="input_nama" placeholder="Nama" />
+				</div>
+				<div class="col-md-8">
+					<textarea class="form-control" name="input_alamat" placeholder="Alamat"></textarea>
+				</div>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="input_ktp" placeholder="Nomor KTP" />
+				</div>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="input_norek" placeholder="Nomor Rekening" />
+				</div>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="input_namarek" placeholder="Nama Rekening" />
+				</div>
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="input_bank" placeholder="Nama Bank" />
+				</div>
 			</div>
 			
 			<div class="col-md-12 row">&nbsp;</div>
 			
 			<div class="col-md-3">
-				<label>PIN member</label>
+				<label>Biaya pembelian</label>
 			</div>
 			<div class="col-md-9">
-				<input type="text" class="form-control" name="pin" placeholder="PIN" readonly style="text-align:center" />
-			</div>
-			
-			<div class="col-md-12 row">&nbsp;</div>
-			
-			<div class="col-md-3">
-				<label>Biaya pembelian (minimal Rp. 30.000)</label>
-			</div>
-			<div class="col-md-9">
-				<input type="text" class="form-control" name="biaya" value="30000" style="text-align:center" />
+				<p><i>Nilai pembelian per-barang</i></p>
+				<input type="text" class="form-control" name="biaya" placeholder="Minimal Rp. 30.000" style="text-align:center" required />
 			</div>
 			
 			<div class="col-md-12 row">&nbsp;</div>
@@ -52,7 +110,26 @@
 			<div class="col-md-3">
 				<button class="btn btn-primary btn-lg">Simpan</button>
 			</div>
+			
+		</form>
 		</div>
 	</div>
 
+<br/>
+
+	<h3>Daftar Reserved</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+		</div>
+	</div>
 </div>
+
+<script type="text/javascript">
+	<?php if(count($daftar_barang)==0): ?>
+	$(function(){
+		$.growl.error({message: 'Anda belum memiliki ID Barang untuk dijual<br/>Silakan kontak admin'});
+	});
+	<?php endif; ?>
+	window.reserved_pin_url = '<?php echo route_url('reservedpin', 'reserved_list') ?>';
+</script>
+<script src="<?php echo site_url(); ?>/assets/js/modules/reserved.to.member.js"></script>

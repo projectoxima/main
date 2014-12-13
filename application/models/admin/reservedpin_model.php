@@ -82,12 +82,14 @@ class reservedpin_model extends CI_Model {
 		);
 	}
 	
+	//~ reservedpin/reserved_member_save
 	function update_pin_status($pin_id, $status){
 		$this->db->where('id', $pin_id);
 		$this->db->update('pins', array('status'=>$status));
 		return true; 
 	}
 	
+	//~ reservedpin/reserved_member_save
 	function update_idbarang_status($idbarang_id, $status){
 		$this->db->where('id', $idbarang_id);
 		$this->db->update('idbarangs', array('status'=>$status));
@@ -123,5 +125,63 @@ class reservedpin_model extends CI_Model {
 	
 	public function get_reserved_detail_by_pin_id($pin_id){
 		return $this->db->get_where('reserved_pins', array('pin_id', $pin_id))->row();
+	}
+	
+	//~ reservedpin/reserved_member
+	public function get_barang_from_idbarangs(){
+		$this->db->from('idbarangs');
+		$this->db->where('status', STATUS_INACTIVE);
+		$this->db->limit(10);
+		return $this->db->get()->result();
+	}
+	
+	//~ reservedpin/reserved_member
+	public function get_barang_from_reserved($user_id){
+		$this->db->select('idb.*, m.stokis_id');
+		$this->db->from('reserved_stokis m');
+		$this->db->join('idbarangs idb', 'idb.id=m.idbarang_id');
+		$this->db->where('m.status', INACTIVE);
+		$this->db->where('m.stokis_id', $user_id);
+		$this->db->limit(10);
+		return $this->db->get()->result();
+	}
+	
+	//~ reserpedpin/reserved_member_save
+	public function get_member_active_data($pin){
+		$this->db->from('users m');
+		$this->db->join('pins p', 'p.id=m.pin_id');
+		$this->db->join('profiles pr', 'pr.user_id=m.id');
+		$this->db->where('p.pin', $pin);
+		return $this->db->get()->row();
+	}
+	
+	//~ reservedpin/reserved_member_save
+	public function get_member_by_id($user_id){
+		$this->db->from('users m');
+		$this->db->join('pins p', 'p.id=m.pin_id');
+		$this->db->join('profiles pr', 'pr.user_id=m.id');
+		$this->db->where('m.id', $user_id);
+		return $this->db->get()->row();
+	}
+	
+	//~ reservedpin/reserved_member_save
+	public function get_random_pin(){
+		$this->db->from('pins');
+		$this->db->where('status', STATUS_INACTIVE);
+		return $this->db->get()->row();
+	}
+	
+	//~ reservedpin/reserved_member_save
+	public function save_users($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('users', $data);
+		return $this->db->insert_id();
+	}
+	
+	//~ reservedpin/reserved_member_save
+	public function save_profiles($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('profiles', $data);
+		return $this->db->insert_id();
 	}
 }
