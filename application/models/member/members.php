@@ -80,4 +80,30 @@ class Members extends CI_Model {
       return 0;
     }
   }
+
+  function find_titik_parent($id){
+    $this->db->where(array('user_id' => $id));
+    $this->db->order_by('create_time', 'asc');
+    $this->db->limit(1);
+    $query = $this->db->get('titiks');
+
+    if($query->num_rows() > 0){
+      $user = $query->result_array();
+      return $user[0];
+    } else {
+      return 0;
+    }
+  }
+
+  function find_parent_of_childs($id){
+    $this->db->where(array('titik_id' => $id));
+    $query = $this->db->get('parent_childs');
+
+    if($query->num_rows() > 0){
+      $user = $query->result_array();
+      return $user[0];
+    } else {
+      return 0;
+    }
+  }
 }

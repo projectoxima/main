@@ -82,52 +82,77 @@
   	</form>
   	<h3>Member Tree</h3>
   	<hr>
-
-  	<div class="hide">
-			<ul id='chart-source'>
-                <li>Asep
-                    <ul>
-                        <li>Budi<br/>
-                            <ul>
-                                <li>Jaka</li>
-                                <li>Cecep</li>
-                                <li>Kamaluddin</li>
-                            </ul>
-                        </li>
-                        <li>Dede<br/>
-                            <ul>
-                                <li>Eep</li>
-                                <li>Fariz</li>
-                                <li>Luna</li>
-                            </ul>
-                        </li>
-                        <li>Gunawan<br/>
-                            <ul>
-                                <li>Hismi</li>
-                                <li>Ijang</li>
-                                <li>Maya</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-			</ul>
-		</div>
-
-		<div id='chart-container'>
-		</div>
-
+  	<a class="btn btn-primary" href="<?php echo base_url() ;?>member/">Member Tree</a>
+  	<br>
 
 		<div class="hide"><?php echo $tree; ?></div>
 		<div id="orgchart-container"></div>
+
+		<div id="orgchart"></div>
   </div>
 </div>
+
+
+<div class="modal" id="modal-view-profile">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" rel="tooltip" data-toggle="tooltip" title="Close Form">&times;</button>
+        <h4 class="modal-title">Member Detail</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="form-view-profile">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">Nama Lengkap</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="view-name" name="view-name" disabled>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">Alamat</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="view-alamat" name="view-alamat" disabled>
+						</div>
+					</div>
+					<input type="hidden" id="titik-id" name="titik-id">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="upline-button" class="btn btn-default" data-dismiss="modal" rel="tooltip" data-toggle="tooltip" title="Upline">Upline</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" rel="tooltip" data-toggle="tooltip" title="Canceled">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script src="<?php echo site_url(); ?>/assets/js/orgchart/jquery.orgchart.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#chart-source').orgChart({container: $('#chart-container')});
-
 		$('#org-chart').orgChart({
-		  container: $('#orgchart-container')
+		  container: $('#orgchart-container'),
+		  nodeClicked: function($node){
+		    var id = $node.data('id');
+		    $.ajax({
+		      url: '<?php echo base_url();?>member/get_profile/' + id,
+		      dataType: 'json'
+		    })
+		    .done(function(response, textStatus, jqhr){
+		      if(response.status == "ok"){
+		        $('#view-name').val(response.data.nama_lengkap);
+		        $('#view-alamat').val(response.data.alamat);
+		        $('#titik-id').val(id);
+		      }
+		    })
+		    .fail(function(){
+		    	alert('fail');
+		    });
+
+		    $('#modal-view-profile').modal('show')
+		  }
+		});
+
+		$('#upline-button').click(function(){
+			var id = $('#titik-id').val();
+			window.location = '<?php echo base_url(); ?>' + 'member/upline/' + id;
 		});
 	});
 </script>
