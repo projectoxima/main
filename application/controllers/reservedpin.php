@@ -203,7 +203,7 @@ class Reservedpin extends OxyController {
 				}else{
 					//~ auto register new member
 					$new_member_pin = $this->rpin->get_random_pin();
-					if(!is_object($new_member_pin))
+					if(empty($new_member_pin))
 						throw new Exception('PIN tidak tersedia, kontak admin');
 					$this->rpin->update_pin_status($new_member_pin->id, STATUS_ACTIVE);
 					
@@ -243,7 +243,7 @@ class Reservedpin extends OxyController {
 					$tmp_id = decode_id($idb_item);
 					if(!test_id($tmp_id))
 						throw new Exception('ID Barang tidak valid');
-						
+					
 					$table_titik[] = array(
 						'idbarang_id'=>$tmp_id,
 						'user_id'=>$member_data->id,
@@ -252,6 +252,8 @@ class Reservedpin extends OxyController {
 						'biaya_daftar'=>$biaya,
 						'create_by'=>get_user()->id
 					);
+					
+					
 					
 					//todo : setup parent_childs
 					//todo : member action register

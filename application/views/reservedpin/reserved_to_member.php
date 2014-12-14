@@ -8,28 +8,32 @@
 	<h3>Reserved to Member</h3>
 	<div class="panel panel-default">
 		<div class="panel-body">
-		<form method="post" action="<?php echo route_url('reservedpin', 'reserved_member_save') ?>">
 			
-			<div class="col-md-3">
-				<label>Pilih ID Barang yang akan dijual</label>
+		<form method="post" class="form-horizontal form-reserved-member" role="form" action="<?php echo route_url('reservedpin', 'reserved_member_save') ?>">
+			<div class="form-group">
+				<label class="col-md-3" for="idbarangs">Pilih ID Barang yang akan dijual</label>
+				<div class="col-md-9">
+					<table width="100%" class="table table-bordered" id="idbarangs">
+						<thead><tr>
+							<th width="10px">No</th><th>ID Barang</th><th>Status</th><th>Pilih</th>
+						</tr></thead>
+						<tbody>
+						<?php foreach($daftar_barang as $idx=>$dbarang): ?>
+						<tr>
+							<td><?php echo $idx+1 ?></td>
+							<td><?php echo $dbarang->idbarang ?></td>
+							<td><?php echo $dbarang->status ?></td>
+							<td align="center"><input type="checkbox" name="idbarang[]" value="<?php echo encode_id($dbarang->id) ?>" /></td>
+						</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div class="col-md-9">
-				<table width="100%" class="table table-bordered">
-					<thead><tr>
-						<th width="10px">No</th><th>ID Barang</th><th>Status</th><th>Pilih</th>
-					</tr></thead>
-					<tbody>
-					<?php foreach($daftar_barang as $idx=>$dbarang): ?>
-					<tr>
-						<td><?php echo $idx+1 ?></td>
-						<td><?php echo $dbarang->idbarang ?></td>
-						<td><?php echo $dbarang->status ?></td>
-						<td align="center"><input type="checkbox" name="idbarang[]" value="<?php echo encode_id($dbarang->id) ?>" /></td>
-					</tr>
-					<?php endforeach; ?>
-					</tbody>
-				</table>
-			</div>
+			
+			
+			
+			
 			
 			<?php if(get_user()->group_id!=USER_MEMBER): ?>
 			<div class="col-md-12 row">&nbsp;</div>

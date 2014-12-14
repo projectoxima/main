@@ -180,13 +180,28 @@ class reservedpin_model extends CI_Model {
 	
 	//~ reservedpin/reserved_member_save
 	//~ mengambil data member yang berada pada jaringan sponsor tertentu
-	function get_last_level_sponsor($sponsor_id){
+	function get_min_level_sponsor($sponsor_id, $user_id){
 		$this->db->from('user_sponsor m');
-		$this->db->join('titiks t', 't.id=m.titik_id');
-		$this->db->where('m.sponsor_id', $sponsor_id);
-		$this->db->where('m.up_level=(SELECT MAX(up_level) FROM user_sponsor WHERE sponsor_id=' .$sponsor_id. ')', null, false);
-		$this->db->order_by('t.order ASC');
-		return $this->db->get()->result();
+		$this->db->where('m.sponsor_id', $user_id);
+		//~ $this->db->where('m.sponsor_id', $sponsor_id);
+		$this->db->where('m.up_level IN (SELECT MIN(s.up_level) 
+			FROM user_sponsor s
+			WHERE 
+				s.sponsor_id=$user_id)', null, false);
+		$parent = $this->db->get()->row();
+		if(empty($parent)){
+			$this->db->from('user_sponsor m');
+			$this->db->where('m.user_id', $user_id);
+			$this->db->where('m.sponsor_id', $sponsor_id);
+			$this->db->where('m.up_level IN (SELECT MIN(s.up_level) 
+				FROM user_sponsor s
+				WHERE 
+					s.sponsor_id=$user_id)', null, false);
+			$parent = $this->db->get()->row();
+			if(empty($parent))
+				return false;
+		}
+		
 	}
 	
 	//~ reservedpin/reserved_member_save

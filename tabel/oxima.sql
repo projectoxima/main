@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 13, 2014 at 08:25 AM
+-- Generation Time: Dec 15, 2014 at 06:43 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -18059,36 +18059,10 @@ CREATE TABLE IF NOT EXISTS `reports` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reserved_pins`
+-- Table structure for table `reserved_stokis_idbarangs`
 --
 
-CREATE TABLE IF NOT EXISTS `reserved_pins` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `pin_id` bigint(20) DEFAULT NULL,
-  `idbarang_id` bigint(20) DEFAULT NULL,
-  `parent_id` bigint(20) DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT '0',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_by` bigint(20) DEFAULT NULL,
-  `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',
-  `update_by` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `pin_id` (`pin_id`),
-  KEY `idbarang_id` (`idbarang_id`),
-  KEY `user_id` (`user_id`),
-  KEY `create_by` (`create_by`),
-  KEY `update_by` (`update_by`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reserved_stokis`
---
-
-CREATE TABLE IF NOT EXISTS `reserved_stokis` (
+CREATE TABLE IF NOT EXISTS `reserved_stokis_idbarangs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `stokis_id` bigint(20) NOT NULL,
   `idbarang_id` bigint(20) NOT NULL,
@@ -18102,15 +18076,34 @@ CREATE TABLE IF NOT EXISTS `reserved_stokis` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `reserved_stokis`
+-- Dumping data for table `reserved_stokis_idbarangs`
 --
 
-INSERT INTO `reserved_stokis` (`id`, `stokis_id`, `idbarang_id`, `status`, `create_by`, `create_time`) VALUES
+INSERT INTO `reserved_stokis_idbarangs` (`id`, `stokis_id`, `idbarang_id`, `status`, `create_by`, `create_time`) VALUES
 (1, 3, 1, 0, 1, '2014-12-11 23:29:09'),
 (2, 3, 2, 0, 1, '2014-12-11 23:29:09'),
 (3, 3, 3, 0, 1, '2014-12-11 23:29:09'),
 (4, 3, 13, 0, 1, '2014-12-11 23:29:09'),
 (5, 3, 23, 0, 1, '2014-12-11 23:29:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reserved_stokis_pins`
+--
+
+CREATE TABLE IF NOT EXISTS `reserved_stokis_pins` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stokis_id` bigint(20) NOT NULL,
+  `pin_id` bigint(20) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `create_by` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `stokis_id` (`stokis_id`),
+  KEY `pin_id` (`pin_id`),
+  KEY `create_by` (`create_by`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -18167,7 +18160,7 @@ CREATE TABLE IF NOT EXISTS `titiks` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `idbarang_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
-  `order` enum('left','center','right') DEFAULT 'left',
+  `order` tinyint(4) DEFAULT '0',
   `biaya_daftar` int(11) NOT NULL DEFAULT '0',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `create_by` bigint(20) DEFAULT NULL,
@@ -18350,23 +18343,20 @@ ALTER TABLE `reports`
   ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`ref_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `reserved_pins`
+-- Constraints for table `reserved_stokis_idbarangs`
 --
-ALTER TABLE `reserved_pins`
-  ADD CONSTRAINT `reserved_pins_ibfk_1` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_4` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_5` FOREIGN KEY (`update_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_pins_ibfk_6` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `reserved_stokis_idbarangs`
+  ADD CONSTRAINT `reserved_stokis_idbarangs_ibfk_1` FOREIGN KEY (`stokis_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_idbarangs_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_idbarangs_ibfk_3` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `reserved_stokis`
+-- Constraints for table `reserved_stokis_pins`
 --
-ALTER TABLE `reserved_stokis`
-  ADD CONSTRAINT `reserved_stokis_ibfk_1` FOREIGN KEY (`stokis_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_stokis_ibfk_2` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `reserved_stokis_ibfk_3` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `reserved_stokis_pins`
+  ADD CONSTRAINT `reserved_stokis_pins_ibfk_1` FOREIGN KEY (`stokis_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_pins_ibfk_2` FOREIGN KEY (`pin_id`) REFERENCES `pins` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `reserved_stokis_pins_ibfk_3` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `resets`
