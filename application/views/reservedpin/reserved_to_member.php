@@ -57,31 +57,88 @@
 					</ul>
 					<div class="tab-content">
 						<div id="gabung" class="tab-pane fade in active">
-						<br/>
-						<div class="form-group">
-							<label class="col-md-3" for="pins">Pilih PIN untuk member</label>
-							<div class="col-md-9">
-								<table width="100%" class="table table-bordered" id="tabel-pins">
-									<thead><tr>
-										<th width="10px">No</th><th>PIN</th><th>Status</th><th>Pilih</th>
-									</tr></thead>
-									<tbody>
-									<?php foreach($daftar_pin as $idp=>$dpin): ?>
-									<tr>
-										<td><?php echo $idp+1 ?></td>
-										<td><?php echo $dpin->pin ?></td>
-										<td><?php echo $dpin->status ?></td>
-										<td align="center"><input type="radio" name="pin[]" value="<?php echo encode_id($dpin->id) ?>" /></td>
-									</tr>
-									<?php endforeach; ?>
-									</tbody>
-								</table>
+							<br/>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Nama</label>
+								<div class="col-md-7">
+									<input type="text" class="form-control" name="name"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">KTP</label>
+								<div class="col-md-7">
+									<input type="text" class="form-control" name="ktp"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Nama Bank</label>
+								<div class="col-md-9">
+									<input type="text" class="form-control" name="bank" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Nomor rekening</label>
+								<div class="col-md-4">
+									<input type="text" class="form-control" name="norek" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Atas nama</label>
+								<div class="col-md-6">
+									<input type="text" class="form-control" name="namarek" />
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Pilih PIN untuk member</label>
+								<div class="col-md-9">
+									<table width="100%" class="table table-bordered" id="tabel-pins">
+										<thead><tr>
+											<th width="10px">No</th><th>PIN</th><th>Status</th><th>Pilih</th>
+										</tr></thead>
+										<tbody>
+										<?php foreach($daftar_pin as $idp=>$dpin): ?>
+										<tr>
+											<td><?php echo $idp+1 ?></td>
+											<td><?php echo $dpin->pin ?></td>
+											<td><?php echo $dpin->status ?></td>
+											<td align="center"><input type="radio" name="pin[]" value="<?php echo encode_id($dpin->id) ?>" /></td>
+										</tr>
+										<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
-						</div>
 						
-						<div id="beli" class="tab-pane fade in active"></div>
+						<div id="beli" class="tab-pane">
+							<br/>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Nama pembeli</label>
+								<div class="col-md-7">
+									<input type="text" class="form-control" name="name"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Alamat</label>
+								<div class="col-md-9">
+									<textarea class="form-control" name="alamat"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3" for="pins">Kontak</label>
+								<div class="col-md-4">
+									<input type="text" class="form-control" name="kontak"/>
+								</div>
+							</div>
+						</div>
 					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-md-4">
+					<button class="btn btn-warning btn-lg">Simpan</button>
 				</div>
 			</div>
 			
