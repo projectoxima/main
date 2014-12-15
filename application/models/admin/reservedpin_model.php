@@ -8,7 +8,7 @@ class reservedpin_model extends CI_Model {
 	
 	function reserved_get_paging($keyword, $start, $length, $sortcol, $sorttype, $user_id=null){
 		$this->db->select('rp.id, idb.idbarang, pem.nama_lengkap AS nama_pemilik, rp.status, rp.create_time');
-		$this->db->from('reserved_stokis rp');
+		$this->db->from('reserved_stokis_idbarangs rp');
 		$this->db->join('idbarangs idb', 'idb.id=rp.idbarang_id', 'left');
 		$this->db->join('profiles pem', 'pem.user_id=rp.stokis_id', 'left');
 		$this->db->where("( pem.nama_lengkap LIKE '%$keyword%' OR idb.idbarang LIKE '%$keyword%')", null, false);
@@ -19,10 +19,29 @@ class reservedpin_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function search_pin($keyword, $limit=10){
+	function reserved_pin_get_paging($keyword, $start, $length, $sortcol, $sorttype, $user_id=null){
+		$this->db->select('rp.id, pn.pin, pem.nama_lengkap AS nama_pemilik, rp.status, rp.create_time');
+		$this->db->from('reserved_stokis_pins rp');
+		$this->db->join('pins pn', 'pn.id=rp.pin_id', 'left');
+		$this->db->join('profiles pem', 'pem.user_id=rp.stokis_id', 'left');
+		$this->db->where("( pem.nama_lengkap LIKE '%$keyword%' OR pn.pin LIKE '%$keyword%')", null, false);
+		if(!empty($user_id))
+			$this->db->where('rp.stokis_id', $user_id);
+		$this->db->limit($length, $start);
+		$this->db->order_by($sortcol, $sorttype);
+		return $this->db->get()->result();
+	}
+	
+	function search_pin($keyword, $selected, $limit=10){
+		$filter_sel = '';
+		if(is_array($selected) && count($selected)>0)
+			$filter_sel = implode(',', $selected);
+			
 		$this->db->from('pins');
 		$this->db->like('pin', $keyword, 'both');
 		$this->db->where('status', STATUS_INACTIVE);
+		if(!empty($filter_sel))
+			$this->db->where("id NOT IN($filter_sel)", null, false);
 		$this->db->limit($limit);
 		return $this->db->get()->result();
 	}
@@ -67,15 +86,30 @@ class reservedpin_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function save($data){
+	function save_idbarang($data){
 		$this->db->set('create_time', 'NOW()', FALSE);
-		$this->db->insert('reserved_stokis', $data);
+		$this->db->insert('reserved_stokis_idbarangs', $data);
 		return $this->db->insert_id();
 	}
 	
-	function reserved_stokis_resume(){
-		$total = $this->db->count_all('reserved_stokis');
-		$aktif = $this->db->get_where('reserved_stokis', array('status'=>ACTIVE))->num_rows();
+	function save_pin($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('reserved_stokis_pins', $data);
+		return $this->db->insert_id();
+	}
+	
+	function reserved_stokis_idbarangs_resume(){
+		$total = $this->db->count_all('reserved_stokis_idbarangs');
+		$aktif = $this->db->get_where('reserved_stokis_idbarangs', array('status'=>ACTIVE))->num_rows();
+		return (object) array(
+			'total' => $total,
+			'aktif' => $aktif
+		);
+	}
+	
+	function reserved_stokis_pins_resume(){
+		$total = $this->db->count_all('reserved_stokis_pins');
+		$aktif = $this->db->get_where('reserved_stokis_pins', array('status'=>ACTIVE))->num_rows();
 		return (object) array(
 			'total' => $total,
 			'aktif' => $aktif
@@ -138,7 +172,7 @@ class reservedpin_model extends CI_Model {
 	//~ reservedpin/reserved_member
 	public function get_barang_from_reserved($user_id){
 		$this->db->select('idb.*, m.stokis_id');
-		$this->db->from('reserved_stokis m');
+		$this->db->from('reserved_stokis_idbarangs m');
 		$this->db->join('idbarangs idb', 'idb.id=m.idbarang_id');
 		$this->db->where('m.status', INACTIVE);
 		$this->db->where('m.stokis_id', $user_id);

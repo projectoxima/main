@@ -1,17 +1,28 @@
 $(function(){
 	
 	var selector_pin = $("select[name=pin_id]");
+	var multiple_pins = [];
 	selector_pin.chosen();
-	selector_pin.parent().find("div.chosen-search").find('input').keyup(function(){
+	selector_pin.chosen().change(function(){
+		multiple_pins = $(this).val();
+		$('input[name=pin]').val(multiple_pins);
+		console.log('change');
+		console.log(multiple_pins);
+	});
+	selector_pin.parent().find("ul.chosen-choices").find('input').keyup(function(){
+		console.log('keyup');
+		console.log(multiple_pins);
 		var that = $(this);
 		var key = $(this).val();
-		$.get(window.reserved_active_pin_url +'/'+ key.toUpperCase(), function(res){
-			selector_pin.html('<option value=""></option>');
+		$.post(window.reserved_active_pin_url +'/'+ key, {selected: multiple_pins}, function(res){
+			selector_pin.find('option:not(:selected)').remove();
 			for(item in res){
 				selector_pin.append('<option value="' +res[item].id+ '">' +res[item].pin+ '</option>');
 			}
+			//~ that.val(key);
 			selector_pin.trigger("chosen:updated");
-			that.val(key);
+			selector_pin.chosen().val(multiple_pins);
+			console.log('post');
 		}, 'json');
 	});
 	
@@ -78,7 +89,58 @@ $(function(){
 		}, 'json');
 	});
 	
-	$('.table-reserved').dataTable({
+	$('.table-reserved-idbarang').dataTable({
+			"sPaginationType": "two_button",
+			"iDisplayLength" : 10,
+			'bRetrieve': true,
+			"bFilter": true,
+			'sDom': 'lftp',
+			"bLengthChange": true,
+			"bInfo": true,
+			"bJQueryUI": true,
+			"aoColumnDefs": [
+				  { 'bSortable': false, 'aTargets': [0, 5] },
+				  { "sClass": "tengah", "aTargets": [5] }
+			],
+			"bServerSide": true,
+			"sAjaxSource": window.reserved_idbarang_url,
+			"sServerMethod": "POST",
+			"fnServerData" : function(sSource, aoData, fnCallback) {
+				$.fancybox.showLoading();
+				
+				aoData.push({"name":"pagepos", "value":this.fnPagingInfo().iPage});
+				request = $.ajax({
+					"dataType" : "json",
+					"type" : "POST",
+					"url" : sSource,
+					"data" : aoData,
+					"success" : fnCallback
+				});
+			},
+			"fnDrawCallback": function(oSettings) {
+				$.fancybox.hideLoading();
+				
+				bstatus = $('.button-status');
+				for(i=0; i<bstatus.length; i++){
+					var that = bstatus.eq(i);
+					var judul = that.text()=='enable' ? 'Yakin akan diaktifkan ?':'Yakin akan dinonaktifkan ?';
+					bstatus.eq(i).confirmation({
+						placement: 'left',
+						trigger: 'click', 
+						singleton: true,
+						title: judul,
+						href: that.attr('href'),
+						btnCancelClass: 'btn-warning',
+						onCancel: function(){
+							$('.button-status').confirmation('hide');
+						}
+					});
+				}
+				
+			}
+	});
+	
+	$('.table-reserved-pin').dataTable({
 			"sPaginationType": "two_button",
 			"iDisplayLength" : 10,
 			'bRetrieve': true,

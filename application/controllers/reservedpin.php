@@ -14,7 +14,8 @@ class Reservedpin extends OxyController {
 	public function index(){
 		if(get_user()->group_id!=USER_MEMBER)
 			$this->layout->view('reservedpin/reserved', array(
-				'resume'=>$this->rpin->reserved_stokis_resume()
+				'resume_idbarang'=>$this->rpin->reserved_stokis_idbarangs_resume(),
+				'resume_pin'=>$this->rpin->reserved_stokis_pins_resume()
 			));
 		else
 			$this->layout->view('error/401', array());
@@ -26,9 +27,16 @@ class Reservedpin extends OxyController {
 			if($this->input->post()){
 				extract($this->input->post());
 				
+				if(empty($user_id)){
+					$this->session->set_flashdata('message_error', $this->lang->line('message_must_choose_stokis'));
+					redirect(route_url('reservedpin', 'index'));
+					return;
+				}
+				
+				//~ simpan data reserved id barang
 				$daftar_idbarang = explode(',', $idbarang);
 				foreach($daftar_idbarang as $idb){
-					$this->rpin->save(array(
+					$this->rpin->save_idbarang(array(
 						'idbarang_id'=>$idb,
 						'stokis_id'=>$user_id,
 						'create_by'=>get_user()->id
@@ -36,6 +44,19 @@ class Reservedpin extends OxyController {
 					
 					//~ update status idbarang
 					$this->rpin->update_idbarang_status($idb, STATUS_RESERVED);
+				}
+				
+				//~ simpan data reserved pin
+				$daftar_pin = explode(',', $pin);
+				foreach($daftar_pin as $tp){
+					$this->rpin->save_pin(array(
+						'pin_id'=>$tp,
+						'stokis_id'=>$user_id,
+						'create_by'=>get_user()->id
+					));
+					
+					//~ update status idbarang
+					$this->rpin->update_pin_status($tp, STATUS_RESERVED);
 				}
 			}
 			redirect(route_url('reservedpin', 'index'));
@@ -45,7 +66,7 @@ class Reservedpin extends OxyController {
 	}
 	
 	//~ all user
-	public function reserved_list(){
+	public function reserved_idbarang_list(){
 		if(!$this->input->is_ajax_request())
 			die;
 		
@@ -99,6 +120,61 @@ class Reservedpin extends OxyController {
 		die;
 	}
 	
+	//~ all user
+	public function reserved_pin_list(){
+		if(!$this->input->is_ajax_request())
+			die;
+		
+		extract($this->input->post());
+		
+		$resultdata = array(
+			"sEcho"=>intval($sEcho),
+			"iTotalRecords"=>($iDisplayLength * ($pagepos+1)) + 1,
+			"iTotalDisplayRecords"=>($iDisplayLength * ($pagepos+1)) + 1,
+			"aaData"=>array()
+		);
+		
+		$data_kolom = array('id','nama_pemilik','pin', 'status', 'create_time');
+		
+		$list_users = array();
+		
+		if(get_user()->group_id==USER_MEMBER)
+			$list_users = $this->rpin->reserved_pin_get_paging($sSearch, 
+					$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0,
+					get_user()->id);
+		else
+			$list_users = $this->rpin->reserved_pin_get_paging($sSearch, 
+					$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0);
+		
+		if(count($list_users) < $iDisplayLength){
+			$resultdata['iTotalRecords'] = count($list_users);
+			$resultdata['iTotalDisplayRecords'] = count($list_users);
+		}
+		
+		foreach($list_users as $num=>$item){
+			if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR]))
+				array_push($resultdata['aaData'], array(
+					(($pagepos*$iDisplayLength) + $num+1),
+					$item->nama_pemilik,
+					$item->pin,
+					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
+					$item->create_time,
+					'<button class="btn btn-danger btn-xs">hapus</button>'
+				));
+			else
+				array_push($resultdata['aaData'], array(
+					(($pagepos*$iDisplayLength) + $num+1),
+					$item->nama_pemilik,
+					$item->pin,
+					$item->status==0 ? print_warna('Belum aktif', 'red'):print_warna('Sudah aktif'),
+					$item->create_time
+				));
+		}
+		
+		echo json_encode($resultdata);
+		die;
+	}
+	
 	//~ khusus untuk admin dan operator
 	public function delete_reserved($reserved_id){
 		if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR])){
@@ -109,7 +185,8 @@ class Reservedpin extends OxyController {
 	//~ ambil pin yang masih belum ada pemiliknya
 	public function pin_list($keyword){
 		if($this->input->is_ajax_request()){
-			$daftar_pin = $this->rpin->search_pin($keyword);
+			$selected = $this->input->post('selected');
+			$daftar_pin = $this->rpin->search_pin($keyword, $selected);
 			echo json_encode($daftar_pin);
 		}
 		die;
