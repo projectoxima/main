@@ -28,3 +28,11 @@ SMS Notif :
 Member Tree
 - Get Top Parent where parent_child_id = NULL
 - lalu get downline dibawahnya perulangan
+
+Fitur Member Tree
+- Ada 2 yg bisa di klik: nama dan gambar orang
+- Klik nama muncul detail member
+- Klik orang bisa naik dan turun level
+
+Studi Kasus
+- Jika S Beli 10 barang dan dibawahnya baru ada A dan B maka dibawah S ada S0 dan S1, S2, S3 disimpan dibawah S0, lalu S4, S5, S6 disimpan dibawah S1.
