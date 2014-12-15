@@ -1,5 +1,17 @@
 <link href="<?php echo site_url(); ?>/assets/js/orgchart/jquery.orgchart.css" rel="stylesheet">
 <link href="<?php echo site_url(); ?>/assets/js/orgchart/custom.css" rel="stylesheet">
+<style type="text/css">
+    .jsAction:hover {
+        cursor: pointer;
+        color: #00f;
+        text-decoration: underline;
+    }
+
+    .people:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style>
 
 <a class="btn btn-primary" href="<?php echo base_url() ;?>member/add_member">Add Member</a>
 <br><br>
@@ -128,7 +140,8 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#org-chart').orgChart({
-		  container: $('#orgchart-container'),
+		  container: $('#orgchart-container')
+		  /**,
 		  nodeClicked: function($node){
 		    var id = $node.data('id');
 		    $.ajax({
@@ -148,11 +161,52 @@
 
 		    $('#modal-view-profile').modal('show')
 		  }
+		  **/
 		});
 
 		$('#upline-button').click(function(){
 			var id = $('#titik-id').val();
 			window.location = '<?php echo base_url(); ?>' + 'member/upline/' + id;
+		});
+
+		$('.sample').click(function(){
+			var id = $(this).attr('object');
+			$.ajax({
+			  url: '<?php echo base_url();?>member/get_profile/' + id,
+			  dataType: 'json'
+			})
+			.done(function(response, textStatus, jqhr){
+			  if(response.status == "ok"){
+			    $('#view-name').val(response.data.nama_lengkap);
+			    $('#view-alamat').val(response.data.alamat);
+			    $('#titik-id').val(id);
+			  }
+			})
+			.fail(function(){
+				alert('fail');
+			});
+
+			$('#modal-view-profile').modal('show');
+		});
+
+		$('.people').click(function(){
+			var id = $(this).attr('object');
+			$.ajax({
+			  url: '<?php echo base_url();?>member/get_profile/' + id,
+			  dataType: 'json'
+			})
+			.done(function(response, textStatus, jqhr){
+			  if(response.status == "ok"){
+			    $('#view-name').val(response.data.nama_lengkap);
+			    $('#view-alamat').val(response.data.alamat);
+			    $('#titik-id').val(id);
+			  }
+			})
+			.fail(function(){
+				alert('fail');
+			});
+
+			$('#modal-view-profile').modal('show');
 		});
 	});
 </script>
