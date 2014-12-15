@@ -109,7 +109,7 @@ class Member extends OxyController {
 			$users = $this->users->find_profile($parent[$i]['titik_id']);
 
 			$tree .= '<li data-id="'.$parent[$i]['id'].'">';
-			$tree .= $users['nama_lengkap'];
+			$tree .= "<img class='people' object='" . $parent[$i]['id'] . "' src='" . base_url() . "assets/img/people-icon.png' width='24'><br><span class='sample jsAction' object='" . $parent[$i]['id'] . "'>" . $users['nama_lengkap'] . "</span>";
 
 			$tree .= $this->traverse_tree($parent[$i]['id'], 1);
 			$tree .= '</li>';
