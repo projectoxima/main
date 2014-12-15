@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 15, 2014 at 06:43 AM
+-- Generation Time: Dec 16, 2014 at 07:23 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -112,7 +112,7 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `
 (1, '00001', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (2, '00002', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (3, '00003', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
-(4, '00004', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
+(4, '00004', 'reserved', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (5, '00005', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (6, '00006', 'inactive', '2014-11-28 22:04:58', NULL, 1, '0000-00-00 00:00:00', NULL),
 (7, '00007', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -121,7 +121,7 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `
 (10, '00010', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (11, '00011', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (12, '00012', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
-(13, '00013', 'reserved', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
+(13, '00013', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (14, '00014', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (15, '00015', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (16, '00016', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -131,7 +131,7 @@ INSERT INTO `idbarangs` (`id`, `idbarang`, `status`, `create_time`, `user_id`, `
 (20, '00020', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (21, '00021', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (22, '00022', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
-(23, '00023', 'reserved', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
+(23, '00023', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (24, '00024', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (25, '00025', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
 (26, '00026', 'inactive', '2014-11-28 22:04:59', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -17817,7 +17817,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `modules`
@@ -17843,7 +17843,7 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (17, 'manageuser', 'toggle_status_user', 'status-user/(:any)', '$1'),
 (18, 'reservedpin', 'index', 'reserved-stokis', ''),
 (19, 'reservedpin', 'add', 'tambah-reserved', ''),
-(20, 'reservedpin', 'reserved_list', 'daftar-reserved', ''),
+(20, 'reservedpin', 'reserved_idbarang_list', 'daftar-reserved', ''),
 (21, 'reservedpin', 'pin_list', 'daftar-pin-aktif/(:any)', '$1'),
 (22, 'reservedpin', 'stokis_list', 'reserved-daftar-stokis/(:any)', '$1'),
 (23, 'reservedpin', 'parent_list', 'reserved-daftar-parent/(:any)', '$1'),
@@ -17851,7 +17851,8 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (25, 'auth', 'check_pin', 'register-check-pin', ''),
 (26, 'welcome', 'bad_request', 'error-bad-request', ''),
 (27, 'reservedpin', 'reserved_member', 'reserved-to-member', ''),
-(28, 'reservedpin', 'reserved_member_save', 'reserved-member-save', '');
+(28, 'reservedpin', 'reserved_member_save', 'reserved-member-save', ''),
+(29, 'reservedpin', 'reserved_pin_list', 'daftar-reserved-pin-stokis', '');
 
 -- --------------------------------------------------------
 
@@ -17902,11 +17903,11 @@ CREATE TABLE IF NOT EXISTS `pins` (
 
 INSERT INTO `pins` (`id`, `pin`, `status`, `create_time`, `user_id`, `create_by`, `update_time`, `update_by`) VALUES
 (16, 'BE6B4D7D7D37', 'inactive', '2014-11-27 23:04:28', NULL, 1, '0000-00-00 00:00:00', NULL),
-(17, '029013F7911A', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
-(18, '0FAF97B149DC', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(17, '029013F7911A', 'reserved', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(18, '0FAF97B149DC', 'reserved', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (19, 'E4FB7936720F', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (20, '7D5995DB9F3D', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
-(21, 'B73CBC81D2B8', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
+(21, 'B73CBC81D2B8', 'reserved', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (22, 'F05A53DDA264', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (23, '5A30C7A613C6', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (24, 'AE90942E36AF', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -18067,6 +18068,7 @@ CREATE TABLE IF NOT EXISTS `reserved_stokis_idbarangs` (
   `stokis_id` bigint(20) NOT NULL,
   `idbarang_id` bigint(20) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `sell_only` tinyint(4) NOT NULL DEFAULT '0',
   `create_by` bigint(20) NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -18079,12 +18081,11 @@ CREATE TABLE IF NOT EXISTS `reserved_stokis_idbarangs` (
 -- Dumping data for table `reserved_stokis_idbarangs`
 --
 
-INSERT INTO `reserved_stokis_idbarangs` (`id`, `stokis_id`, `idbarang_id`, `status`, `create_by`, `create_time`) VALUES
-(1, 3, 1, 0, 1, '2014-12-11 23:29:09'),
-(2, 3, 2, 0, 1, '2014-12-11 23:29:09'),
-(3, 3, 3, 0, 1, '2014-12-11 23:29:09'),
-(4, 3, 13, 0, 1, '2014-12-11 23:29:09'),
-(5, 3, 23, 0, 1, '2014-12-11 23:29:09');
+INSERT INTO `reserved_stokis_idbarangs` (`id`, `stokis_id`, `idbarang_id`, `status`, `sell_only`, `create_by`, `create_time`) VALUES
+(1, 3, 1, 0, 0, 2, '2014-12-14 23:36:41'),
+(2, 3, 2, 0, 0, 2, '2014-12-14 23:36:41'),
+(3, 3, 3, 0, 0, 2, '2014-12-14 23:36:42'),
+(4, 3, 4, 0, 0, 2, '2014-12-15 18:49:01');
 
 -- --------------------------------------------------------
 
@@ -18103,7 +18104,16 @@ CREATE TABLE IF NOT EXISTS `reserved_stokis_pins` (
   KEY `stokis_id` (`stokis_id`),
   KEY `pin_id` (`pin_id`),
   KEY `create_by` (`create_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `reserved_stokis_pins`
+--
+
+INSERT INTO `reserved_stokis_pins` (`id`, `stokis_id`, `pin_id`, `status`, `create_by`, `create_time`) VALUES
+(7, 3, 17, 0, 2, '2014-12-14 23:36:42'),
+(8, 3, 18, 0, 2, '2014-12-14 23:36:42'),
+(9, 3, 21, 0, 2, '2014-12-14 23:36:42');
 
 -- --------------------------------------------------------
 
@@ -18126,6 +18136,26 @@ CREATE TABLE IF NOT EXISTS `resets` (
 
 INSERT INTO `resets` (`id`, `token`, `user_id`, `waktu`) VALUES
 (3, 'e1435f0ec2c3b4804c75c29b83b5377', 1, '2014-11-28 23:19:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sell_only`
+--
+
+CREATE TABLE IF NOT EXISTS `sell_only` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `idbarang_id` bigint(20) NOT NULL,
+  `buy_date` date NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `kontak` varchar(30) NOT NULL,
+  `create_by` bigint(20) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idbarang_id` (`idbarang_id`),
+  KEY `create_by` (`create_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -18363,6 +18393,13 @@ ALTER TABLE `reserved_stokis_pins`
 --
 ALTER TABLE `resets`
   ADD CONSTRAINT `resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `sell_only`
+--
+ALTER TABLE `sell_only`
+  ADD CONSTRAINT `sell_only_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `sell_only_ibfk_1` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `titiks`

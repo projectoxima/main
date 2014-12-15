@@ -170,10 +170,29 @@ class reservedpin_model extends CI_Model {
 	}
 	
 	//~ reservedpin/reserved_member
+	public function get_pins_from_pins(){
+		$this->db->from('pins');
+		$this->db->where('status', STATUS_INACTIVE);
+		$this->db->limit(10);
+		return $this->db->get()->result();
+	}
+	
+	//~ reservedpin/reserved_member
 	public function get_barang_from_reserved($user_id){
 		$this->db->select('idb.*, m.stokis_id');
 		$this->db->from('reserved_stokis_idbarangs m');
 		$this->db->join('idbarangs idb', 'idb.id=m.idbarang_id');
+		$this->db->where('m.status', INACTIVE);
+		$this->db->where('m.stokis_id', $user_id);
+		$this->db->limit(10);
+		return $this->db->get()->result();
+	}
+	
+	//~ reservedpin/reserved_member
+	public function get_pins_from_reserved($user_id){
+		$this->db->select('p.*, m.stokis_id');
+		$this->db->from('reserved_stokis_pins m');
+		$this->db->join('pins p', 'p.id=m.pin_id');
 		$this->db->where('m.status', INACTIVE);
 		$this->db->where('m.stokis_id', $user_id);
 		$this->db->limit(10);

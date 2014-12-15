@@ -1,4 +1,30 @@
 $(function(){
+	$('#tabel-idbarangs').dataTable({
+			"sPaginationType": "two_button",
+			"iDisplayLength" : 10,
+			'bRetrieve': true,
+			"bFilter": true,
+			'sDom': 'lftp',
+			"bLengthChange": false,
+			"bInfo": false,
+			"bJQueryUI": true,
+			"aoColumnDefs": [
+				  { 'bSortable': false, 'aTargets': [0,3] }
+			]
+		});
+	$('#tabel-pins').dataTable({
+			"sPaginationType": "two_button",
+			"iDisplayLength" : 10,
+			'bRetrieve': true,
+			"bFilter": true,
+			'sDom': 'lftp',
+			"bLengthChange": false,
+			"bInfo": false,
+			"bJQueryUI": true,
+			"aoColumnDefs": [
+				  { 'bSortable': false, 'aTargets': [0,3] }
+			]
+		});
 	
 	$('input[type=radio]').change(function(){
 		ids = $(this).val();

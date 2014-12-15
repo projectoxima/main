@@ -36,6 +36,9 @@ class Reservedpin extends OxyController {
 				//~ simpan data reserved id barang
 				$daftar_idbarang = explode(',', $idbarang);
 				foreach($daftar_idbarang as $idb){
+					if(empty($idb))
+						continue;
+						
 					$this->rpin->save_idbarang(array(
 						'idbarang_id'=>$idb,
 						'stokis_id'=>$user_id,
@@ -49,6 +52,9 @@ class Reservedpin extends OxyController {
 				//~ simpan data reserved pin
 				$daftar_pin = explode(',', $pin);
 				foreach($daftar_pin as $tp){
+					if(empty($tp))
+						continue;
+						
 					$this->rpin->save_pin(array(
 						'pin_id'=>$tp,
 						'stokis_id'=>$user_id,
@@ -238,10 +244,16 @@ class Reservedpin extends OxyController {
 				$daftar_barang = $this->rpin->get_barang_from_idbarangs();
 			else
 				$daftar_barang = $this->rpin->get_barang_from_reserved(get_user()->id);
+			//~ ambil daftar pin
+			if(in_array(get_user()->group_id, [USER_ADMIN, USER_OPERATOR]))
+				$daftar_pin = $this->rpin->get_pins_from_pins();
+			else
+				$daftar_pin = $this->rpin->get_pins_from_reserved(get_user()->id);
 			
 			
 			$this->layout->view('reservedpin/reserved_to_member', array(
-				'daftar_barang'=>$daftar_barang
+				'daftar_barang'=>$daftar_barang,
+				'daftar_pin'=>$daftar_pin
 			));
 		}else
 			$this->layout->view('error/401', array('message'=>'Anda belum menjadi stokis'));

@@ -17,16 +17,16 @@
 				<div class="form-group">
 					<label class="col-md-2" for="idbarang_id">ID Barang</label>
 					<div class="col-md-10">
-						<select class="form-control" id="idbarang_id" name="idbarang_id" multiple data-placeholder="Silakan pilih satu atau lebih ID Barang" required>
+						<select class="form-control" id="idbarang_id" name="idbarang_id" multiple data-placeholder="Silakan pilih satu atau lebih ID Barang">
 							<option value=""></option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2" for="pin_id">PINS</label>
+					<label class="col-md-2" for="pin_id">PIN</label>
 					<div class="col-md-10">
 						<p><i><?php echo print_warna('Jumlah PIN yang dipilih, jangan lebih dari jumlah ID Barang yang dipilih') ?></i></p>
-						<select class="form-control" id="pin_id" name="pin_id" multiple data-placeholder="Silakan pilih satu atau lebih PINS" required>
+						<select class="form-control" id="pin_id" name="pin_id" multiple data-placeholder="Silakan pilih satu atau lebih PIN">
 							<option value=""></option>
 						</select>
 					</div>

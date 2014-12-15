@@ -13,7 +13,7 @@
 			<div class="form-group">
 				<label class="col-md-3" for="idbarangs">Pilih ID Barang yang akan dijual</label>
 				<div class="col-md-9">
-					<table width="100%" class="table table-bordered" id="idbarangs">
+					<table width="100%" class="table table-bordered" id="tabel-idbarangs">
 						<thead><tr>
 							<th width="10px">No</th><th>ID Barang</th><th>Status</th><th>Pilih</th>
 						</tr></thead>
@@ -31,88 +31,58 @@
 				</div>
 			</div>
 			
-			
-			
-			
+			<div class="form-group">
+				<label class="col-md-3" for="biaya">Pembayaran member</label>
+				<div class="col-md-4">
+					<p><i><?php echo print_warna('Nilai pembelian per-barang') ?></i></p>
+					<input type="text" id="biaya" class="form-control" name="biaya" placeholder="Minimal Rp. 30.000" style="text-align:right" required />
+				</div>
+			</div>
 			
 			<?php if(get_user()->group_id!=USER_MEMBER): ?>
-			<div class="col-md-12 row">&nbsp;</div>
-			
-			<div class="col-md-3">
-				<label>PIN Stokis</label>
-			</div>
-			<div class="col-md-9">
+			<div class="form-group">
+				<label class="col-md-3" for="stokis_pin">PIN Stokis</label>
 				<div class="col-md-4">
-					<input type="text" class="form-control" name="stokis_pin" placeholder="PIN Stokis" required />
+					<input type="text" id="stokis_pin" class="form-control" name="stokis_pin" placeholder="PIN Stokis" required />
 				</div>
 			</div>
 			<?php endif; ?>
 			
-			<div class="col-md-12 row">&nbsp;</div>
-			
-			<div class="col-md-3">
-				<label>Pilih pembeli barang</label>
-			</div>
-			<div class="col-md-2">
-				<div class="radio">
-					<label>
-					<input type="radio" name="member" id="member-aktif" value="aktif" checked>Member aktif
-					</label>
+			<div class="form-group">
+				<label class="col-md-3">Metode</label>
+				<div class="col-md-9">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#gabung">Beli dan gabung ke network</a></li>
+						<li><a data-toggle="tab" href="#beli">Hanya membeli</a></li>
+					</ul>
+					<div class="tab-content">
+						<div id="gabung" class="tab-pane fade in active">
+						<br/>
+						<div class="form-group">
+							<label class="col-md-3" for="pins">Pilih PIN untuk member</label>
+							<div class="col-md-9">
+								<table width="100%" class="table table-bordered" id="tabel-pins">
+									<thead><tr>
+										<th width="10px">No</th><th>PIN</th><th>Status</th><th>Pilih</th>
+									</tr></thead>
+									<tbody>
+									<?php foreach($daftar_pin as $idp=>$dpin): ?>
+									<tr>
+										<td><?php echo $idp+1 ?></td>
+										<td><?php echo $dpin->pin ?></td>
+										<td><?php echo $dpin->status ?></td>
+										<td align="center"><input type="radio" name="pin[]" value="<?php echo encode_id($dpin->id) ?>" /></td>
+									</tr>
+									<?php endforeach; ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</div>
+						
+						<div id="beli" class="tab-pane fade in active"></div>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-7">
-				<div class="radio">
-					<label>
-					<input type="radio" name="member" id="member-baru" value="baru">Member baru
-					</label>
-				</div>
-			</div>
-			
-			<div class="col-md-12 row">&nbsp;</div>
-			
-			<div class="col-md-9 col-md-offset-3 member-aktif">
-				<p><i>Silakan masukan PIN Member yang membeli barang</i></p>
-				<div class="col-md-4">
-					<input type="text" class="form-control" name="input_pin" placeholder="Member PIN" />
-				</div>
-			</div>
-			
-			<div class="col-md-9 col-md-offset-3 member-baru" style="display:none;">
-				<p><i>Silakan masukan data Member baru yang membeli barang</i></p>
-				<div class="col-md-8">
-					<input type="text" class="form-control" name="input_nama" placeholder="Nama" />
-				</div>
-				<div class="col-md-8">
-					<textarea class="form-control" name="input_alamat" placeholder="Alamat"></textarea>
-				</div>
-				<div class="col-md-8">
-					<input type="text" class="form-control" name="input_ktp" placeholder="Nomor KTP" />
-				</div>
-				<div class="col-md-8">
-					<input type="text" class="form-control" name="input_norek" placeholder="Nomor Rekening" />
-				</div>
-				<div class="col-md-8">
-					<input type="text" class="form-control" name="input_namarek" placeholder="Nama Rekening" />
-				</div>
-				<div class="col-md-8">
-					<input type="text" class="form-control" name="input_bank" placeholder="Nama Bank" />
-				</div>
-			</div>
-			
-			<div class="col-md-12 row">&nbsp;</div>
-			
-			<div class="col-md-3">
-				<label>Biaya pembelian</label>
-			</div>
-			<div class="col-md-9">
-				<p><i>Nilai pembelian per-barang</i></p>
-				<input type="text" class="form-control" name="biaya" placeholder="Minimal Rp. 30.000" style="text-align:center" required />
-			</div>
-			
-			<div class="col-md-12 row">&nbsp;</div>
-			
-			<div class="col-md-3">
-				<button class="btn btn-primary btn-lg">Simpan</button>
 			</div>
 			
 		</form>
