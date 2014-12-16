@@ -65,7 +65,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3" for="pins">KTP</label>
+								<label class="col-md-3" for="pins">Nomor KTP</label>
 								<div class="col-md-7">
 									<input type="text" class="form-control" name="ktp"/>
 								</div>
@@ -138,7 +138,8 @@
 			
 			<div class="form-group">
 				<div class="col-md-4">
-					<button class="btn btn-warning btn-lg">Simpan</button>
+					<input type="hidden" name="mode" value="gabung" />
+					<button class="btn btn-warning btn-lg" type="button">Simpan</button>
 				</div>
 			</div>
 			
