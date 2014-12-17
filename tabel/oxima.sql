@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 16, 2014 at 07:23 AM
+-- Generation Time: Dec 17, 2014 at 09:08 AM
 -- Server version: 5.5.35
 -- PHP Version: 5.4.4-14+deb7u10
 
@@ -17817,7 +17817,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `modules`
@@ -17852,7 +17852,8 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (26, 'welcome', 'bad_request', 'error-bad-request', ''),
 (27, 'reservedpin', 'reserved_member', 'reserved-to-member', ''),
 (28, 'reservedpin', 'reserved_member_save', 'reserved-member-save', ''),
-(29, 'reservedpin', 'reserved_pin_list', 'daftar-reserved-pin-stokis', '');
+(29, 'reservedpin', 'reserved_pin_list', 'daftar-reserved-pin-stokis', ''),
+(30, 'userutil', 'get_user_detail_by_pin', 'user-get-by-pin', '');
 
 -- --------------------------------------------------------
 
@@ -17902,7 +17903,7 @@ CREATE TABLE IF NOT EXISTS `pins` (
 --
 
 INSERT INTO `pins` (`id`, `pin`, `status`, `create_time`, `user_id`, `create_by`, `update_time`, `update_by`) VALUES
-(16, 'BE6B4D7D7D37', 'inactive', '2014-11-27 23:04:28', NULL, 1, '0000-00-00 00:00:00', NULL),
+(16, 'BE6B4D7D7D37', 'active', '2014-11-27 23:04:28', 3, 1, '0000-00-00 00:00:00', NULL),
 (17, '029013F7911A', 'reserved', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (18, '0FAF97B149DC', 'reserved', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
 (19, 'E4FB7936720F', 'inactive', '2014-11-27 23:04:29', NULL, 1, '0000-00-00 00:00:00', NULL),
@@ -18075,7 +18076,7 @@ CREATE TABLE IF NOT EXISTS `reserved_stokis_idbarangs` (
   KEY `stokis_id` (`stokis_id`),
   KEY `idbarang_id` (`idbarang_id`),
   KEY `create_by` (`create_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `reserved_stokis_idbarangs`
@@ -18104,7 +18105,7 @@ CREATE TABLE IF NOT EXISTS `reserved_stokis_pins` (
   KEY `stokis_id` (`stokis_id`),
   KEY `pin_id` (`pin_id`),
   KEY `create_by` (`create_by`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `reserved_stokis_pins`
@@ -18150,11 +18151,13 @@ CREATE TABLE IF NOT EXISTS `sell_only` (
   `name` varchar(50) NOT NULL,
   `alamat` varchar(255) NOT NULL,
   `kontak` varchar(30) NOT NULL,
+  `member_id` bigint(20) DEFAULT NULL,
   `create_by` bigint(20) NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idbarang_id` (`idbarang_id`),
-  KEY `create_by` (`create_by`)
+  KEY `create_by` (`create_by`),
+  KEY `member_id` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -18239,7 +18242,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `point`, `sponsor_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, NULL, 1, 1, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+(3, 'member', 'aa08769cdcb26674c6706093503ff0a3', 3, 16, 1, 1, 0, NULL, '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (6, 'joko', '9ba0009aa81e794e628a04b51eaf7d7f', 3, NULL, 1, 0, 0, NULL, '2014-11-29 07:41:13', 1, '0000-00-00 00:00:00', NULL),
 (7, 'jono', '42867493d4d4874f331d288df0044baa', 2, NULL, 0, 0, 0, NULL, '2014-11-29 09:59:25', 2, '0000-00-00 00:00:00', NULL);
 
@@ -18398,8 +18401,9 @@ ALTER TABLE `resets`
 -- Constraints for table `sell_only`
 --
 ALTER TABLE `sell_only`
-  ADD CONSTRAINT `sell_only_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `sell_only_ibfk_1` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `sell_only_ibfk_3` FOREIGN KEY (`member_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `sell_only_ibfk_1` FOREIGN KEY (`idbarang_id`) REFERENCES `idbarangs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `sell_only_ibfk_2` FOREIGN KEY (`create_by`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `titiks`

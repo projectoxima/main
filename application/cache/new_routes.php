@@ -35,4 +35,5 @@ $route['error-bad-request'] = 'welcome/bad_request/';
 $route['reserved-to-member'] = 'reservedpin/reserved_member/';
 $route['reserved-member-save'] = 'reservedpin/reserved_member_save/';
 $route['daftar-reserved-pin-stokis'] = 'reservedpin/reserved_pin_list/';
+$route['user-get-by-pin'] = 'userutil/get_user_detail_by_pin/';
 ?>

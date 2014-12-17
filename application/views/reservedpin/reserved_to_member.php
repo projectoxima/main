@@ -59,9 +59,15 @@
 						<div id="gabung" class="tab-pane fade in active">
 							<br/>
 							<div class="form-group">
+								<label class="col-md-3"></label>
+								<div class="col-md-7">
+									<button class="btn btn-primary" type="button" onclick="window.pilihMember()">Pilih dari member</button>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-md-3" for="pins">Nama</label>
 								<div class="col-md-7">
-									<input type="text" class="form-control" name="name"/>
+									<input type="text" class="form-control" name="name1"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -114,9 +120,15 @@
 						<div id="beli" class="tab-pane">
 							<br/>
 							<div class="form-group">
+								<label class="col-md-3"></label>
+								<div class="col-md-7">
+									<button class="btn btn-primary" type="button" onclick="window.pilihMember()">Pilih dari member</button>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-md-3" for="pins">Nama pembeli</label>
 								<div class="col-md-7">
-									<input type="text" class="form-control" name="name"/>
+									<input type="text" class="form-control" name="name2"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -139,7 +151,8 @@
 			<div class="form-group">
 				<div class="col-md-4">
 					<input type="hidden" name="mode" value="gabung" />
-					<button class="btn btn-warning btn-lg" type="button">Simpan</button>
+					<input type="hidden" name="pembeli_id" value="0"/>
+					<button class="btn btn-warning btn-lg button-submit" type="button">Simpan</button>
 				</div>
 			</div>
 			
@@ -147,11 +160,15 @@
 		</div>
 	</div>
 
-<br/>
-
-	<h3>Daftar Reserved</h3>
-	<div class="panel panel-default">
-		<div class="panel-body">
+	<div id="choose-member" class="col-md-12" hidden>
+		<div class="form-group">
+			<label class="col-md-5" for="pins">Masukan PIN member</label>
+			<div class="col-md-5">
+				<input type="text" class="form-control" name="member_pin"/>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-success" onclick="window.getMember()">Pilih &nbsp; <i class="fa fa-repeat fa-lg"></i></button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -163,5 +180,6 @@
 	});
 	<?php endif; ?>
 	window.reserved_pin_url = '<?php echo route_url('reservedpin', 'reserved_list') ?>';
+	window.user_get_by_pin_url = '<?php echo route_url('userutil', 'get_user_detail_by_pin') ?>';
 </script>
 <script src="<?php echo site_url(); ?>/assets/js/modules/reserved.to.member.js"></script>

@@ -15,6 +15,7 @@
 		<link href="<?php echo site_url(); ?>/assets/css/jquery.growl.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/jquery.dataTables.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/jquery-ui.min.css" rel="stylesheet">
+		<link href="<?php echo site_url(); ?>/assets/css/font-awesome.min.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/js/fancy-box/jquery.fancybox.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/js/choosen/chosen.min.css" rel="stylesheet">
 		<link href="<?php echo site_url(); ?>/assets/css/joint.min.css" rel="stylesheet">

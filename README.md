@@ -86,3 +86,30 @@ Proses Penambahan Titik
 Ketika ada member yang beli barang lagi ke sponsor, maka titiknya harus ada dibawah
 titik punya dirinya sendiri, titiknya harus berada pada jaringan punya dirinya.
 
+Array
+(
+    [idbarang] => Array
+        (
+            [0] => IvM7%7EU00F.8Nmu8gUO9pqQdTYivWPlecSv47z6hyR4miLl.sYqWdokuS.GgwPZUrpe9MRvxJ8EWlboQyiHurqg--
+            [1] => hf6XZUBqGJ5WWAoWrRzj9y2xdDDP1mkuPJK6QVhHbIN1WwAzbKfceRPJGPbK7hjYyNnsRnDAWk0FjIu18IW2Ow--
+            [2] => 0CeIZaDBM2uuALtD13LJI%7EKzeV26.lC5kbSxaN18489EFVt9tkn9fGRU3KSrT5VhRsWbiQoQD0urNyYz3UxQTw--
+        )
+
+    [biaya] => 50000
+    [stokis_pin] => adsadsa234
+    [name1] => ada
+    [ktp] => apa
+    [bank] => dengan
+    [norek] => cinta
+    [namarek] => saja
+    [pin] => Array
+        (
+            [0] => 4dFlXLZVQ3au2v0FEW3Gf15cgy1Bb5acCaiICEYzgunGtmdd7NPohin9N3UnWLKSSM7M1ThItdPdAC2.1exWVQ--
+        )
+
+    [name2] => 
+    [alamat] => 
+    [kontak] => 
+    [mode] => gabung
+    [member_id] => ?
+)

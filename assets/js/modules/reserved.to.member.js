@@ -36,7 +36,7 @@ $(function(){
 		$('input[name=mode]').val(window.mode);
 	});
 	
-	$('button').click(function(){
+	$('button.button-submit').click(function(){
 		idbs = $('input[type=checkbox]:checked');
 		if(idbs.length==0){
 			$.growl.error({message: 'ID Barang wajib dipilih satu atau lebih'});
@@ -56,7 +56,7 @@ $(function(){
 		console.log(window.mode);
 		
 		if(window.mode=='gabung'){
-			if($('input[name=name]:eq(0)').val().trim().length==0){
+			if($('input[name=name1]:eq(0)').val().trim().length==0){
 				$.growl.error({message: 'Nama harus diisi'});
 				return;
 			}
@@ -83,7 +83,7 @@ $(function(){
 			}
 		}
 		if(window.mode=='beli'){
-			if($('input[name=name]:eq(1)').val().trim().length==0){
+			if($('input[name=name2]:eq(1)').val().trim().length==0){
 				$.growl.error({message: 'Nama harus diisi'});
 				return;
 			}
@@ -93,7 +93,51 @@ $(function(){
 			}
 		}
 		
-		//~ $('form').submit();
-		console.log($('form').serialize());
+		$('form').submit();
 	});
+	
+	window.pilihMember = function(){
+		$.fancybox({href: '#choose-member'});
+		return false;
+	}
+	
+	window.getMember = function(){
+		if($('input[name=member_pin]').val().trim().length==0){
+			$.growl.error({message: 'Isi PIN yang dicari'});
+			return;
+		}
+		$.fancybox.showLoading();
+		$.post(window.user_get_by_pin_url, {pin: $('input[name=member_pin]').val().trim()}, function(res){
+			$.fancybox.hideLoading();
+			if($.isEmptyObject(res))
+				$.growl.error({message: 'Data member tidak ditemukan, cek kembali PIN yang anda masukan'});
+			else{
+				$('input[name=pembeli_id]').val(res.id);
+				
+				if(window.mode=='gabung'){
+					$('input[name=name1]').val(res.nama_lengkap);
+					$('input[name=ktp]').val(res.ktp);
+					$('input[name=bank]').val(res.bank);
+					$('input[name=norek]').val(res.no_rekening);
+					$('input[name=namarek]').val(res.nama_rekening);
+					$('input[name=name1]').attr('disabled','disabled');
+					$('input[name=ktp]').attr('disabled','disabled');
+					$('input[name=bank]').attr('disabled','disabled');
+					$('input[name=norek]').attr('disabled','disabled');
+					$('input[name=namarek]').attr('disabled','disabled');
+				}
+				if(window.mode=='beli'){
+					$('input[name=name2]').val(res.nama_lengkap);
+					$('textarea[name=alamat]').val(res.alamat);
+					$('input[name=kontak]').val(res.phone);
+					$('input[name=name2]').attr('disabled','disabled');
+					$('textarea[name=alamat]').attr('disabled','disabled');
+					$('input[name=kontak]').attr('disabled','disabled');
+				}
+				
+				$('input[name=member_pin]').val('');
+				$.fancybox.close();
+			}
+		}, 'json');
+	}
 });
