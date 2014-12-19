@@ -132,14 +132,14 @@
 	    interactive: false
 	});
 
-	var member = function(x, y, rank, name, image, background, border) {
+	var member = function(x, y, name, image, background, border) {
 
 	    var cell = new joint.shapes.org.Member({
 	        position: { x: x, y: y },
 	        attrs: {
 	            '.card': { fill: background, stroke: border},
 	              image: { 'xlink:href': '<?php echo site_url() ;?>assets/img/'+ image },
-	            '.rank': { text: rank }, '.name': { text: name }
+	            '.name': { text: name }
 	        }
 	    });
 	    graph.addCell(cell);
@@ -157,18 +157,18 @@
 	    return cell;
 	}
 
-	var bart = member(500,70,'CEO', 'Bart Simpson', 'member1.png', '#F1C40F', 'gray');
-	var homer = member(290,200,'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
-	var marge = member(500,200,'VP Sales', 'Marge Simpson', 'member3.png', '#2ECC71', '#008e09');
-	var lisa = member(700,200,'VP Production' , 'Lisa Simpson', 'member4.png', '#2ECC71', '#008e09');
-	var maggie = member(80,350,'Manager', 'Maggie Simpson', 'member5.png', '#3498DB', '#333');
-	var lenny = member(290,350,'Manager', 'Lenny Leonard', 'member6.png', '#3498DB', '#333');
-	var carl = member(500,350,'Manager', 'Carl Carlson', 'member7.png', '#3498DB', '#333');
+	var bart = member(500,70, 'Bart Simpson', 'member1.png', '#F1C40F', 'gray');
+	var homer = member(290,200, 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
+	var marge = member(500,200, 'Marge Simpson', 'member3.png', '#2ECC71', '#008e09');
+	var lisa = member(700,200, 'Lisa Simpson', 'member4.png', '#2ECC71', '#008e09');
+	var maggie = member(80,350, 'Maggie Simpson', 'member5.png', '#3498DB', '#333');
+	var lenny = member(290,350, 'Lenny Leonard', 'member6.png', '#3498DB', '#333');
+	var carl = member(500,350, 'Carl Carlson', 'member7.png', '#3498DB', '#333');
 
-	link(bart, marge, [{x: 585, y: 180}]);
-	link(bart, homer, [{x: 585, y: 180}, {x: 375, y: 180}]);
-	link(bart, lisa, [{x: 585, y: 180}, {x: 785, y: 180}]);
-	link(homer, lenny, [{x:375 , y: 380}]);
-	link(lenny, carl, [{x:375 , y: 380}]);
-	link(lenny, maggie, [{x:375 , y: 380}]);
+	link(bart, marge, [{x: 565, y: 180}]);
+	link(bart, homer, [{x: 565, y: 180}, {x: 360, y: 180}]);
+	link(bart, lisa, [{x: 565, y: 180}, {x: 770, y: 180}]);
+	link(homer, lenny, [{x:360 , y: 380}]);
+	link(lenny, carl, [{x:360 , y: 380}]);
+	link(lenny, maggie, [{x:360 , y: 380}]);
 </script>
