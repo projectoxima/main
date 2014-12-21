@@ -56,7 +56,7 @@ $(function(){
 		console.log(window.mode);
 		
 		if(window.mode=='gabung'){
-			if($('input[name=name1]:eq(0)').val().trim().length==0){
+			if($('input[name=name1]').val().trim().length==0){
 				$.growl.error({message: 'Nama harus diisi'});
 				return;
 			}
@@ -83,7 +83,7 @@ $(function(){
 			}
 		}
 		if(window.mode=='beli'){
-			if($('input[name=name2]:eq(1)').val().trim().length==0){
+			if($('input[name=name2]').val().trim().length==0){
 				$.growl.error({message: 'Nama harus diisi'});
 				return;
 			}

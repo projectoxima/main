@@ -99,6 +99,23 @@ class user_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 	
+	function get_user_top_titik($user_id){
+		$this->db->from('titiks t');
+		$this->db->where('t.user_id', $user_id);
+		$this->db->order_by('t.id ASC');
+		return $this->db->get()->row();
+	}
+	
+	function get_user_sponsor($titik_id, $limit){
+		$this->db->select('u.*, t.user_id AS user_sponsor_id');
+		$this->db->from('user_sponsor u');
+		$this->db->join('titiks t', 't.id=u.sponsor_id');
+		$this->db->where('u.titik_id', $titik_id);
+		$this->db->order_by('u.up_level ASC');
+		$this->db->limit($limit);
+		return $this->db->get()->result();
+	}
+	
 	function get_pin($pin_id){
 		return $this->db->get_where('pins', array('id'=>$pin_id))->row();
 	}
@@ -180,6 +197,17 @@ class user_model extends CI_Model {
 				));
 			}
 		}
+	}
+	
+	function save_sell_only($data){
+		$this->db->set('create_time', 'NOW()', false);
+		$this->db->insert('sell_only', $data);
+	}
+	
+	function save_bonus($data){
+		$this->db->set('create_time', 'NOW()', false);
+		$this->db->insert('user_bonus', $data);
+		return $this->db->insert_id();
 	}
 	
 	//~ ===== end networking method
