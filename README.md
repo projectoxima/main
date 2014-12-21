@@ -113,3 +113,9 @@ Array
     [mode] => gabung
     [member_id] => ?
 )
+
+
+truncate table user_sponsor;
+truncate table parent_childs;
+delete from titiks;
+

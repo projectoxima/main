@@ -33,6 +33,18 @@ class user_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 	
+	function user_detail_by_pin_for_public($pin){
+		$this->db->select('m.id, pp.nama_lengkap, pp.alamat, pp.phone, pp.ktp, pp.bank, pp.no_rekening, pp.nama_rekening');
+		$this->db->from('users m');
+		$this->db->join('pins p', 'p.id=m.pin_id');
+		$this->db->join('profiles pp', 'pp.user_id=m.id');
+		$this->db->where('p.pin', $pin);
+		$result = $this->db->get()->row();
+		if(!empty($result))
+			$result->id = encode_id($result->id);
+		return $result;
+	}
+	
 	function set_status($user_id, $stat){
 		$this->db->where('id', $user_id);
 		$this->db->update('users', array('status'=>$stat ? 1:0));
@@ -48,6 +60,18 @@ class user_model extends CI_Model {
 	function save_user($data){
 		$this->db->set('create_time', 'NOW()', FALSE);
 		$this->db->insert('users', $data);
+		return $this->db->insert_id();
+	}
+	
+	function save_titik($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('titiks', $data);
+		return $this->db->insert_id();
+	}
+	
+	function save_parent_child($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('parent_childs', $data);
 		return $this->db->insert_id();
 	}
 	
@@ -68,4 +92,96 @@ class user_model extends CI_Model {
 		$this->db->update('profiles', $data);
 		return true;
 	}
+	
+	function save_user_sponsor($data){
+		$this->db->set('create_time', 'NOW()', FALSE);
+		$this->db->insert('user_sponsor', $data);
+		return $this->db->insert_id();
+	}
+	
+	function get_pin($pin_id){
+		return $this->db->get_where('pins', array('id'=>$pin_id))->row();
+	}
+	
+	//~ ===== networking method
+	
+	function is_user_child($parent_id, $child_id){
+		$this->db->from('parent_childs pc');
+		$this->db->join('titiks parent', 'parent.id=pc.parent_child_id');
+		$this->db->join('titiks child', 'child.id=pc.titik_id');
+		$this->db->where('parent.user_id', $parent_id);
+		$this->db->where('child.user_id', $child_id);
+		$result = $this->db->get()->row();
+		if(empty($result))
+			return false;
+		else
+			return $result;
+	}
+	
+	function is_bottom_child($parent_id, $child_id){
+		$this->db->from('user_sponsor u');
+		$this->db->where('u.user_id', $child_id);
+		$this->db->where('u.sponsor_id', $parent_id);
+		$res = $this->db->count_all_results();
+		if($res > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	function get_max_up_level($titik_id){
+		$this->db->select('COUNT(up_level) AS level');
+		$this->db->from('user_sponsor');
+		$this->db->where('titik_id', $titik_id);
+		return $this->db->get()->row();
+	}
+	
+	function get_available_parent(){
+		$this->db->select('m.id, m.titik_id, t.user_id, 
+			(SELECT COUNT(*) FROM parent_childs pc WHERE pc.parent_child_id=m.titik_id) AS `order`, p.*');
+		$this->db->from('parent_childs m');
+		$this->db->join('titiks t', 't.id=m.titik_id');
+		$this->db->join('profiles p', 'p.user_id=t.user_id');
+		$this->db->where("(
+			SELECT COUNT(*) FROM parent_childs c
+			WHERE c.parent_child_id=m.titik_id
+		)<3", null, false);
+		$this->db->group_by('m.parent_child_id');
+		$this->db->order_by('t.id ASC, t.order DESC');
+		return $this->db->get()->result();
+	}
+	
+	function get_bottom_parent($stokis_id){
+		$available_parent = $this->get_available_parent();
+		
+		if(count($available_parent) > 0){
+			foreach($available_parent as $item){
+				if($this->is_bottom_child($stokis_id, $item->user_id))
+					return $item;
+			}
+			return $available_parent[0];
+		}
+		return array();
+	}
+	
+	function generate_up_level($user_id, $titik_id){
+		$info = $this->db->get_where('user_sponsor', array('user_id'=>$user_id, 'titik_id'=>$titik_id))->row();
+		$up_level = $info->up_level;
+		while(!empty($info->sponsor_id)){
+			$info = $this->db->get_where('user_sponsor', array('titik_id'=>$info->sponsor_id))->row();
+			if(!empty($info->sponsor_id)){
+				$up_level++;
+				$this->db->set('create_time', 'NOW()', false);
+				$this->db->insert('user_sponsor', array(
+					'user_id'=>$user_id,
+					'titik_id'=>$titik_id,
+					'sponsor_id'=>$info->sponsor_id,
+					'up_level'=>$up_level
+				));
+			}
+		}
+	}
+	
+	//~ ===== end networking method
+	
 }

@@ -11,6 +11,7 @@ class Userutil extends OxyController {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('admin/user_model', 'user');
 	}
 	
 	public function get_user_detail_by_pin(){
@@ -19,16 +20,17 @@ class Userutil extends OxyController {
 			
 		$pin = $this->input->post('pin');
 		
-		$this->db->select('m.id, pp.nama_lengkap, pp.alamat, pp.phone, pp.ktp, pp.bank, pp.no_rekening, pp.nama_rekening');
-		$this->db->from('users m');
-		$this->db->join('pins p', 'p.id=m.pin_id');
-		$this->db->join('profiles pp', 'pp.user_id=m.id');
-		$this->db->where('p.pin', $pin);
-		$result = $this->db->get()->row();
-		if(!empty($result))
-			$result->id = encode_id($result->id);
+		$result = $this->user->user_detail_by_pin_for_public($pin);
 		echo json_encode($result);
 		return;
 	}
-
+	
+	
+	//~ for testing
+	public function test(){
+		$this->load->model('admin/user_model');
+		$res = $this->user_model->get_available_parent();
+		print_r($res);
+		echo $this->db->last_query();
+	}
 }

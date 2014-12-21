@@ -23,7 +23,7 @@
 							<td><?php echo $idx+1 ?></td>
 							<td><?php echo $dbarang->idbarang ?></td>
 							<td><?php echo $dbarang->status ?></td>
-							<td align="center"><input type="checkbox" name="idbarang[]" value="<?php echo encode_id($dbarang->id) ?>" /></td>
+							<td align="center"><input type="checkbox" name="idbarang[]" value="<?php echo encode_id($dbarang->id, false) ?>" /></td>
 						</tr>
 						<?php endforeach; ?>
 						</tbody>
@@ -108,7 +108,7 @@
 											<td><?php echo $idp+1 ?></td>
 											<td><?php echo $dpin->pin ?></td>
 											<td><?php echo $dpin->status ?></td>
-											<td align="center"><input type="radio" name="pin[]" value="<?php echo encode_id($dpin->id) ?>" /></td>
+											<td align="center"><input type="radio" name="pin[]" value="<?php echo encode_id($dpin->id, false) ?>" /></td>
 										</tr>
 										<?php endforeach; ?>
 										</tbody>

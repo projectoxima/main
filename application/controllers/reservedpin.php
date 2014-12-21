@@ -9,6 +9,7 @@ class Reservedpin extends OxyController {
 		parent::__construct();
 		$this->load->model('admin/reservedpin_model', 'rpin');
 		$this->load->model('login/users', 'users');
+		$this->load->model('admin/user_model');
 	}
 
 	//~ ============= reserved stokis, hanya untuk admin dan operator
@@ -263,6 +264,25 @@ class Reservedpin extends OxyController {
 	//~ proses pembuatan jaringan ada disini
 	public function reserved_member_save(){
 		if($this->input->post()){
+			echo '<pre>';
+			print_r($_POST);
+			echo '</pre>';
+			
+			//~ free
+			$this->db->from('user_sponsor'); 
+			$this->db->truncate(); 
+			$this->db->from('parent_childs'); 
+			$this->db->truncate();
+			$this->db->empty_table('titiks'); 
+			$this->db->select('MAX(id) AS ids', null, false);
+			$prof = $this->db->get('profiles')->row();
+			$this->db->where('id', $prof->ids);
+			$this->db->delete('profiles');
+			$this->db->select('MAX(id) AS ids', null, false);
+			$usr = $this->db->get('users')->row();
+			$this->db->where('id', $usr->ids);
+			$this->db->delete('users');
+			
 			extract($this->input->post());
 			
 			try{
@@ -297,10 +317,96 @@ class Reservedpin extends OxyController {
 					//~ bikin jaringan jika gabung
 					//~ just insert jika beli
 					//~ cek pin
+					
 					if($mode=='gabung'){
 						if(!is_array($pin) || count($pin)==0)
 							throw new Exception('PIN harus dipilih salah satu');
+						
+						if(!isset($name1) || !isset($ktp) || !isset($bank) || !isset($norek) || !isset($namarek))
+							throw new Exception('Lengkapi data pembeli');
+						
+						$pin = decode_id($pin[0], false);
+						if(!test_id($pin))
+							throw new Exception('PIN tidak valid');
+						
+						$thepin = $this->user_model->get_pin($pin);
+						
+						//~ save dulu data member
+						//~ prepare data member
+						$data_user = array(
+							'username'=>$thepin->pin,
+							'password'=>md5($thepin->pin),
+							'group_id'=>USER_MEMBER,
+							'pin_id'=>$pin,
+							'status'=>INACTIVE,
+							'stokis'=>INACTIVE,
+							'point'=>0,
+							'sponsor_id'=>$sponsor_id,
+							'create_by'=>get_user()->id
+						);
+						$data_profile = array(
+							'user_id'=>0,
+							'sponsor_id'=>$sponsor_id,
+							'tgl_pengajuan'=>date('Y-m-d'),
+							'nama_lengkap'=>$name1,
+							'ktp'=>$ktp,
+							'bank'=>$bank,
+							'no_rekening'=>$norek,
+							'nama_rekening'=>$namarek
+						);
+						$user_id = $this->user_model->save_user($data_user);
+						$data_profile['user_id'] = $user_id;
+						$this->user_model->save_profile($data_profile);
+						
+						foreach($idbarang as $lev=>$barang){
+							$idb = decode_id($barang, false);
+							if(!test_id($idb))
+								throw new Exception('ID Barang tidak valid');
 							
+							$parent = $this->user_model->get_bottom_parent($sponsor_id);
+							
+							if(empty($parent))
+								$the_order = '0';
+							else if($parent->order==0)
+								$the_order = '0';
+							else if($parent->order==1)
+								$the_order = '1';
+							else if($parent->order==2)
+								$the_order = '2';
+								
+							//~ data titiks
+							$data_titik = array(
+								'idbarang_id'=> $idb,
+								'user_id'=> $user_id,
+								'order'=> $the_order,
+								'biaya_daftar'=> $biaya,
+								'create_by'=> get_user()->id
+							);
+							
+							$titik_id = $this->user_model->save_titik($data_titik);
+							
+							//~ data parent childs
+							$data_parent_child = array(
+								'titik_id'=>$titik_id,
+								'parent_child_id'=>empty($parent) ? NULL : $parent->titik_id,
+								'create_by'=>get_user()->id
+							);
+							$this->user_model->save_parent_child($data_parent_child);
+							
+							//~ data user sponsor
+							$level = $this->user_model->get_max_up_level($titik_id);
+							
+							$data_user_sponsor = array(
+								'user_id'=>$user_id,
+								'titik_id'=>$titik_id,
+								'sponsor_id'=>empty($parent) ? NULL : $parent->titik_id,
+								'up_level'=>$level->level+1
+							);
+							$this->user_model->save_user_sponsor($data_user_sponsor);
+							
+							//~ generate up level
+							$this->user_model->generate_up_level($user_id, $titik_id);
+						}
 						
 					}else if($mode=='beli'){
 						
@@ -318,14 +424,16 @@ class Reservedpin extends OxyController {
 					if($mode=='gabung'){
 						if(!is_array($pin) || count($pin)==0)
 							throw new Exception('PIN harus dipilih salah satu');
-							
-							
+						
+						$parent = $this->user_model->get_bottom_parent($sponsor_id);
+						
+						
 					}else if($mode=='beli'){
 						
 					}else
 						throw new Exception('Data tidak valid');
 				}
-				
+				die;
 				redirect(route_url('reservedpin', 'reserved_member'));
 			}catch(Exception $e){
 				$this->layout->view('error/400', array('message'=>$e->getMessage()));
