@@ -374,13 +374,14 @@ class Reservedpin extends OxyController {
 		return $titik_id;
 	}
 	
-	private function generate_sell_only($idb, $nama, $alamat, $kontak, $member_id){
+	private function generate_sell_only($idb, $nama, $alamat, $kontak, $biaya, $member_id){
 		$data_sell_only = array(
 			'idbarang_id'=>$idb,
 			'buy_date'=>date('Y-m-d'),
 			'name'=>$nama,
 			'alamat'=>$alamat,
 			'kontak'=>$kontak,
+			'harga'=>$biaya,
 			'member_id'=>$member_id,
 			'create_by'=>get_user()->id
 		);
@@ -498,7 +499,7 @@ class Reservedpin extends OxyController {
 							$idb = decode_id($barang, false);
 							if(!test_id($idb))
 								throw new Exception('ID Barang tidak valid');
-							$this->generate_sell_only($idb, $name2, $alamat, $kontak, NULL);
+							$this->generate_sell_only($idb, $name2, $alamat, $kontak, $biaya, NULL);
 						}
 					}else
 						throw new Exception('Data tidak valid');
@@ -511,15 +512,44 @@ class Reservedpin extends OxyController {
 					//~ bikin jaringan jika gabung
 					//~ just insert jika beli
 					//~ cek pin
+					
+					$user_id = $pembeli_id;
+					
 					if($mode=='gabung'){
-						if(!is_array($pin) || count($pin)==0)
-							throw new Exception('PIN harus dipilih salah satu');
+						//~ jika user sudah daftar maka tidak butuh pin lagi
 						
-						$parent = $this->user_model->get_bottom_parent($sponsor_id);
+						//~ if(!is_array($pin) || count($pin)==0)
+							//~ throw new Exception('PIN harus dipilih salah satu');
+						//~ 
+						//~ $pin = decode_id($pin[0], false);
+						//~ if(!test_id($pin))
+							//~ throw new Exception('PIN tidak valid');
+						//~ 
+						//~ $thepin = $this->user_model->get_pin($pin);
 						
+						//todo : call generate_network
+						$first_top_titik_id = null;
+						foreach($idbarang as $lev=>$barang){
+							$idb = decode_id($barang, false);
+							if(!test_id($idb))
+								throw new Exception('ID Barang tidak valid');
+							$ttk = $this->generate_network($idb, $sponsor_id, $user_id, $biaya, $pin);
+							if($lev==0)
+								$first_top_titik_id = $ttk;
+						}
+						
+						//~ member lama beli lagi, tidak ada bonus sponsor (tambahan)
+						//~ $this->set_bonus_sponsor($sponsor_id, $user_id, $first_top_titik_id);
 						
 					}else if($mode=='beli'){
 						
+						//~ yang membeli adalah bukan member
+						foreach($idbarang as $lev=>$barang){
+							$idb = decode_id($barang, false);
+							if(!test_id($idb))
+								throw new Exception('ID Barang tidak valid');
+							$this->generate_sell_only($idb, $detail_pembeli->nama_lengkap, $$detail_pembeli->alamat, $$detail_pembeli->kontak, $biaya, $user_id);
+						}
 					}else
 						throw new Exception('Data tidak valid');
 				}

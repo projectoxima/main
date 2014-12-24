@@ -157,7 +157,7 @@
 			<div class="form-group">
 				<div class="col-md-4">
 					<input type="hidden" name="mode" value="gabung" />
-					<input type="hidden" name="pembeli_id" value="0"/>
+					<input type="hidden" name="pembeli_id" value=""/>
 					<button class="btn btn-primary btn-lg button-submit" type="button">Simpan</button>
 				</div>
 			</div>

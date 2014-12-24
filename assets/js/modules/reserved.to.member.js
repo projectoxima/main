@@ -76,11 +76,6 @@ $(function(){
 				$.growl.error({message: 'Nama rekening harus diisi'});
 				return;
 			}
-			rdbs = $('input[type=radio]:checked');
-			if(rdbs.length==0){
-				$.growl.error({message: 'PIN wajib dipilih satu'});
-				return;
-			}
 		}
 		if(window.mode=='beli'){
 			if($('input[name=name2]').val().trim().length==0){
@@ -89,6 +84,13 @@ $(function(){
 			}
 			if($('textarea[name=alamat]').val().trim().length==0){
 				$.growl.error({message: 'Alamat harus diisi'});
+				return;
+			}
+		}
+		
+		if($('input[name=pembeli_id]').val().trim().length==0){
+			if($('input[name=pin]:checked').length==0){
+				$.growl.error({message: 'Untuk member baru, anda harus memilih PIN'});
 				return;
 			}
 		}
@@ -130,6 +132,9 @@ $(function(){
 			else{
 				$('input[name=pembeli_id]').val(res.id);
 				
+				$('input[type=radio]:checked').removeAttr('checked');
+				$('input[type=radio]').hide();
+				
 				if(window.mode=='gabung'){
 					$('input[name=name1]').val(res.nama_lengkap);
 					$('input[name=ktp]').val(res.ktp);
@@ -156,4 +161,5 @@ $(function(){
 			}
 		}, 'json');
 	}
+	
 });
