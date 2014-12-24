@@ -14,15 +14,65 @@ class Userutil extends OxyController {
 		$this->load->model('admin/user_model', 'user');
 	}
 	
-	public function get_user_detail_by_pin(){
+	public function get_user_detail_by_user_id(){
 		if(!$this->input->is_ajax_request())
 			return;
 			
-		$pin = $this->input->post('pin');
+		$user_id = $this->input->post('user_id');
+		$user_id = decode_id($user_id);
+		if(!test_id($user_id)){
+			echo '{}';
+			die;
+		}
 		
-		$result = $this->user->user_detail_by_pin_for_public($pin);
+		$result = $this->user->user_detail_by_user_id_for_public($user_id);
 		echo json_encode($result);
 		return;
+	}
+	
+	public function get_paging_member(){
+		if(!$this->input->is_ajax_request())
+			die;
+		
+		extract($this->input->post());
+		
+		$resultdata = array(
+			"sEcho"=>intval($sEcho),
+			"iTotalRecords"=>($iDisplayLength * ($pagepos+1)) + 1,
+			"iTotalDisplayRecords"=>($iDisplayLength * ($pagepos+1)) + 1,
+			"aaData"=>array()
+		);
+		
+		if($iSortCol_0==0){
+			$iSortCol_0 = 1;
+			$sSortDir_0 = 'desc';
+		}
+		
+		$data_kolom = array('','nama_lengkap','alamat','propinsi','ktp','phone', '');
+		$sSearch = isset($sSearch) ? $sSearch:'';
+		$data = $this->user->user_get_paging($sSearch, 
+				$iDisplayStart, $iDisplayLength, $data_kolom[$iSortCol_0], $sSortDir_0,
+				true, $mode);
+		
+		if(count($data)<$iDisplayLength){
+			$resultdata['iTotalRecords'] = count($data);
+			$resultdata['iTotalDisplayRecords'] = count($data);
+		}
+		
+		foreach($data as $num=>$item){
+			array_push($resultdata['aaData'], array(
+				(($pagepos*$iDisplayLength) + $num+1),
+				$item->nama_lengkap,
+				$item->alamat,
+				$item->propinsi,
+				$item->ktp,
+				$item->phone,
+				'<button class="btn btn-warning btn-xs" onclick="window.chooseMember(this,\'' .encode_id($item->id). '\')">pilih</button>'
+			));
+		}
+		
+		echo json_encode($resultdata);
+		die;
 	}
 	
 	public function init(){
@@ -81,10 +131,12 @@ class Userutil extends OxyController {
 			'nama_lengkap'=>'operator',
 			'photo'=>'assets/img/user.jpg'
 		));
+		$pin = $this->db->get('pins')->row();
 		$this->db->insert('users', array(
 			'username'=>'oxima',
 			'password'=>md5('oxima'),
 			'group_id'=>USER_MEMBER,
+			'pin_id'=>$pin->id,
 			'status'=>ACTIVE,
 			'stokis'=>ACTIVE
 		));
@@ -99,49 +151,22 @@ class Userutil extends OxyController {
 			'nama_rekening'=>'oxima',
 			'photo'=>'assets/img/user.jpg'
 		));
+		$this->db->where('id', $pin->id);
+		$this->db->update('pins', array('status'=>STATUS_ACTIVE));
+		$idbarang = $this->db->get_where('idbarangs', array('idbarang'=>'00001'))->row();
+		$this->db->insert('titiks', array(
+			'idbarang_id'=>$idbarang->id,
+			'user_id'=>$root_id,
+			'biaya_daftar'=>300000
+		));
+		$titik_id = $this->db->insert_id();
+		$this->db->insert('parent_childs', array(
+			'titik_id'=>$titik_id
+		));
+		$this->db->where('id', $idbarang->id);
+		$this->db->update('idbarangs', array('status'=>STATUS_ACTIVE));
 		$this->db->query('SET FOREIGN_KEY_CHECKS = 1');
 		redirect('welcome');
-	}
-	
-	//~ untuk proses development, clear data
-	public function free(){
-		$this->db->update('pins', array('status'=>STATUS_INACTIVE));
-		$this->db->update('idbarangs', array('status'=>STATUS_INACTIVE));
-		
-		$this->db->where('id IN (SELECT idbarang_id FROM reserved_stokis_idbarangs)', null, false);
-		$this->db->update('idbarangs', array('status'=>STATUS_RESERVED));
-		$this->db->where('id IN (SELECT pin_id FROM reserved_stokis_pins)', null, false);
-		$this->db->update('pins', array('status'=>STATUS_RESERVED));
-		
-		$this->db->update('reserved_stokis_idbarangs', array('status'=>INACTIVE));
-		$this->db->update('reserved_stokis_pins', array('status'=>INACTIVE));
-		$this->db->from('user_bonus'); 
-		$this->db->truncate();
-		$this->db->from('user_sponsor'); 
-		$this->db->truncate(); 
-		$this->db->from('parent_childs'); 
-		$this->db->truncate();
-		$this->db->empty_table('titiks'); 
-		$this->db->select('MAX(id) AS ids', null, false);
-		$prof = $this->db->get('profiles')->row();
-		$this->db->where('id', $prof->ids);
-		$this->db->delete('profiles');
-		$this->db->select('MAX(id) AS ids', null, false);
-		$usr = $this->db->get('users')->row();
-		$this->db->where('id', $usr->ids);
-		$this->db->delete('users');
-		redirect('welcome');
-	}
-	
-	public function clear_reserved(){
-		$this->db->where('id IN (SELECT idbarang_id FROM reserved_stokis_idbarangs)', null, false);
-		$this->db->update('idbarangs', array('status'=>STATUS_INACTIVE));
-		$this->db->where('id IN (SELECT pin_id FROM reserved_stokis_pins)', null, false);
-		$this->db->update('pins', array('status'=>STATUS_INACTIVE));
-		$this->db->from('reserved_stokis_idbarangs'); 
-		$this->db->truncate();
-		$this->db->from('reserved_stokis_pins'); 
-		$this->db->truncate();
 	}
 	
 	//~ for testing

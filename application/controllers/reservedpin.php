@@ -262,7 +262,7 @@ class Reservedpin extends OxyController {
 	}
 	
 	//~ simpan bonus sponsor untuk sponsor
-	private function set_bonus_sponsor($sponsor_id, $member_id){
+	private function set_bonus_sponsor($sponsor_id, $member_id, $member_titik_id){
 		//~ nilai bonus harus didefine
 		assert(NILAI_BONUS_CUT>0);
 		assert(NILAI_BONUS_SPONSOR>0);
@@ -281,7 +281,8 @@ class Reservedpin extends OxyController {
 				'bonus_id'=>1,	//bonus sponsor
 				'bonus'=>NILAI_BONUS_SPONSOR,
 				'bonus_cut'=>$bonus_cut,
-				'newmember_id'=>$member_id
+				'newmember_id'=>$member_id,
+				'newmember_titik_id'=>$member_titik_id
 			);
 			
 			$this->user_model->save_bonus($data_bonus);
@@ -306,7 +307,8 @@ class Reservedpin extends OxyController {
 					'bonus_id'=>2,	//bonus titik
 					'bonus'=>NILAI_BONUS_TITIK,
 					'bonus_cut'=>$bonus_cut,
-					'newmember_id'=>$member_id
+					'newmember_id'=>$member_id,
+					'newmember_titik_id'=>$member_titik_id
 				);
 				
 				$this->user_model->save_bonus($data_bonus);
@@ -368,6 +370,8 @@ class Reservedpin extends OxyController {
 		
 		//~ set bonus parent/titik
 		$this->set_bonus_parent($user_id, $titik_id);
+		
+		return $titik_id;
 	}
 	
 	private function generate_sell_only($idb, $nama, $alamat, $kontak, $member_id){
@@ -387,31 +391,13 @@ class Reservedpin extends OxyController {
 		$this->rpin->update_reserved_idbarang_status($idb, ACTIVE);
 	}
 	
-	//~ untuk proses development, clear data
-	private function freeData(){
-		$this->db->from('user_bonus'); 
-		$this->db->truncate();
-		$this->db->from('user_sponsor'); 
-		$this->db->truncate(); 
-		$this->db->from('parent_childs'); 
-		$this->db->truncate();
-		$this->db->empty_table('titiks'); 
-		$this->db->select('MAX(id) AS ids', null, false);
-		$prof = $this->db->get('profiles')->row();
-		$this->db->where('id', $prof->ids);
-		$this->db->delete('profiles');
-		$this->db->select('MAX(id) AS ids', null, false);
-		$usr = $this->db->get('users')->row();
-		$this->db->where('id', $usr->ids);
-		$this->db->delete('users');
-	}
-	
 	//~ proses pembuatan jaringan ada disini
 	public function reserved_member_save(){
 		if($this->input->post()){
 			//~ echo '<pre>';
 			//~ print_r($_POST);
 			//~ echo '</pre>';
+			//~ die;
 			
 			//~ free
 			//~ $this->freeData();
@@ -435,13 +421,12 @@ class Reservedpin extends OxyController {
 				if(get_user()->group_id==USER_MEMBER)
 					$sponsor_id = get_user()->id;
 				else{
-					if(empty($stokis_pin))
-						throw new Exception('PIN Stokis harus diisi');
-					
-					$member_sponsor = $this->rpin->get_member_active_data(addslashes($stokis_pin));
-					if(!is_object($member_sponsor))
-						throw new Exception('PIN sponsor tidak valid, data sponsor tidak ditemukan');
-					$sponsor_id = $member_sponsor->id;
+					if(empty($stokis_id))
+						throw new Exception('Stokis harus dipilih');
+					$stokis_id = decode_id($stokis_id);
+					if(!test_id($stokis_id))
+						throw new Exception('Stokis tidak valid');
+					$sponsor_id = $stokis_id;
 				}
 				
 				//~ cek pembeli barang
@@ -493,15 +478,18 @@ class Reservedpin extends OxyController {
 						$this->user_model->save_profile($data_profile);
 						
 						//todo : call generate_network
+						$first_top_titik_id = null;
 						foreach($idbarang as $lev=>$barang){
 							$idb = decode_id($barang, false);
 							if(!test_id($idb))
 								throw new Exception('ID Barang tidak valid');
-							$this->generate_network($idb, $sponsor_id, $user_id, $biaya, $pin);
+							$ttk = $this->generate_network($idb, $sponsor_id, $user_id, $biaya, $pin);
+							if($lev==0)
+								$first_top_titik_id = $ttk;
 						}
 						
 						//~ set bonus sponsor
-						$this->set_bonus_sponsor($sponsor_id, $user_id);
+						$this->set_bonus_sponsor($sponsor_id, $user_id, $first_top_titik_id);
 						
 					}else if($mode=='beli'){
 						

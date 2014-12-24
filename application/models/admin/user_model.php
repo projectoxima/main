@@ -12,14 +12,22 @@ class user_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	function user_get_paging($keyword, $start, $length, $sortcol, $sorttype){
-		$this->db->select('u.id, u.status, u.group_id, p.nama_lengkap, p.alamat, p.kota, p.propinsi');
+	function user_get_paging($keyword, $start, $length, $sortcol, $sorttype, $memberonly=true, $mode=null){
+		$this->db->select('u.id, u.status, u.group_id, p.nama_lengkap, p.alamat, p.kota, p.propinsi,p.phone,p.ktp');
 		$this->db->from('users u');
 		$this->db->join('profiles p', 'p.user_id=u.id', 'left');
-		$this->db->or_like('p.nama_lengkap', $keyword, 'both');
-		$this->db->or_like('p.alamat', $keyword, 'both');
-		$this->db->or_like('p.kota', $keyword, 'both');
-		$this->db->or_like('p.propinsi', $keyword, 'both');
+		if($memberonly)
+			$this->db->where('u.group_id', USER_MEMBER);
+		$this->db->where("(
+			p.nama_lengkap LIKE '%$keyword%'
+			OR p.alamat LIKE '%$keyword%'
+			OR p.kota LIKE '%$keyword%'
+			OR p.propinsi LIKE '%$keyword%'
+		)", null, true);
+		if($mode!=null){
+			if($mode=='stokis')
+				$this->db->where('u.stokis', ACTIVE);
+		}
 		$this->db->limit($length, $start);
 		$this->db->order_by($sortcol, $sorttype);
 		return $this->db->get()->result();
@@ -39,6 +47,18 @@ class user_model extends CI_Model {
 		$this->db->join('pins p', 'p.id=m.pin_id');
 		$this->db->join('profiles pp', 'pp.user_id=m.id');
 		$this->db->where('p.pin', $pin);
+		$result = $this->db->get()->row();
+		if(!empty($result))
+			$result->id = encode_id($result->id);
+		return $result;
+	}
+	
+	function user_detail_by_user_id_for_public($user_id){
+		$this->db->select('m.id, pp.nama_lengkap, pp.alamat, pp.phone, pp.ktp, pp.bank, pp.no_rekening, pp.nama_rekening');
+		$this->db->from('users m');
+		$this->db->join('pins p', 'p.id=m.pin_id');
+		$this->db->join('profiles pp', 'pp.user_id=m.id');
+		$this->db->where('m.id', $user_id);
 		$result = $this->db->get()->row();
 		if(!empty($result))
 			$result->id = encode_id($result->id);

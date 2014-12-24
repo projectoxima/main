@@ -41,9 +41,15 @@
 			
 			<?php if(get_user()->group_id!=USER_MEMBER): ?>
 			<div class="form-group">
-				<label class="col-md-3" for="stokis_pin">PIN Stokis</label>
+				<label class="col-md-3" for="stokis_pin">Pilih Stokis</label>
 				<div class="col-md-4">
-					<input type="text" id="stokis_pin" class="form-control" name="stokis_pin" placeholder="PIN Stokis"/>
+					<div class="input-group">
+						<input type="hidden" id="stokis_id" name="stokis_id" />
+						<input type="text" required  class="form-control" id="stokis_name" readonly name="stokis_name" placeholder="Pilih Stokis" />
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-warning" id="pilih_stokis" onclick="window.pilihStokis()" style="margin:0;">Pilih</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			<?php endif; ?>
@@ -61,7 +67,7 @@
 							<div class="form-group">
 								<label class="col-md-3"></label>
 								<div class="col-md-7">
-									<button class="btn btn-primary" type="button" onclick="window.pilihMember()">Pilih dari member</button>
+									<button class="btn btn-warning" type="button" onclick="window.pilihMember()">Pilih dari member</button>
 								</div>
 							</div>
 							<div class="form-group">
@@ -122,7 +128,7 @@
 							<div class="form-group">
 								<label class="col-md-3"></label>
 								<div class="col-md-7">
-									<button class="btn btn-primary" type="button" onclick="window.pilihMember()">Pilih dari member</button>
+									<button class="btn btn-warning" type="button" onclick="window.pilihMember()">Pilih dari member</button>
 								</div>
 							</div>
 							<div class="form-group">
@@ -152,7 +158,7 @@
 				<div class="col-md-4">
 					<input type="hidden" name="mode" value="gabung" />
 					<input type="hidden" name="pembeli_id" value="0"/>
-					<button class="btn btn-warning btn-lg button-submit" type="button">Simpan</button>
+					<button class="btn btn-primary btn-lg button-submit" type="button">Simpan</button>
 				</div>
 			</div>
 			
@@ -160,17 +166,8 @@
 		</div>
 	</div>
 
-	<div id="choose-member" class="col-md-12" hidden>
-		<div class="form-group">
-			<label class="col-md-5" for="pins">Masukan PIN member</label>
-			<div class="col-md-5">
-				<input type="text" class="form-control" name="member_pin"/>
-			</div>
-			<div class="col-md-2">
-				<button class="btn btn-success" onclick="window.getMember()">Pilih &nbsp; <i class="fa fa-repeat fa-lg"></i></button>
-			</div>
-		</div>
-	</div>
+	<?php require 'application/views/dialog/select_member.php' ?>
+	
 </div>
 
 <script type="text/javascript">
@@ -180,6 +177,6 @@
 	});
 	<?php endif; ?>
 	window.reserved_pin_url = '<?php echo route_url('reservedpin', 'reserved_list') ?>';
-	window.user_get_by_pin_url = '<?php echo route_url('userutil', 'get_user_detail_by_pin') ?>';
+	window.user_get_by_user_id = '<?php echo route_url('userutil', 'get_user_detail_by_user_id') ?>';
 </script>
 <script src="<?php echo site_url(); ?>/assets/js/modules/reserved.to.member.js"></script>

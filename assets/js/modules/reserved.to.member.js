@@ -96,18 +96,34 @@ $(function(){
 		$('form').submit();
 	});
 	
-	window.pilihMember = function(){
+	window.pilihStokis = function(){
+		window.modeuser = 'stokis';
 		$.fancybox({href: '#choose-member'});
+		window.activateChooseMember();
 		return false;
 	}
 	
-	window.getMember = function(){
-		if($('input[name=member_pin]').val().trim().length==0){
-			$.growl.error({message: 'Isi PIN yang dicari'});
-			return;
+	window.pilihMember = function(){
+		window.modeuser = 'member';
+		$.fancybox({href: '#choose-member'});
+		window.activateChooseMember();
+		return false;
+	}
+	
+	window.chooseMember = function(th, user_id){
+		if(window.modeuser=='stokis'){
+			$('input[name=stokis_id]').val(user_id);
+			dt = $(th).data('member');
+			$('input[name=stokis_name]').val(dt[1]);
+		}else{
+			window.getMember(user_id);
 		}
+		$.fancybox.close();
+	}
+	
+	window.getMember = function(user_id){
 		$.fancybox.showLoading();
-		$.post(window.user_get_by_pin_url, {pin: $('input[name=member_pin]').val().trim()}, function(res){
+		$.post(window.user_get_by_user_id, {user_id: user_id}, function(res){
 			$.fancybox.hideLoading();
 			if($.isEmptyObject(res))
 				$.growl.error({message: 'Data member tidak ditemukan, cek kembali PIN yang anda masukan'});
