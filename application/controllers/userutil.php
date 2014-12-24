@@ -25,6 +25,84 @@ class Userutil extends OxyController {
 		return;
 	}
 	
+	public function init(){
+		$this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+		$this->db->from('member_action'); 
+		$this->db->truncate();
+		$this->db->from('points'); 
+		$this->db->truncate();
+		$this->db->from('repeat_order'); 
+		$this->db->truncate();
+		$this->db->from('reports'); 
+		$this->db->truncate();
+		$this->db->from('withdraw'); 
+		$this->db->truncate();
+		$this->db->from('sell_only'); 
+		$this->db->truncate();
+		$this->db->from('profiles'); 
+		$this->db->truncate();
+		$this->db->from('reserved_stokis_idbarangs'); 
+		$this->db->truncate();
+		$this->db->from('reserved_stokis_pins'); 
+		$this->db->truncate();
+		$this->db->from('parent_childs'); 
+		$this->db->truncate();
+		$this->db->from('user_bonus'); 
+		$this->db->truncate();
+		$this->db->from('user_sponsor'); 
+		$this->db->truncate();
+		$this->db->from('titiks'); 
+		$this->db->truncate();
+		$this->db->from('users'); 
+		$this->db->truncate();
+		$this->db->update('pins', array('status'=>STATUS_INACTIVE));
+		$this->db->update('idbarangs', array('status'=>STATUS_INACTIVE));
+		$this->db->insert('users', array(
+			'username'=>'admin',
+			'password'=>md5('admin'),
+			'group_id'=>USER_ADMIN,
+			'status'=>ACTIVE
+		));
+		$admin_id = $this->db->insert_id();
+		$this->db->insert('profiles', array(
+			'user_id'=>$admin_id,
+			'nama_lengkap'=>'admin',
+			'photo'=>'assets/img/user.jpg'
+		));
+		$this->db->insert('users', array(
+			'username'=>'operator',
+			'password'=>md5('operator'),
+			'group_id'=>USER_OPERATOR,
+			'status'=>ACTIVE
+		));
+		$operator_id = $this->db->insert_id();
+		$this->db->insert('profiles', array(
+			'user_id'=>$operator_id,
+			'nama_lengkap'=>'operator',
+			'photo'=>'assets/img/user.jpg'
+		));
+		$this->db->insert('users', array(
+			'username'=>'oxima',
+			'password'=>md5('oxima'),
+			'group_id'=>USER_MEMBER,
+			'status'=>ACTIVE,
+			'stokis'=>ACTIVE
+		));
+		$root_id = $this->db->insert_id();
+		$this->db->insert('profiles', array(
+			'user_id'=>$root_id,
+			'nama_lengkap'=>'oxima',
+			'alamat'=>'bandung',
+			'ktp'=>'123456789',
+			'no_rekening'=>'333333333',
+			'bank'=>'mandiri',
+			'nama_rekening'=>'oxima',
+			'photo'=>'assets/img/user.jpg'
+		));
+		$this->db->query('SET FOREIGN_KEY_CHECKS = 1');
+		redirect('welcome');
+	}
+	
 	//~ untuk proses development, clear data
 	public function free(){
 		$this->db->update('pins', array('status'=>STATUS_INACTIVE));
