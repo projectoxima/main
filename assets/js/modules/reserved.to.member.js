@@ -89,7 +89,7 @@ $(function(){
 		}
 		
 		if($('input[name=pembeli_id]').val().trim().length==0){
-			if($('input[name=pin]:checked').length==0){
+			if($('input[type=radio]:checked').length==0){
 				$.growl.error({message: 'Untuk member baru, anda harus memilih PIN'});
 				return;
 			}

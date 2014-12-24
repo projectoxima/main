@@ -114,38 +114,48 @@ class Auth extends OxyController {
 		));
 	}
 	
-	//~ handle proses register member
+	//~ handle proses aktivasi member & pembentukan jaringan
+	//~ sama dengan pembentukan jaringan di reservedpin
 	public function register(){
 		if($this->input->post()){
-			$pwd1 = $this->input->post('password');
-			$pwd2 = $this->input->post('password2');
-			if($pwd1==$pwd2 && strlen($pwd1) > 5){
-				//~ todo: aktivasi akun
-			}else
-				$this->session->set_flashdata('message_error', $this->lang->line('message_password_min'));
-			redirect(route_url('auth', 'register'));
+			extract($this->input->post());
+			
+			
 		}else
 			$this->layout->view('dashboard/register', array());
 	}
 	
 	//~ proses pengecekan pin dan idbarang, mode ajax
 	public function check_pin(){
-		if($this->input->post()){
-			$thepin = $this->input->post('user_pin');
-			$list_idbarang = explode(',', $this->input->post('idbarang'));
-			$hasil = $this->rpin->check_pin_idbarang($thepin, $list_idbarang);
-			$user_detail = array();
-			if(count($hasil) > 0)
-				$user_detail = $this->users->get_user_detail($hasil[0]->user_id);
-			$this->layout->view('dashboard/register', array(
-				'reserved'=>$hasil,
-				'user'=>$user_detail,
-				'pin'=>$thepin, 
-				'idbarang'=>$list_idbarang
-			));
-		}else
-			$this->layout->view('dashboard/register', array(
-			));
+		try{
+			if($this->input->post()){
+				$thepin = $this->input->post('user_pin');
+				$list_idbarang = explode(',', $this->input->post('idbarang'));
+				$pin_info = $this->rpin->check_pin($thepin);
+				$idbarang_info = $this->rpin->check_idbarang($list_idbarang);
+				
+				//~ cek validitas pin vs idbarang
+				foreach($idbarang_info as $idinfo){
+					if($pin_info->stokis_id!=$idinfo->stokis_id)
+						throw new Exception('PIN dan ID Barang tidak valid');
+				}
+				
+				$user_detail = array();
+				if(count($pin_info) > 0)
+					$user_detail = $this->user->user_detail_by_pin_for_public($pin_info->pin);
+					
+				$this->layout->view('dashboard/register', array(
+					'reserved'=>$idbarang_info,
+					'user'=>$user_detail,
+					'pin'=>$pin_info, 
+					'idbarang'=>$list_idbarang
+				));
+			}else
+				$this->layout->view('dashboard/register', array(
+				));
+		}catch(Exception $e){
+			$this->layout->view('error/400', array('message'=>$e->getMessage()));
+		}
 	}
 
 	public function logout() {
@@ -153,10 +163,6 @@ class Auth extends OxyController {
 		redirect(base_url());
 	}
 	
-	
-	
-	
-
 	public function forgot_password() {
 		$pesan = $this->input->post('email');
 		$find_email = $this->users->find_email($pesan);

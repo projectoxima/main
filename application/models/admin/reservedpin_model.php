@@ -144,30 +144,25 @@ class reservedpin_model extends CI_Model {
 		return true; 
 	}
 	
-	public function check_pin_idbarang($pin, $idbarang=array()){
+	public function check_pin($pin){
+		$this->db->select('rp.*, rp.pin_id, p.pin');
+		$this->db->from('reserved_stokis_pins rp');
+		$this->db->join('pins p', 'rp.pin_id=p.id', 'left');
+		$this->db->where('p.pin', $pin);
+		return $this->db->get()->row();
+	}
+	
+	public function check_idbarang($idbarang=array()){
 		$str_idbarang = '';
 		if(is_array($idbarang) && count($idbarang)>0)
 			$str_idbarang = implode(',', $idbarang);
 		else
 			$str_idbarang = INACTIVE;
-		$this->db->select('rp.*, p.pin, i.idbarang');
-		$this->db->from('reserved_pins rp');
-		$this->db->join('pins p', 'rp.pin_id=p.id', 'left');
-		$this->db->join('idbarangs i', 'rp.idbarang_id=i.id', 'left');
-		$this->db->where('rp.status', INACTIVE);
-		$this->db->where('p.pin', $pin);
-		$this->db->where('i.idbarang IN (' .$str_idbarang. ')', null, false);
-		$checked = $this->db->get()->result();
-		if(count($checked) > 0){
-			$this->db->select('rp.*, p.pin, i.idbarang');
-			$this->db->from('reserved_pins rp');
-			$this->db->join('pins p', 'rp.pin_id=p.id', 'left');
-			$this->db->join('idbarangs i', 'rp.idbarang_id=i.id', 'left');
-			$this->db->where('rp.status', INACTIVE);
-			$this->db->where('p.pin', $pin);
-			return $this->db->get()->result();
-		}else
-			return array();
+		$this->db->select('rp.*, rp.idbarang_id, ib.idbarang');
+		$this->db->from('reserved_stokis_idbarangs rp');
+		$this->db->join('idbarangs ib', 'rp.idbarang_id=ib.id', 'left');
+		$this->db->where('ib.idbarang IN (' .$str_idbarang. ')', null, true);
+		return $this->db->get()->result();
 	}
 	
 	public function get_reserved_detail_by_pin_id($pin_id){

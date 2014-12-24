@@ -42,7 +42,7 @@ class user_model extends CI_Model {
 	}
 	
 	function user_detail_by_pin_for_public($pin){
-		$this->db->select('m.id, pp.nama_lengkap, pp.alamat, pp.phone, pp.ktp, pp.bank, pp.no_rekening, pp.nama_rekening');
+		$this->db->select('m.id, m.status, pp.nama_lengkap, pp.alamat, pp.phone, pp.ktp, pp.bank, pp.no_rekening, pp.nama_rekening');
 		$this->db->from('users m');
 		$this->db->join('pins p', 'p.id=m.pin_id');
 		$this->db->join('profiles pp', 'pp.user_id=m.id');
