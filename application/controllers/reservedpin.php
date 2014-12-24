@@ -273,17 +273,19 @@ class Reservedpin extends OxyController {
 			$bonus_cut = 0;
 			
 		$sponsor_titik_id = $this->user_model->get_user_top_titik($sponsor_id);
-			
-		$data_bonus = array(
-			'user_id'=>$sponsor_id,
-			'titik_id'=>$sponsor_titik_id->id,
-			'bonus_id'=>1,	//bonus sponsor
-			'bonus'=>NILAI_BONUS_SPONSOR,
-			'bonus_cut'=>$bonus_cut,
-			'newmember_id'=>$member_id
-		);
 		
-		$this->user_model->save_bonus($data_bonus);
+		if(isset($sponsor_titik_id->id) && $sponsor_titik_id->id!=null){
+			$data_bonus = array(
+				'user_id'=>$sponsor_id,
+				'titik_id'=>$sponsor_titik_id->id,
+				'bonus_id'=>1,	//bonus sponsor
+				'bonus'=>NILAI_BONUS_SPONSOR,
+				'bonus_cut'=>$bonus_cut,
+				'newmember_id'=>$member_id
+			);
+			
+			$this->user_model->save_bonus($data_bonus);
+		}
 	}
 	
 	//~ simpan bonus titik untuk parent
@@ -359,8 +361,10 @@ class Reservedpin extends OxyController {
 		$this->user_model->generate_up_level($user_id, $titik_id);
 		
 		//~ update status pin dan idbarang menjadi aktif
-		//~ $this->rpin->update_pin_status($pin, STATUS_ACTIVE);
-		//~ $this->rpin->update_idbarang_status($idb, STATUS_ACTIVE);
+		$this->rpin->update_pin_status($pin, STATUS_ACTIVE);
+		$this->rpin->update_reserved_pin_status($pin, ACTIVE);
+		$this->rpin->update_idbarang_status($idb, STATUS_ACTIVE);
+		$this->rpin->update_reserved_idbarang_status($idb, ACTIVE);
 		
 		//~ set bonus parent/titik
 		$this->set_bonus_parent($user_id, $titik_id);
@@ -379,7 +383,27 @@ class Reservedpin extends OxyController {
 		$this->user_model->save_sell_only($data_sell_only);
 		
 		//~ update status barang
-		//~ $this->rpin->update_idbarang_status($idb, STATUS_ACTIVE);
+		$this->rpin->update_idbarang_status($idb, STATUS_ACTIVE);
+		$this->rpin->update_reserved_idbarang_status($idb, ACTIVE);
+	}
+	
+	//~ untuk proses development, clear data
+	private function freeData(){
+		$this->db->from('user_bonus'); 
+		$this->db->truncate();
+		$this->db->from('user_sponsor'); 
+		$this->db->truncate(); 
+		$this->db->from('parent_childs'); 
+		$this->db->truncate();
+		$this->db->empty_table('titiks'); 
+		$this->db->select('MAX(id) AS ids', null, false);
+		$prof = $this->db->get('profiles')->row();
+		$this->db->where('id', $prof->ids);
+		$this->db->delete('profiles');
+		$this->db->select('MAX(id) AS ids', null, false);
+		$usr = $this->db->get('users')->row();
+		$this->db->where('id', $usr->ids);
+		$this->db->delete('users');
 	}
 	
 	//~ proses pembuatan jaringan ada disini
@@ -390,19 +414,7 @@ class Reservedpin extends OxyController {
 			//~ echo '</pre>';
 			
 			//~ free
-			$this->db->from('user_sponsor'); 
-			$this->db->truncate(); 
-			$this->db->from('parent_childs'); 
-			$this->db->truncate();
-			$this->db->empty_table('titiks'); 
-			$this->db->select('MAX(id) AS ids', null, false);
-			$prof = $this->db->get('profiles')->row();
-			$this->db->where('id', $prof->ids);
-			$this->db->delete('profiles');
-			$this->db->select('MAX(id) AS ids', null, false);
-			$usr = $this->db->get('users')->row();
-			$this->db->where('id', $usr->ids);
-			$this->db->delete('users');
+			//~ $this->freeData();
 			//~ end free
 			
 			extract($this->input->post());

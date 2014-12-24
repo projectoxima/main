@@ -43,7 +43,7 @@
 			<div class="form-group">
 				<label class="col-md-3" for="stokis_pin">PIN Stokis</label>
 				<div class="col-md-4">
-					<input type="text" id="stokis_pin" class="form-control" name="stokis_pin" placeholder="PIN Stokis" required />
+					<input type="text" id="stokis_pin" class="form-control" name="stokis_pin" placeholder="PIN Stokis"/>
 				</div>
 			</div>
 			<?php endif; ?>

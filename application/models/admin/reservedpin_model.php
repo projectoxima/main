@@ -124,12 +124,25 @@ class reservedpin_model extends CI_Model {
 	}
 	
 	//~ reservedpin/reserved_member_save
+	function update_reserved_pin_status($pin_id, $status){
+		$this->db->where('pin_id', $pin_id);
+		$this->db->update('reserved_stokis_pins', array('status'=>$status));
+		return true; 
+	}
+	
+	//~ reservedpin/reserved_member_save
 	function update_idbarang_status($idbarang_id, $status){
 		$this->db->where('id', $idbarang_id);
 		$this->db->update('idbarangs', array('status'=>$status));
 		return true; 
 	}
 	
+	//~ reservedpin/reserved_member_save
+	function update_reserved_idbarang_status($idbarang_id, $status){
+		$this->db->where('idbarang_id', $idbarang_id);
+		$this->db->update('reserved_stokis_idbarangs', array('status'=>$status));
+		return true; 
+	}
 	
 	public function check_pin_idbarang($pin, $idbarang=array()){
 		$str_idbarang = '';
@@ -182,7 +195,7 @@ class reservedpin_model extends CI_Model {
 		$this->db->select('idb.*, m.stokis_id');
 		$this->db->from('reserved_stokis_idbarangs m');
 		$this->db->join('idbarangs idb', 'idb.id=m.idbarang_id');
-		$this->db->where('m.status', INACTIVE);
+		$this->db->where('idb.status', STATUS_RESERVED);
 		$this->db->where('m.stokis_id', $user_id);
 		$this->db->limit(10);
 		return $this->db->get()->result();
@@ -193,7 +206,7 @@ class reservedpin_model extends CI_Model {
 		$this->db->select('p.*, m.stokis_id');
 		$this->db->from('reserved_stokis_pins m');
 		$this->db->join('pins p', 'p.id=m.pin_id');
-		$this->db->where('m.status', INACTIVE);
+		$this->db->where('p.status', STATUS_RESERVED);
 		$this->db->where('m.stokis_id', $user_id);
 		$this->db->limit(10);
 		return $this->db->get()->result();
