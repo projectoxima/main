@@ -91,6 +91,7 @@ Asumsi
 ketika member memiliki banyak titik, maka titik yang dijadikan sponsor adalah titik tertinggi
 ketika member baru beli banyak barang, maka sponsor hanya mendapat satu bonus tambahan saja
 ketima member beli lagi barang, maka bonus tambahan tidak ada, hanya ada bonus titik
+ada informasi yang belum lunas, child dari sponsor
 
 0FAF97B149DC
 00012

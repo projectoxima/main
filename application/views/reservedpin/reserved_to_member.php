@@ -178,5 +178,7 @@
 	<?php endif; ?>
 	window.reserved_pin_url = '<?php echo route_url('reservedpin', 'reserved_list') ?>';
 	window.user_get_by_user_id = '<?php echo route_url('userutil', 'get_user_detail_by_user_id') ?>';
+	window.cek_ktp_url = '<?php echo route_url('userutil', 'cek_ktp') ?>';
+	window.cek_norek_url = '<?php echo route_url('userutil', 'cek_norek') ?>';
 </script>
 <script src="<?php echo site_url(); ?>/assets/js/modules/reserved.to.member.js"></script>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 25, 2014 at 07:06 AM
+-- Generation Time: Dec 26, 2014 at 06:24 AM
 -- Server version: 5.5.40
 -- PHP Version: 5.4.35-0+deb7u2
 
@@ -17778,7 +17778,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (10, 3, 'top', '*', 'Profil Member', NULL, '', '', 1),
 (50, NULL, 'top', '1', 'Manage User', 13, '', '', 1),
 (51, NULL, 'top', '1', 'Membership', NULL, '', '', 1),
-(52, NULL, 'top', '1', 'Network Graph', NULL, '', '', 1),
+(52, NULL, 'top', '1', 'Network Graph', 32, '', '', 1),
 (53, NULL, 'top', '1', 'Member', NULL, '', '', 1),
 (54, NULL, 'top', '1', 'Reports', NULL, '', '', 1),
 (55, NULL, 'top', '1', 'Statistics', NULL, '', '', 1),
@@ -17792,7 +17792,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (100, NULL, 'top', '1', 'Logout', 4, '', '', 1),
 (150, NULL, 'top', '2', 'Manage Member', 13, '', '', 1),
 (151, NULL, 'top', '2', 'Membership', NULL, '', '', 1),
-(152, NULL, 'top', '2', 'Network Graph', NULL, '', '', 1),
+(152, NULL, 'top', '2', 'Network Graph', 32, '', '', 1),
 (153, NULL, 'top', '2', 'Member', NULL, '', '', 1),
 (154, NULL, 'top', '2', 'Reports', NULL, '', '', 1),
 (157, NULL, 'top', '2', 'Profile', NULL, '', '', 1),
@@ -17803,7 +17803,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (200, NULL, 'top', '2', 'Logout', 4, '', '', 1),
 (250, NULL, 'top', '3', 'My Account', NULL, '', '', 1),
 (251, NULL, 'top', '3', 'Stokis', NULL, '', '', 1),
-(252, NULL, 'top', '3', 'Network Graph', NULL, '', '', 1),
+(252, NULL, 'top', '3', 'Network Graph', 32, '', '', 1),
 (253, NULL, 'top', '3', 'Member', NULL, '', '', 1),
 (254, NULL, 'top', '3', 'Report', NULL, '', '', 1),
 (257, NULL, 'top', '3', 'Profile', NULL, '', '', 1),
@@ -17825,7 +17825,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `routes` text NOT NULL,
   `params` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `modules`
@@ -17862,7 +17862,9 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (28, 'reservedpin', 'reserved_member_save', 'reserved-member-save', ''),
 (29, 'reservedpin', 'reserved_pin_list', 'daftar-reserved-pin-stokis', ''),
 (30, 'userutil', 'get_user_detail_by_user_id', 'user-get-by-user-id', ''),
-(31, 'userutil', 'get_paging_member', 'daftar-member-stokis', '');
+(31, 'userutil', 'get_paging_member', 'daftar-member-stokis', ''),
+(32, 'graph', 'index', 'grafik', ''),
+(33, 'graph', 'generate_graph', 'data-grafik', '');
 
 -- --------------------------------------------------------
 
@@ -17890,7 +17892,7 @@ CREATE TABLE IF NOT EXISTS `parent_childs` (
 --
 
 INSERT INTO `parent_childs` (`id`, `titik_id`, `parent_child_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 1, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL);
+(1, 1, NULL, '2014-12-25 23:23:42', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18011,15 +18013,17 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `agama` varchar(32) NOT NULL,
   `jenis_kelamin` varchar(16) NOT NULL,
   `phone` int(11) NOT NULL,
-  `ktp` bigint(20) NOT NULL,
+  `ktp` varchar(30) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `no_rekening` int(11) NOT NULL,
+  `no_rekening` varchar(20) NOT NULL,
   `bank` varchar(128) NOT NULL,
   `nama_rekening` varchar(128) NOT NULL,
   `nama_ahli_waris` varchar(128) NOT NULL,
   `hubungan_keluarga` varchar(64) NOT NULL,
   `photo` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `ktp` (`ktp`),
+  UNIQUE KEY `no_rekening` (`no_rekening`),
   KEY `no_id` (`user_id`),
   KEY `sponsor_id` (`sponsor_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
@@ -18029,9 +18033,9 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 --
 
 INSERT INTO `profiles` (`id`, `user_id`, `sponsor_id`, `tgl_pengajuan`, `nama_lengkap`, `alamat`, `kota`, `propinsi`, `kodepos`, `tempat_lahir`, `tgl_lahir`, `agama`, `jenis_kelamin`, `phone`, `ktp`, `email`, `no_rekening`, `bank`, `nama_rekening`, `nama_ahli_waris`, `hubungan_keluarga`, `photo`) VALUES
-(1, 1, NULL, '0000-00-00', 'admin', '', '', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', '', 'assets/img/user.jpg'),
-(2, 2, NULL, '0000-00-00', 'operator', '', '', '', '', '', '0000-00-00', '', '', 0, 0, '', 0, '', '', '', '', 'assets/img/user.jpg'),
-(3, 3, NULL, '0000-00-00', 'oxima', 'bandung', '', '', '', '', '0000-00-00', '', '', 0, 123456789, '', 333333333, 'mandiri', 'oxima', '', '', 'assets/img/user.jpg');
+(1, 1, NULL, '0000-00-00', 'admin', '', '', '', '', '', '0000-00-00', '', '', 0, '0000000000', '', '0000000000', '', '', '', '', 'assets/img/user.jpg'),
+(2, 2, NULL, '0000-00-00', 'operator', '', '', '', '', '', '0000-00-00', '', '', 0, '1111111111', '', '1111111111', '', '', '', '', 'assets/img/user.jpg'),
+(3, 3, NULL, '0000-00-00', 'oxima', 'bandung', '', '', '', '', '0000-00-00', '', '', 0, '3333333333', '', '333333333', 'mandiri', 'oxima', '', '', 'assets/img/user.jpg');
 
 -- --------------------------------------------------------
 
@@ -18210,7 +18214,7 @@ CREATE TABLE IF NOT EXISTS `titiks` (
 --
 
 INSERT INTO `titiks` (`id`, `idbarang_id`, `user_id`, `order`, `biaya_daftar`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 1, 3, '0', 300000, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL);
+(1, 1, 3, '0', 300000, '2014-12-25 23:23:42', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18246,9 +18250,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `point`, `sponsor_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL),
-(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'oxima', '6ddd8fd7aba737060bfe7062fa7d0f82', 3, 16, 1, 1, 0, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, NULL, '2014-12-25 23:23:42', NULL, '0000-00-00 00:00:00', NULL),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, NULL, '2014-12-25 23:23:42', NULL, '0000-00-00 00:00:00', NULL),
+(3, 'oxima', '6ddd8fd7aba737060bfe7062fa7d0f82', 3, 16, 1, 1, 0, NULL, '2014-12-25 23:23:42', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18436,11 +18440,11 @@ ALTER TABLE `users`
 -- Constraints for table `user_bonus`
 --
 ALTER TABLE `user_bonus`
-  ADD CONSTRAINT `user_bonus_ibfk_5` FOREIGN KEY (`newmember_titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_bonus_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_bonus_ibfk_2` FOREIGN KEY (`bonus_id`) REFERENCES `bonus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_bonus_ibfk_3` FOREIGN KEY (`newmember_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `user_bonus_ibfk_4` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_bonus_ibfk_4` FOREIGN KEY (`titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `user_bonus_ibfk_5` FOREIGN KEY (`newmember_titik_id`) REFERENCES `titiks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_sponsor`

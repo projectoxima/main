@@ -95,7 +95,19 @@ $(function(){
 			}
 		}
 		
-		$('form').submit();
+		$.post(window.cek_ktp_url, {ktp: $('input[name=ktp]').val()}, function(res){
+			if(res.result){
+				$.post(window.cek_norek_url, {norek: $('input[name=norek]').val()}, function(res){
+					if(res.result){
+						$('form').submit();
+					}else{
+						$.growl.error({message: 'Nomor rekening sudah dipakai'});
+					}
+				}, 'json');
+			}else{
+				$.growl.error({message: 'Nomor KTP sudah dipakai'});
+			}
+		}, 'json');
 	});
 	
 	window.pilihStokis = function(){

@@ -75,6 +75,30 @@ class Userutil extends OxyController {
 		die;
 	}
 	
+	public function cek_ktp(){
+		if($this->input->is_ajax_request()){
+			$ktp = $this->input->post('ktp');
+			$info = $this->db->get_where('profiles', array('ktp'=>$ktp))->row();
+			if(empty($info))
+				echo json_encode(array('result'=>true));
+			else
+				echo json_encode(array('result'=>false));
+		}
+		die;
+	}
+	
+	public function cek_norek(){
+		if($this->input->is_ajax_request()){
+			$norek = $this->input->post('norek');
+			$info = $this->db->get_where('profiles', array('no_rekening'=>$norek))->row();
+			if(empty($info))
+				echo json_encode(array('result'=>true));
+			else
+				echo json_encode(array('result'=>false));
+		}
+		die;
+	}
+	
 	public function init(){
 		$this->db->query('SET FOREIGN_KEY_CHECKS = 0');
 		$this->db->from('member_action'); 
@@ -117,6 +141,8 @@ class Userutil extends OxyController {
 		$this->db->insert('profiles', array(
 			'user_id'=>$admin_id,
 			'nama_lengkap'=>'admin',
+			'ktp'=>'0000000000',
+			'no_rekening'=>'0000000000',
 			'photo'=>'assets/img/user.jpg'
 		));
 		$this->db->insert('users', array(
@@ -129,6 +155,8 @@ class Userutil extends OxyController {
 		$this->db->insert('profiles', array(
 			'user_id'=>$operator_id,
 			'nama_lengkap'=>'operator',
+			'ktp'=>'1111111111',
+			'no_rekening'=>'1111111111',
 			'photo'=>'assets/img/user.jpg'
 		));
 		$pin = $this->db->get('pins')->row();
@@ -145,7 +173,7 @@ class Userutil extends OxyController {
 			'user_id'=>$root_id,
 			'nama_lengkap'=>'oxima',
 			'alamat'=>'bandung',
-			'ktp'=>'123456789',
+			'ktp'=>'3333333333',
 			'no_rekening'=>'333333333',
 			'bank'=>'mandiri',
 			'nama_rekening'=>'oxima',
