@@ -1,17 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Auth extends OxyController {
+class Auth extends NetworksController {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('login/users');
+		//~ $this->load->model('login/users');
 		$this->load->model('login/reset_passwords');
-		$this->load->model('admin/reservedpin_model', 'rpin');
+		//~ $this->load->model('admin/reservedpin_model', 'rpin');
 		$this->load->model('admin/user_model', 'user');
 	}
 
 	public function index(){
-		$this->load->view('404.html');	
+		$this->load->view('404.html');
 	}
 
 	//~ proses login khusus member
@@ -117,12 +117,133 @@ class Auth extends OxyController {
 	//~ handle proses aktivasi member & pembentukan jaringan
 	//~ sama dengan pembentukan jaringan di reservedpin
 	public function register(){
-		if($this->input->post()){
-			extract($this->input->post());
-			
-			
-		}else
-			$this->layout->view('dashboard/register', array());
+		try{
+			if($this->input->post()){
+				extract($this->input->post());
+				
+				if(!empty($user_id)){
+					//~ jaringan sudah terbentuk, tinggal update data & aktfikan akun
+					$user_id = decode_id($user_id);
+					if(!test_id($user_id))
+						throw new Exception('Data user tidak valid');
+					
+					if(!isset($nama_lengkap) || !isset($ktp) || !isset($bank) || !isset($norek) || !isset($namarek))
+						throw new Exception('Lengkapi semua data');
+					
+					if(empty($username) || empty($password))
+						throw new Exception('Isi username dan password');
+					
+					if(!$this->user->check_username($username))
+						throw new Exception('Username tidak tersedia');
+					
+					if($password!=$konfirmasi)
+						throw new Exception('Password konfirmasi tidak sama');
+					
+					$this->user->update_profile(array(
+						'nama_lengkap'=>$nama_lengkap,
+						'ktp'=>$ktp,
+						'bank'=>$bank,
+						'no_rekening'=>$norek,
+						'nama_rekening'=>$namarek
+					), $user_id);
+					
+					$this->user->update_account($username, $password, $user_id);
+					
+					//~ langsung ke mode login, set session
+					$user = $this->users->find_by_username_password($username, $password, 
+						//~ parameter pembeda login member dengan login admin/operator
+						true);
+					if(!empty($user)){
+						$user['logged_in'] = TRUE;
+						$this->session->set_userdata($user);
+						$this->session->set_flashdata('message_success', $this->lang->line('message_login_success'));
+					}
+					redirect(route_url('member', 'index'));
+					
+				}else{
+					//~ jaringan belum terbentuk
+					if(!isset($nama_lengkap) || !isset($ktp) || !isset($bank) || !isset($norek) || !isset($namarek))
+						throw new Exception('Lengkapi semua data');
+					
+					if(empty($username) || empty($password))
+						throw new Exception('Isi username dan password');
+					
+					if(!$this->user->check_username($username))
+						throw new Exception('Username tidak tersedia');
+					
+					if($password!=$konfirmasi)
+						throw new Exception('Password konfirmasi tidak sama');
+					
+					if(!is_array($idbarang_id) || count($idbarang_id)==0)
+						throw new Exception('ID Barang tidak valid');
+					
+					if(empty($pin_id))
+						throw new Exception('PIN tidak valid');
+					
+					$pin_id = decode_id($pin_id);
+					if(!test_id($pin_id))
+						throw new Exception('PIN tidak valid');
+					
+					$stokis = $this->rpin->get_reserved_detail_by_pin_id($pin_id);
+					$sponsor_id = $stokis->stokis_id;
+					
+					$biaya = BIAYA_DEFAULT;
+					
+					$data_user = array(
+						'username'=>$username,
+						'password'=>md5($password),
+						'group_id'=>USER_MEMBER,
+						'pin_id'=>$pin_id,
+						'status'=>ACTIVE,
+						'stokis'=>INACTIVE,
+						'point'=>0,
+						'sponsor_id'=>$sponsor_id
+					);
+					$data_profile = array(
+						'user_id'=>0,
+						'sponsor_id'=>$sponsor_id,
+						'tgl_pengajuan'=>date('Y-m-d'),
+						'nama_lengkap'=>$nama_lengkap,
+						'ktp'=>$ktp,
+						'bank'=>$bank,
+						'no_rekening'=>$norek,
+						'nama_rekening'=>$namarek
+					);
+					
+					$user_id = $this->user->save_user($data_user);
+					$data_profile['user_id'] = $user_id;
+					$this->user->save_profile($data_profile);
+					
+					//todo : call generate_network
+					$first_top_titik_id = null;
+					foreach($idbarang_id as $lev=>$barang){
+						$idb = decode_id($barang);
+						if(!test_id($idb))
+							throw new Exception('ID Barang tidak valid');
+						$ttk = $this->generate_network($idb, $sponsor_id, $user_id, $biaya, $pin_id);
+						if($lev==0)
+							$first_top_titik_id = $ttk;
+					}
+					
+					//~ set bonus sponsor
+					$this->set_bonus_sponsor($sponsor_id, $user_id, $first_top_titik_id);
+					
+					//~ langsung ke mode login, set session
+					$user = $this->users->find_by_username_password($username, $password, 
+						//~ parameter pembeda login member dengan login admin/operator
+						true);
+					if(!empty($user)){
+						$user['logged_in'] = TRUE;
+						$this->session->set_userdata($user);
+						$this->session->set_flashdata('message_success', $this->lang->line('message_login_success'));
+					}
+					redirect(route_url('member', 'index'));
+				}
+			}else
+				$this->layout->view('dashboard/register', array());
+		}catch(Exception $e){
+			$this->layout->view('error/400', array('message'=>$e->getMessage()));
+		}
 	}
 	
 	//~ proses pengecekan pin dan idbarang, mode ajax

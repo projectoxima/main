@@ -107,12 +107,6 @@ class user_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 	
-	function update_profile($data, $user_id){
-		$this->db->where('user_id', $user_id);
-		$this->db->update('profiles', $data);
-		return true;
-	}
-	
 	function save_user_sponsor($data){
 		$this->db->set('create_time', 'NOW()', FALSE);
 		$this->db->insert('user_sponsor', $data);
@@ -231,5 +225,34 @@ class user_model extends CI_Model {
 	}
 	
 	//~ ===== end networking method
+	
+	
+	
+	//~ ======== activation method
+	function update_profile($data, $user_id){
+		$this->db->where('user_id', $user_id);
+		$this->db->update('profiles', $data);
+	}
+	
+	function update_account($username, $password, $user_id){
+		$this->db->where('id', $user_id);
+		$this->db->set('update_time', 'NOW()', false);
+		$this->db->update('users', array(
+			'username'=>$username,
+			'password'=>md5($password),
+			'status'=>ACTIVE
+		));
+	}
+	
+	function check_username($username){
+		$ada = $this->db->get_where('users', array('username'=>$username))->num_rows();
+		if($ada>0)
+			return false;
+		else
+			return true;
+	}
+	
+	
+	//~ ======== activation method
 	
 }

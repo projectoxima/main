@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 25, 2014 at 02:42 AM
+-- Generation Time: Dec 25, 2014 at 07:06 AM
 -- Server version: 5.5.40
 -- PHP Version: 5.4.35-0+deb7u2
 
@@ -17769,7 +17769,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `position`, `groups`, `label`, `module_id`
 (1, NULL, 'top', '*', 'Home', 1, '', '', 1),
 (2, NULL, 'top', '*', 'Tentang Kami', NULL, '', '', 1),
 (3, NULL, 'top', '*', 'Members', NULL, '', '', 1),
-(4, NULL, 'top', '*', 'Register', 5, '', '', 1),
+(4, NULL, 'top', '*', 'Aktivasi', 5, '', '', 1),
 (5, NULL, 'top', '*', 'News', NULL, '', '', 1),
 (6, NULL, 'top', '*', 'Promo', NULL, '', '', 1),
 (7, NULL, 'top', '*', 'Login', 3, '', '', 1),
@@ -17836,7 +17836,7 @@ INSERT INTO `modules` (`id`, `controller`, `action`, `routes`, `params`) VALUES
 (2, 'welcome', 'test', 'ambil-angka/(:any)', '$1'),
 (3, 'auth', 'login', 'login-member-oxima', ''),
 (4, 'auth', 'logout', 'user-logout', ''),
-(5, 'auth', 'register', 'register-member-oxima', ''),
+(5, 'auth', 'register', 'aktivasi-member-oxima', ''),
 (6, 'company', 'profile', 'company-profile', ''),
 (7, 'company', 'product', 'company-product', ''),
 (8, 'auth', 'dashboard_login', 'login-dashboard', ''),
@@ -17890,7 +17890,7 @@ CREATE TABLE IF NOT EXISTS `parent_childs` (
 --
 
 INSERT INTO `parent_childs` (`id`, `titik_id`, `parent_child_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 1, NULL, '2014-12-24 19:42:39', NULL, '0000-00-00 00:00:00', NULL);
+(1, 1, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18210,7 +18210,7 @@ CREATE TABLE IF NOT EXISTS `titiks` (
 --
 
 INSERT INTO `titiks` (`id`, `idbarang_id`, `user_id`, `order`, `biaya_daftar`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 1, 3, '0', 300000, '2014-12-24 19:42:39', NULL, '0000-00-00 00:00:00', NULL);
+(1, 1, 3, '0', 300000, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -18246,9 +18246,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `group_id`, `pin_id`, `status`, `stokis`, `point`, `sponsor_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, NULL, '2014-12-24 19:42:38', NULL, '0000-00-00 00:00:00', NULL),
-(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, NULL, '2014-12-24 19:42:39', NULL, '0000-00-00 00:00:00', NULL),
-(3, 'oxima', '6ddd8fd7aba737060bfe7062fa7d0f82', 3, 16, 1, 1, 0, NULL, '2014-12-24 19:42:39', NULL, '0000-00-00 00:00:00', NULL);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, 1, 0, 0, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL),
+(2, 'operator', '4b583376b2767b923c3e1da60d10de59', 2, NULL, 1, 0, 0, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL),
+(3, 'oxima', '6ddd8fd7aba737060bfe7062fa7d0f82', 3, 16, 1, 1, 0, NULL, '2014-12-25 00:05:55', NULL, '0000-00-00 00:00:00', NULL);
 
 -- --------------------------------------------------------
 

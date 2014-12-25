@@ -92,6 +92,6 @@ ketika member memiliki banyak titik, maka titik yang dijadikan sponsor adalah ti
 ketika member baru beli banyak barang, maka sponsor hanya mendapat satu bonus tambahan saja
 ketima member beli lagi barang, maka bonus tambahan tidak ada, hanya ada bonus titik
 
-029013F7911A
-00010
-00011
+0FAF97B149DC
+00012
+00013

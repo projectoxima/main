@@ -166,7 +166,7 @@ class reservedpin_model extends CI_Model {
 	}
 	
 	public function get_reserved_detail_by_pin_id($pin_id){
-		return $this->db->get_where('reserved_pins', array('pin_id', $pin_id))->row();
+		return $this->db->get_where('reserved_stokis_pins', array('pin_id'=>$pin_id))->row();
 	}
 	
 	//~ reservedpin/reserved_member

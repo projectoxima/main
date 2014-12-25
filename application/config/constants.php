@@ -59,6 +59,8 @@ define('ORDER_LEFT', 0);
 define('ORDER_CENTER', 1);
 define('ORDER_RIGHT', 2);
 
+define('BIAYA_DEFAULT', 300000);
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -64,6 +64,12 @@
 			<div class="col-md-12">
 				<form method="post" role="form" class="form-horizontal" action="<?php echo route_url('auth', 'register') ?>">
 					<input type="hidden" name="user_id" value="<?php echo isset($user->id) ? $user->id:'' ?>" />
+					
+					<input type="hidden" name="pin_id" value="<?php echo encode_id($pin->pin_id) ?>" />
+					<?php foreach($reserved as $idx=>$itm): ?>
+						<input type="hidden" name="idbarang_id[]" value="<?php echo encode_id($itm->idbarang_id) ?>" />
+					<?php endforeach; ?>
+					
 					<div class="form-group">
 						<label class="col-md-3" for="pins">Nama</label>
 						<div class="col-md-7">
@@ -104,13 +110,13 @@
 					<div class="form-group">
 						<label class="col-md-3" for="pins">Password</label>
 						<div class="col-md-4">
-							<input type="text" class="form-control" name="password" required/>
+							<input type="password" class="form-control" name="password" required/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-md-3" for="pins">Konfirmasi Password</label>
 						<div class="col-md-4">
-							<input type="text" class="form-control" name="konfirmasi" required/>
+							<input type="password" class="form-control" name="konfirmasi" required/>
 						</div>
 					</div>
 					<div class="form-group">
