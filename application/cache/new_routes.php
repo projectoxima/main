@@ -37,4 +37,5 @@ $route['reserved-member-save'] = 'reservedpin/reserved_member_save/';
 $route['daftar-reserved-pin-stokis'] = 'reservedpin/reserved_pin_list/';
 $route['user-get-by-user-id'] = 'userutil/get_user_detail_by_user_id/';
 $route['daftar-member-stokis'] = 'userutil/get_paging_member/';
+$route['grafik'] = 'graph/index/';
 ?>
