@@ -14,6 +14,7 @@ class Graph extends OxyController {
 	}
 	
 	private function get_child($parent_id){
+		$this->db->select('t.id AS titik_id, p.*, m.id');
 		$this->db->join('titiks t', 't.id=m.titik_id');
 		$this->db->join('profiles p', 'p.user_id=t.user_id');
 		$childs = $this->db->get_where('parent_childs m', array('m.parent_child_id'=>$parent_id))->result();
@@ -24,6 +25,7 @@ class Graph extends OxyController {
 	}
 	
 	public function generate_graph(){
+		$this->db->select('t.id AS titik_id, p.*, m.id');
 		$this->db->where('m.parent_child_id IS NULL', null, false);
 		$this->db->join('titiks t', 't.id=m.titik_id');
 		$this->db->join('profiles p', 'p.user_id=t.user_id');

@@ -29,23 +29,21 @@
 			window.paper.on('cell:pointerdown', 
 				function(cellView, evt, x, y) { 
 					console.log('cell view ' + cellView.model.id + ' was clicked'); 
-					console.log(cellView.model.get('param')); 
-					//tmp = rect3.clone()
-					//tmp.translate(10)
-					//graph.addCells([tmp]);
+					console.log(cellView.model.get('param'));
 				}
 			);
-			//~ window.paper.scale(10, 10);
 			window.node = new Array;
+			window.scale = 1;
 			
-			function createNode(prop, xx, yy){
+			function createNode(prop){
 				var nd = new joint.shapes.org.Member({
-						position: {x: xx, y: yy}, 
 						size: {width: window.iwidth, height: window.iheight}, 
 						attrs: {
-							'.card': { fill: '#ddd', stroke: '#eee'},
-							image: { 'xlink:href': 'assets/img/user.jpg' },
-							'.rank': { text: prop.alamat}, '.name': { text: prop.nama_lengkap }
+							'.card': {fill: '#ddd', stroke: '#eee'},
+							image: {'xlink:href': 'assets/img/user.jpg', 
+								x:'0', y:'0'},
+							'.rank': {text: prop.alamat}, 
+							'.name': {text: prop.nama_lengkap }
 						}
 					});
 				nd.set('id', prop.id);
@@ -60,51 +58,55 @@
 				return nd;
 			}
 			
-			function rFact(num){
-				if (num === 0)
-					{ return 1; }
-				else
-					{ return num * rFact( num - 1 ); }
-			}
-			
-			function getX(num){
-				md = rFact(num);
-				ln = Math.sqrt(md);
-				nd = ln;
-				console.log(num + ' ');
-			}
-			
-			function getY(num){
-				md = rFact(num);
-			}
-			
-			function generateGraph(gr, num){
+			var generateGraph = function(gr, callback){
 				if(gr==undefined)
 					return;
+				window.enume++;
 				
-				var node = createNode(gr, getX(num), getY(num));
-				
+				var node = createNode(gr);
 				window.node.push(node);
-				
 				if(gr.childs!=undefined && gr.childs.length>0){
+					var async = 0;
 					for(i in gr.childs){
-						var tmp = num;
-						tmp++;
-						var tnode = generateGraph(gr.childs[i], tmp);
-						var link = new joint.dia.Link({
-							source: {id: node.id}, target: {id: tnode.id}
+						generateGraph(gr.childs[i], function(tnode){
+							var link = new joint.dia.Link({
+								source: {id: node.id}, target: {id: tnode.id},
+								attrs: { '.marker-target': { d: 'M 4 0 L 0 2 L 4 4 z' } },
+								smooth: true
+							});
+							window.node.push(tnode);
+							window.node.push(link);
+							async++;
+							if(async>=gr.childs.length)
+								callback(node);
 						});
-						window.node.push(link);
 					}
-				}
-				
-				return node;
-			}
+				}else
+					callback(node);
+			};
 			
 			$.get('<?php echo route_url('graph', 'generate_graph') ?>', function(res){
-				generateGraph(res, 0);
-				window.graph.addCells(window.node);
+				window.enume = 0;
+				generateGraph(res, function(node){
+					window.graph.addCells(window.node);
+					joint.layout.DirectedGraph.layout(window.graph, { setLinkVertices: false});
+				});
 			}, 'json');
+			
+			$("#paper").bind('mousewheel', function(e){
+				if(e.originalEvent.wheelDelta /120 > 0) {
+					window.scale -= 0.01;
+				}else{
+					window.scale += 0.01;
+				}
+				window.paper.scale(window.scale, window.scale);
+			});
 			
 		});
 	</script>
+	
+	<style type="text/css">
+		body {
+			overflow:hidden;
+		}
+	</style>

@@ -28,6 +28,8 @@
 		<script src="<?php echo site_url(); ?>/assets/js/datatables/jquery.dataTables.min.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/choosen/chosen.jquery.js"></script>
 		<script src="<?php echo site_url(); ?>/assets/js/custom.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/jointjs/joint.layout.DirectedGraph.min.js"></script>
+		<script src="<?php echo site_url(); ?>/assets/js/jointjs/autolayout.js"></script>
 
 		<style type="text/css">
 		.navbar {
