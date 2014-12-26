@@ -1,3 +1,5 @@
+	<button class="btn btn-success btn-up btn-lg" style="display:none;">Up</button>
+	
 	<div id="paper" class="paper" style="background:#fff"></div>
 
 	<script type="text/javascript">
@@ -30,12 +32,13 @@
 				function(cellView, evt, x, y) { 
 					console.log('cell view ' + cellView.model.id + ' was clicked'); 
 					console.log(cellView.model.get('param'));
+					requestGraph(cellView.model.get('prop'));
 				}
 			);
 			window.node = new Array;
 			window.scale = 1;
 			
-			function createNode(prop){
+			var createNode = function(prop){
 				var nd = new joint.shapes.org.Member({
 						size: {width: window.iwidth, height: window.iheight}, 
 						attrs: {
@@ -47,10 +50,7 @@
 						}
 					});
 				nd.set('id', prop.id);
-				nd.set('titik_id', prop.titik_id);
-				nd.set('user_id', prop.user_id);
-				nd.set('nama', prop.nama_lengkap);
-				nd.set('alamat', prop.alamat);
+				nd.set('prop', prop);
 				nd.on('change:position', function(element) {
 					//~ console.log(element.id, ':', element.get('position'));
 				})
@@ -89,27 +89,39 @@
 				window.paper.scale(window.scale, window.scale);
 			}
 			
-			$.post('<?php echo route_url('graph', 'generate_graph') ?>', function(res){
-				window.enume = 0;
-				generateGraph(res, function(node){
-					window.graph.addCells(window.node);
-					joint.layout.DirectedGraph.layout(window.graph, { setLinkVertices: false});
-					//~ search for overflow
-					var maxover = 0;
-					for(n in window.node){
-						if(window.node[n].attributes.position!=undefined
-							&& window.node[n].attributes.position.x>=window.width){
-							if(window.node[n].attributes.position.x>maxover){
-								maxover = window.node[n].attributes.position.x;
-								window.iwidth = window.node[n].attributes.size.width;
+			var requestGraph = function(param){
+				titik_id = null;
+				if(param!=undefined){
+					titik_id = param.titik_id;
+					$('.btn-up').show();
+				}else
+					$('.btn-up').hide();
+				window.node = [];
+				window.graph.clear();
+				$.post('<?php echo route_url('graph', 'generate_graph') ?>', {titik_id:titik_id}, function(res){
+					window.enume = 0;
+					generateGraph(res, function(node){
+						window.graph.addCells(window.node);
+						joint.layout.DirectedGraph.layout(window.graph, { setLinkVertices: false});
+						//~ search for overflow
+						var maxover = 0;
+						for(n in window.node){
+							if(window.node[n].attributes.position!=undefined
+								&& window.node[n].attributes.position.x>=window.width){
+								if(window.node[n].attributes.position.x>maxover){
+									maxover = window.node[n].attributes.position.x;
+									window.iwidth = window.node[n].attributes.size.width;
+								}
 							}
 						}
-					}
-					//~ autoscale
-					window.scale = window.width/(maxover+window.iwidth);
-					scaleCanvas();
-				});
-			}, 'json');
+						//~ autoscale
+						window.scale = window.width/(maxover+window.iwidth);
+						if(window.scale>1)
+							window.scale = 1;
+						scaleCanvas();
+					});
+				}, 'json');
+			}
 			
 			$("#paper").bind('mousewheel', function(e){
 				if(e.originalEvent.wheelDelta /120 > 0) {
@@ -120,6 +132,12 @@
 				scaleCanvas();
 			});
 			
+			$('.btn-up').click(function(){
+				requestGraph();
+			});
+			
+			//~ trigger graph
+			requestGraph();
 		});
 	</script>
 	
