@@ -25,6 +25,16 @@ class Graph extends OxyController {
 	}
 	
 	public function generate_graph(){
+		$this->load->model('admin/user_model');
+		
+		if($this->input->post())
+			extract($this->input->post());
+		
+		if(!isset($titik_id) && get_user()->group_id==USER_MEMBER){
+			$titik = $this->user_model->get_user_top_titik(get_user()->id);
+			$titik_id = $titik->id;
+		}
+		
 		$this->db->select('t.id AS titik_id, p.*, m.id');
 		$this->db->where('m.parent_child_id IS NULL', null, false);
 		$this->db->join('titiks t', 't.id=m.titik_id');

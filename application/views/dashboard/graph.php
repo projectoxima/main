@@ -52,7 +52,7 @@
 				nd.set('nama', prop.nama_lengkap);
 				nd.set('alamat', prop.alamat);
 				nd.on('change:position', function(element) {
-					console.log(element.id, ':', element.get('position'));
+					//~ console.log(element.id, ':', element.get('position'));
 				})
 				
 				return nd;
@@ -85,11 +85,29 @@
 					callback(node);
 			};
 			
-			$.get('<?php echo route_url('graph', 'generate_graph') ?>', function(res){
+			var scaleCanvas = function(){
+				window.paper.scale(window.scale, window.scale);
+			}
+			
+			$.post('<?php echo route_url('graph', 'generate_graph') ?>', function(res){
 				window.enume = 0;
 				generateGraph(res, function(node){
 					window.graph.addCells(window.node);
 					joint.layout.DirectedGraph.layout(window.graph, { setLinkVertices: false});
+					//~ search for overflow
+					var maxover = 0;
+					for(n in window.node){
+						if(window.node[n].attributes.position!=undefined
+							&& window.node[n].attributes.position.x>=window.width){
+							if(window.node[n].attributes.position.x>maxover){
+								maxover = window.node[n].attributes.position.x;
+								window.iwidth = window.node[n].attributes.size.width;
+							}
+						}
+					}
+					//~ autoscale
+					window.scale = window.width/(maxover+window.iwidth);
+					scaleCanvas();
 				});
 			}, 'json');
 			
@@ -99,7 +117,7 @@
 				}else{
 					window.scale += 0.01;
 				}
-				window.paper.scale(window.scale, window.scale);
+				scaleCanvas();
 			});
 			
 		});
